@@ -1,0 +1,12 @@
+
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+packages/
+/packages/
+.vs/
+/.vs
+/.axoCover/runs
+/TestResults/b266f0ce-fe39-40a2-9ece-6653c17c4efd/*.coverage
+/TestResults/bd962cbd-febb-48b6-8f1e-5891b9221610/*.coverage
