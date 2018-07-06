@@ -1,5 +1,7 @@
 # README #
 
+## License ##
+
 ## What is this repository for? ##
 * This repository contains the term project for CS410 Agile taught by Chris Gilmore at PSU over the summer of 2018.
 This is software for an FTP Client on a command line or GUI interface.
