@@ -4,6 +4,17 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FluentFTP" Version="19.2.2"/>
+    <Compile Remove="packages\**" />
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="packages\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="packages\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentFTP" Version="19.2.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
   </ItemGroup>
 </Project>
