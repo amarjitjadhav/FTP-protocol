@@ -8,7 +8,7 @@ namespace test
     {
         static void Main(string[] args)
         {
-           FtpClient client = new FtpClient("98.246.48.95");
+           FtpClient client = new FtpClient("hypersweet.com");
             client.Port = 21;
 
             // if you don't specify login credentials, we use the "anonymous" user account
