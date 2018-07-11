@@ -14,7 +14,4 @@
   <ItemGroup>
     <PackageReference Include="FluentFTP" Version="19.2.2" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\" />
-  </ItemGroup>
 </Project>

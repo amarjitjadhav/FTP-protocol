@@ -2,6 +2,9 @@
 using System.Net;
 using FluentFTP;
 
+using IO;
+using Tests;
+
 namespace test
 {
     class Program
@@ -21,7 +24,8 @@ namespace test
 
             while (running)
             {
-                Console.WriteLine("Hello World!");
+                TestMenu menu = new TestMenu();
+                menu.ListFiles(client);
                 Console.ReadLine();
                 running = false;
             }
