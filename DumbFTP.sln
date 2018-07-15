@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DumbFTP", "DumbFTP.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTests", "test\XUnitTests\XUnitTests.csproj", "{18630438-1F4C-497B-BE4D-FFF9AD6FF939}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XIntegrationTests", "..\XIntegrationTests\XIntegrationTests.csproj", "{9581AB43-3651-4A92-931D-27A1366B75BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XIntegrationTests", "test\XIntegrationTests\XIntegrationTests.csproj", "{8C6CE032-183A-4DDA-A184-6CE3E57A9864}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{18630438-1F4C-497B-BE4D-FFF9AD6FF939}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18630438-1F4C-497B-BE4D-FFF9AD6FF939}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18630438-1F4C-497B-BE4D-FFF9AD6FF939}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9581AB43-3651-4A92-931D-27A1366B75BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9581AB43-3651-4A92-931D-27A1366B75BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9581AB43-3651-4A92-931D-27A1366B75BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9581AB43-3651-4A92-931D-27A1366B75BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C6CE032-183A-4DDA-A184-6CE3E57A9864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C6CE032-183A-4DDA-A184-6CE3E57A9864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C6CE032-183A-4DDA-A184-6CE3E57A9864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C6CE032-183A-4DDA-A184-6CE3E57A9864}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
