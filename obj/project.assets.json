@@ -3899,9 +3899,9 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\kououken\\Software\\cs410-agile\\cs410-agile.csproj",
-      "projectName": "cs410-agile",
-      "projectPath": "C:\\Users\\kououken\\Software\\cs410-agile\\cs410-agile.csproj",
+      "projectUniqueName": "C:\\Users\\kououken\\Software\\cs410-agile\\DumbFTP.csproj",
+      "projectName": "DumbFTP",
+      "projectPath": "C:\\Users\\kououken\\Software\\cs410-agile\\DumbFTP.csproj",
       "packagesPath": "C:\\Users\\kououken\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\kououken\\Software\\cs410-agile\\obj\\",
       "projectStyle": "PackageReference",

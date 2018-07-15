@@ -13,4 +13,11 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\DumbFTP.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="FluentFTP" Version="19.2.2" />
+  </ItemGroup>
 </Project>

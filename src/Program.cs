@@ -1,34 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using FluentFTP;
 
 using IO;
-using Tests;
+using Actions;
+using Experimental;
 
-namespace test
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-           FtpClient client = new FtpClient("hypersweet.com");
-            client.Port = 21;
+        FtpClient client = new FtpClient("hypersweet.com");
+        client.Port = 21;
+        client.Credentials = new NetworkCredential("cs410", "cs410");
 
-            // if you don't specify login credentials, we use the "anonymous" user account
-            client.Credentials = new NetworkCredential("cs410", "cs410");
-
-            // begin connecting to the server
-            client.Connect();
-
-            bool running = true;
-
-            while (running)
-            {
-                TestMenu menu = new TestMenu();
-                menu.ListFiles(client);
-                Console.ReadLine();
-                running = false;
-            }
-        }
+        TestCode.PutFile(client);
+        TestCode.Listing(client);
+        Console.ReadLine();
     }
 }

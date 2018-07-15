@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cs410-agile", "cs410-agile.csproj", "{0932F4B4-2112-4DA0-BA2D-C531559EF508}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DumbFTP", "DumbFTP.csproj", "{0932F4B4-2112-4DA0-BA2D-C531559EF508}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTests", "test\XUnitTests\XUnitTests.csproj", "{18630438-1F4C-497B-BE4D-FFF9AD6FF939}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTests", "test\XUnitTests\XUnitTests.csproj", "{18630438-1F4C-497B-BE4D-FFF9AD6FF939}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
