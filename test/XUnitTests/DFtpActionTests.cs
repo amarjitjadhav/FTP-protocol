@@ -2,7 +2,6 @@ using System;
 using Xunit;
 
 using Actions;
-using Utilities;
 using System.Collections.Generic;
 using FluentFTP;
 using System.Net;
@@ -21,13 +20,13 @@ namespace XUnitTests
 
             String file = Path.GetTempFileName();
             String localDirectory = Path.GetDirectoryName(file);
-            List<DFtpFile> localSelectedFiles = new List<DFtpFile>();
-            localSelectedFiles.Add(new DFtpFile(file));
+            DFtpFile localSelection = new DFtpFile(file);
 
             String remoteDirectory = "/";
-            List<DFtpFile> remoteSelectedFiles = new List<DFtpFile>();
+            DFtpFile remoteSelection = null;
 
-            DFtpAction action = new PutFile(client, localDirectory, localSelectedFiles, remoteDirectory, remoteSelectedFiles);
+            DFtpAction action = new PutFile();
+            action.Init(client, localDirectory, localSelection, remoteDirectory, remoteSelection);
             DFtpResult result = action.Run();
 
             Assert.True(result.Type() == DFtpResult.Result.Ok);

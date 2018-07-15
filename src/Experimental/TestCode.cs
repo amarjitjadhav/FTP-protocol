@@ -10,20 +10,43 @@ namespace Experimental
 {
     public class TestCode
     {
+        /// <summary>
+        /// A test usage of the PutFile action.
+        /// </summary>
+        /// <param name="client">A connected ftp client</param>
         public static void PutFile(FtpClient client)
         {
+            // Create a temp file for upload and get its path
             String file = Path.GetTempFileName();
+
+            // Local directory from which the file will be uploaded (maybe not needed)
             String localDirectory = Path.GetDirectoryName(file);
-            List<DFtpFile> localSelectedFiles = new List<DFtpFile>();
-            localSelectedFiles.Add(new DFtpFile(file));
 
+            // Local file selected for upload
+            DFtpFile localSelection = new DFtpFile(file);
+
+            // Upload destination
             String remoteDirectory = "/";
-            List<DFtpFile> remoteSelectedFiles = new List<DFtpFile>();
 
-            DFtpAction action = new PutFile(client, localDirectory, localSelectedFiles, remoteDirectory, remoteSelectedFiles);
+            // Remote file selection doesn't matter for upload
+            DFtpFile remoteSelection = null;
+
+            // Create the action
+            DFtpAction action = new PutFile();
+
+            // Initialize it with the info we've collected
+            action.Init(client, localDirectory, localSelection, remoteDirectory, remoteSelection);
+
+            // Carry out the action and get the result
             DFtpResult result = action.Run();
+            if (result.Type() == DFtpResult.Result.Ok)
+                Console.WriteLine("Upload result: Ok");
         }
 
+        /// <summary>
+        /// Throwaway function for printing out the ftp root directory contents
+        /// </summary>
+        /// <param name="client">A connected ftp client</param>
         public static void Listing(FtpClient client)
         {
             FtpListItem[] list = client.GetListing("/");
