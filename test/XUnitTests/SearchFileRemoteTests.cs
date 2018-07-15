@@ -11,7 +11,7 @@ namespace XUnitTests
 {
     public class SearchFileRemoteTests
     {
-        private FtpClient client;
+        private FtpClient client = null;
 
         internal void EstablishConnection()
         {
@@ -69,5 +69,18 @@ namespace XUnitTests
 
             Assert.True(result.Type() == DFtpResult.Result.Error);
         }
+
+        [Fact]
+        public void SearchForFilesWithPatternExists()
+        {
+            EstablishConnection();
+            
+            DFtpAction action = new SearchFileRemote(client, "TEST_PATTERN", "/", true);
+
+            DFtpListResult result = (DFtpListResult)action.Run();
+
+            Assert.True(result.Files.Count == 3);
+        }
+
     }
 }

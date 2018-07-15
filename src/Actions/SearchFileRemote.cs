@@ -61,7 +61,7 @@ namespace Actions
                         RecursiveSearchFile(pattern, item.FullName, ref found);
                     }
                 }
-                else if (item.Name.Equals(pattern))
+                else if (item.Name.Contains(pattern))
                 {
                     found.Add(new DFtpFile(item.FullName, pattern, item.Modified.ToString(), item.Size));
                 }
