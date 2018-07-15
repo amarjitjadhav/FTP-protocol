@@ -3890,26 +3890,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kououken\\.nuget\\packages\\": {},
+    "C:\\Users\\User\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-      "projectUniqueName": "C:\\Users\\kououken\\Software\\cs410-agile\\DumbFTP.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Documents\\CSharp\\cs410-agile\\DumbFTP.csproj",
       "projectName": "DumbFTP",
-      "projectPath": "C:\\Users\\kououken\\Software\\cs410-agile\\DumbFTP.csproj",
-      "packagesPath": "C:\\Users\\kououken\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kououken\\Software\\cs410-agile\\obj\\",
+      "projectPath": "C:\\Users\\User\\Documents\\CSharp\\cs410-agile\\DumbFTP.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\Documents\\CSharp\\cs410-agile\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\kououken\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

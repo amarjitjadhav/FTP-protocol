@@ -8,6 +8,11 @@ namespace Actions
 {
     public class PutFile : DFtpAction
     {
+        public PutFile(FtpClient ftpClient, String localDirectory, DFtpFile localSelection, String remoteDirectory, DFtpFile remoteSelection) : 
+            base(ftpClient, localDirectory, localSelection, remoteDirectory, remoteSelection)
+        {
+        }
+
         public override DFtpResult Run()
         {
             String source = localSelection.GetFullPath();

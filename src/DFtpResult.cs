@@ -7,7 +7,7 @@ public class DFtpResult
     public enum Result { Ok, Error };
     public Result type;
     public String message;
-
+    
     public DFtpResult(Result type, String message = "")
     {
         this.type = type;

@@ -26,12 +26,7 @@ public abstract class DFtpAction
     /// <param name="localSelection">The file/directory the user had selected client-side</param>
     /// <param name="remoteDirectory">The directory the user was viewing server-side</param>
     /// <param name="remoteSelection">The file/directory the user had selected server-side</param>
-    public void Init(
-        FtpClient ftpClient,
-        String localDirectory,
-        DFtpFile localSelection,
-        String remoteDirectory,
-        DFtpFile remoteSelection)
+    public DFtpAction(FtpClient ftpClient, String localDirectory, DFtpFile localSelection, String remoteDirectory, DFtpFile remoteSelection)
     {
         this.ftpClient = ftpClient;
         this.localDirectory = localDirectory;

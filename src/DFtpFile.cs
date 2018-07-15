@@ -8,9 +8,9 @@ public class DFtpFile
     protected String fullPath;
     protected String displayName;
     protected String modifiedDate;
-    protected int size;
+    protected long size;
 
-    public DFtpFile(String fullPath, String displayName = null, String modifiedDate = "", int size = 0)
+    public DFtpFile(String fullPath, String displayName = null, String modifiedDate = "", long size = 0)
     {
         this.fullPath = fullPath;
         this.displayName = displayName;
@@ -36,7 +36,7 @@ public class DFtpFile
         return modifiedDate;
     }
 
-    public int GetSize()
+    public long GetSize()
     {
         return size;
     }

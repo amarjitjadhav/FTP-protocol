@@ -19,6 +19,12 @@ class Program
         // Try out some actions
         TestCode.PutFile(client);
         TestCode.Listing(client);
+
+        
+        if (TestCode.SearchFileRemote(client, "TEST_FILE_DONT_DELETE", "/", true).Type() == DFtpResult.Result.Error)
+        {
+            Console.WriteLine("\nTEST_FILE_DONT_DELETE was not found on the server, did someone delete it?");
+        }
         Console.ReadLine();
     }
 }
