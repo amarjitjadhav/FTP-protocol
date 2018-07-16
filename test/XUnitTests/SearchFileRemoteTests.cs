@@ -11,15 +11,18 @@ namespace XUnitTests
 {
     public class SearchFileRemoteTests
     {
-        private FtpClient client = null;
+        private static FtpClient client = null;
 
         internal void EstablishConnection()
         {
-            client = new FtpClient("hypersweet.com")
-            {
-                Port = 21,
-                Credentials = new NetworkCredential("cs410", "cs410")
-            };
+            if (client == null)
+            { 
+                client = new FtpClient("hypersweet.com")
+                {
+                    Port = 21,
+                    Credentials = new NetworkCredential("cs410", "cs410")
+                };
+            }
         }
 
         [Fact]

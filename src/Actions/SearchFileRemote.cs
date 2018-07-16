@@ -63,7 +63,7 @@ namespace Actions
                 }
                 else if (item.Name.Contains(pattern))
                 {
-                    found.Add(new DFtpFile(item.FullName, pattern, item.Modified.ToString(), item.Size));
+                    found.Add(new DFtpFile(item));
                 }
             }
             return;
