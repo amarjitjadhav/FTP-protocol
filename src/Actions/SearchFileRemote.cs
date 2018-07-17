@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.IO;
 using FluentFTP;
 
 namespace Actions
@@ -29,9 +29,10 @@ namespace Actions
         /// <returns>The DFtpResult casted as DFtpListResult that contains the files that were found.</returns>
         public override DFtpResult Run()
         {
+            
             List<DFtpFile> found = new List<DFtpFile>();
             RecursiveSearchFile(pattern, startPath, ref found);
-
+            
             return  found.Count > 0 ? 
                 new DFtpListResult(DFtpResult.Result.Ok, "Found: " + found.Count + " files", found) : 
                 new DFtpListResult(DFtpResult.Result.Error, "No files found", found);

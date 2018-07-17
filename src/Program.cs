@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using FluentFTP;
 
+using DumbFTP;
 using IO;
 using Actions;
 using Experimental;
@@ -11,20 +12,65 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Connect the ftp client
-        FtpClient client = new FtpClient("hypersweet.com");
-        client.Port = 21;
-        client.Credentials = new NetworkCredential("cs410", "cs410");
-
-        // Try out some actions
-        TestCode.PutFile(client);
-        TestCode.Listing(client);
-
-        
-        if (TestCode.SearchFileRemote(client, "TEST_FILE_DONT_DELETE", "/", true).Type() == DFtpResult.Result.Error)
+        List<IDFtpUI> actions = new List<IDFtpUI>
         {
-            Console.WriteLine("\nTEST_FILE_DONT_DELETE was not found on the server, did someone delete it?");
+            new PutFileUI(),
+            new SearchFileRemoteUI(),
+            new GetRemoteListingUI(),
+        };
+        
+        bool running = false;
+
+        while (Client.ftpClient == null)
+        {
+            running = Login.TryConnect();
         }
-        Console.ReadLine();
+
+        Console.WriteLine("Connected!");
+        //state = ClientState.PUTFILE;
+        //running = delegates[(int)state].Invoke();
+
+        while (running)
+        {
+            ConsoleKeyInfo input = Console.ReadKey();
+  
+            foreach (IDFtpUI action in actions)
+            {
+                if (action.Key != input.Key)
+                {
+                    continue;
+                }
+                if (action.RequiresLogin && Client.ftpClient == null)
+                {
+                    // DO LOGIN.???
+                    continue;
+                }
+                if (action.HideForDirectory && Client.localSelection != null && Client.localSelection.Type() == FtpFileSystemObjectType.Directory)
+                {
+                    continue;
+                }
+                if (action.HideForFile && Client.localSelection != null && Client.localSelection.Type() == FtpFileSystemObjectType.File)
+                {
+                    continue;
+                }
+                if (action.HideForLocal && Client.state == ClientState.VIEWING_LOCAL)
+                {
+                    continue;
+                }
+                if (action.HideForRemote && Client.state == ClientState.VIEWING_REMOTE)
+                {
+                    continue;
+                }
+
+                DFtpResult result = action.Go();
+                if (result is DFtpListResult)
+                {
+                    // Run Browser on list result.
+                }
+
+            }
+          
+        }
+        
     }
 }
