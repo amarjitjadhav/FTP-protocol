@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentFTP;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -11,7 +12,11 @@ public class DFtpFile
     protected String displayName;
     protected String modifiedDate;
     protected long size;
+
     protected FtpFileSystemObjectType fileType;
+
+    protected String permissions;
+
 
     public DFtpFile(String fullPath, String displayName = null, String modifiedDate = "", long size = 0)
     {
@@ -19,12 +24,14 @@ public class DFtpFile
         this.displayName = displayName;
         this.modifiedDate = modifiedDate;
         this.size = size;
+        this.permissions = null;
     }
 
     public DFtpFile(FtpListItem file)
         : this(file.FullName, file.Name, file.Modified.ToString(), file.Size)
     {
         fileType = file.Type;
+        permissions = file.RawPermissions;
     }
 
     public String GetFullPath()
