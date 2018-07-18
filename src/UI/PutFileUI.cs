@@ -4,13 +4,15 @@ using System.Text;
 using System.IO;
 using Actions;
 
-namespace DumbFTP
+namespace DumbFTP.UI
 {
     public class PutFileUI : IDFtpUI
     {
         public ConsoleKey Key => ConsoleKey.U;
 
         public bool RequiresLogin => true;
+
+        public bool RequiresFile => true;
 
         public bool HideForDirectory => true;
 

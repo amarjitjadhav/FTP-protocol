@@ -7,6 +7,7 @@ using DumbFTP;
 using IO;
 using Actions;
 using Experimental;
+using DumbFTP.UI;
 
 class Program
 {
@@ -30,10 +31,13 @@ class Program
         //state = ClientState.PUTFILE;
         //running = delegates[(int)state].Invoke();
 
+        Browser browser = new Browser();
+
         while (running)
         {
+            browser.ListActions();
             ConsoleKeyInfo input = Console.ReadKey();
-  
+
             foreach (IDFtpUI action in actions)
             {
                 if (action.Key != input.Key)
@@ -43,6 +47,10 @@ class Program
                 if (action.RequiresLogin && Client.ftpClient == null)
                 {
                     // DO LOGIN.???
+                    continue;
+                }
+                if (action.RequiresFile && (Client.localSelection == null || Client.localSelection.Type() != FtpFileSystemObjectType.File))
+                {
                     continue;
                 }
                 if (action.HideForDirectory && Client.localSelection != null && Client.localSelection.Type() == FtpFileSystemObjectType.Directory)
@@ -65,10 +73,17 @@ class Program
                 DFtpResult result = action.Go();
                 if (result is DFtpListResult)
                 {
-                    // Run Browser on list result.
+                    browser.Load((DFtpListResult)result);
+                    browser.Show();
+                }
+                else if (result.Type() == DFtpResult.Result.Ok)
+                {
+                    Console.WriteLine("Action completed successfully");
                 }
 
             }
+
+
           
         }
         

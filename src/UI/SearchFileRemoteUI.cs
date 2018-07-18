@@ -3,13 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DumbFTP
+namespace DumbFTP.UI
 {
     public class SearchFileRemoteUI : IDFtpUI
     {
         public ConsoleKey Key => ConsoleKey.S;
 
         public bool RequiresLogin => true;
+
+        public bool RequiresFile => false;
 
         public bool HideForDirectory => true;
 
