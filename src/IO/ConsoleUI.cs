@@ -10,6 +10,8 @@ namespace IO
 {
     public class ConsoleUI
     {
+        private static ConsoleKeyWrapper currentKey = null;
+
         private const String defaultColor = "\u001b[37m";
         static private int width;
         static private int height;
@@ -17,6 +19,7 @@ namespace IO
         private static List<List<String>> colorBuffer;
         private static bool isANSISupported = true;
         static private bool colorEnabled = true;
+        private static int currentLineIndex = 0;
 
         private const int STD_OUTPUT_HANDLE = -11;
         private const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
@@ -84,7 +87,7 @@ namespace IO
                     return;
                 }
             }
-
+            currentLineIndex = MaxHeight() - 1;
             return;
         }
 
@@ -113,6 +116,7 @@ namespace IO
                     colorBuffer[x][y] = color.ToCode();
                 }
             }
+            currentLineIndex = MaxHeight() - 1;
             Console.Clear();
             return;
         }
@@ -200,6 +204,11 @@ namespace IO
             }
         }
 
+        public static void WriteLine(String line, Color color, int xOffset = 0)
+        {
+            Write(xOffset, currentLineIndex--, line, color);
+            return;
+        }
 
         public static int MaxWidth() => width;
 
@@ -225,6 +234,36 @@ namespace IO
         public static void SetForegroundColor(ConsoleColor color)
         {
             Console.ForegroundColor = color;
+            return;
+        }
+
+        private class ConsoleKeyWrapper
+        {
+            public ConsoleKeyInfo key;
+        }
+
+        public static ConsoleKeyInfo ReadKey()
+        {
+
+            if (currentKey == null && Console.KeyAvailable == true)
+            {
+                currentKey = new ConsoleKeyWrapper
+                {
+                    key = Console.ReadKey(true)
+                };
+                while (Console.KeyAvailable)
+                {
+                    Console.ReadKey(true);
+                }
+            }
+            return currentKey != null ? currentKey.key : new ConsoleKeyInfo();
+        }
+
+        public static bool AnyKey() => currentKey != null;
+
+        public static void ResetKeyPress()
+        {
+            currentKey = null;
             return;
         }
     }

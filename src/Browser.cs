@@ -40,7 +40,7 @@ namespace DumbFTP
 
         public void DrawActionsMenu()
         {
-            Console.WriteLine("Actions: ");
+            ConsoleUI.WriteLine("Actions: ", Color.Gold);
             foreach (IDFtpUI action in Actions)
             {
                 if (action.RequiresLogin && Client.ftpClient == null)
@@ -68,9 +68,9 @@ namespace DumbFTP
                 {
                     continue;
                 }
-                Console.WriteLine(action.MenuText);
+                ConsoleUI.WriteLine(action.MenuText, Color.Olive, 5);
             }
-            Console.WriteLine();
+            ConsoleUI.WriteLine("", Color.Olive);
             return;
         }
     }
