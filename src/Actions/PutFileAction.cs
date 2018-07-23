@@ -17,10 +17,16 @@ namespace Actions
         {
             String source = localSelection.GetFullPath();
             String target = remoteDirectory + localSelection.GetName();
-
-            return ftpClient.UploadFile(source, target) == true ?
-                new DFtpResult(DFtpResultType.Ok) :   // Return ok if upload okay.
-                new DFtpResult(DFtpResultType.Error); // Return error if upload fail.
+            try
+            { 
+                return ftpClient.UploadFile(source, target, FtpExists.Overwrite, true) == true ?
+                    new DFtpResult(DFtpResultType.Ok) :   // Return ok if upload okay.
+                    new DFtpResult(DFtpResultType.Error); // Return error if upload fail.
+            }
+            catch (Exception ex)
+            {
+                return new DFtpResult(DFtpResultType.Error, ex.Message); // FluentFTP didn't like something.
+            }
         }
     }
 }

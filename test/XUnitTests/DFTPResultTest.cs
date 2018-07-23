@@ -11,7 +11,7 @@ namespace XUnitTests
         [Theory]
         [InlineData(DFtpResultType.Ok, "Okay")]
         [InlineData(DFtpResultType.Error, "Error")]
-        public void NewDFtpResultContructorPublicMethodsReturnsMatchingParameters(DFtpResultType resultType, String msg)
+        public void NewDFtpResultContructor_PublicMethodsReturnsMatchingParameters(DFtpResultType resultType, String msg)
         {
             DFtpResult result = new DFtpResult(resultType, msg);
 

@@ -26,13 +26,12 @@ namespace XIntegrationTests
             return client;
         }
 
-        internal DFtpFile CreateAndPutFileOnServer(FtpClient ftpClient)
+        internal DFtpFile CreateAndPutFileOnServer(FtpClient ftpClient, String remoteDirectory = "/")
         {
             String filepath = Path.GetTempFileName();
             String localDirectory = Path.GetDirectoryName(filepath);
             DFtpFile localSelection = new DFtpFile(filepath);
 
-            String remoteDirectory = "/";
 
             DFtpAction action = new PutFileAction(client, localDirectory, localSelection, remoteDirectory);
 
@@ -41,9 +40,8 @@ namespace XIntegrationTests
             return localSelection;
         }
 
-        internal void RemoveFileOnServer(FtpClient ftpClient, DFtpFile file)
+        internal void RemoveFileOnServer(FtpClient ftpClient, DFtpFile file, String remoteDirectory = "/")
         {
-            String remoteDirectory = "/";
             DFtpFile remoteSelection = file;
 
             DFtpAction action = new DeleteFileRemoteAction(ftpClient, remoteDirectory, remoteSelection);
@@ -84,8 +82,12 @@ namespace XIntegrationTests
         public void SearchFileNotExists()
         {
             EstablishConnection();
-            
-            DFtpAction action = new SearchFileRemoteAction(client, "this_file_shouldnt_exist_for_any_reason", "/");
+
+            // Some random new file path.
+            String filepath = Path.GetTempFileName();
+
+            // A random file really shouldnt exist on the server.
+            DFtpAction action = new SearchFileRemoteAction(client, filepath, "/");
             
             DFtpResult result = action.Run();
 
@@ -97,13 +99,16 @@ namespace XIntegrationTests
         {
             EstablishConnection();
 
-            //String newFilePath = CreateAndPutFileOnServer();
+            // 1. Create and put file on server.
+            DFtpFile tempFile = CreateAndPutFileOnServer(client);
 
-            DFtpAction action = new SearchFileRemoteAction(client, "TEST_FILE_DONT_DELETE", "/");
+            // 2. Search for file, make sure that it exists.
+            Assert.True(SearchForFileOnServer(client, tempFile.GetName()));
 
-            DFtpResult result = action.Run();
+            // 3. Delete it
+            RemoveFileOnServer(client, tempFile);
 
-            Assert.True(result.Type == DFtpResultType.Ok);
+            return;
         }
 
         [Fact]
@@ -111,35 +116,47 @@ namespace XIntegrationTests
         {
             EstablishConnection();
 
-            DFtpAction action = new SearchFileRemoteAction(client, "IM_HIDING", "/TEST_DIRECTORY_DONT_DELETE");
+            String remoteDirectory = "/way/down/here/in/deep/folder/";
 
-            DFtpResult result = action.Run();
+            // 1. Create and put file on server.
+            DFtpFile tempFile = CreateAndPutFileOnServer(client, remoteDirectory);
 
-            Assert.True(result.Type == DFtpResultType.Ok);
+            // 2. Force a recursive search action.
+            DFtpAction action = new SearchFileRemoteAction(client, tempFile.GetName(), "/", true);
+
+            DFtpListResult result = (DFtpListResult)action.Run();
+
+            // 3. Delete file.
+            RemoveFileOnServer(client, tempFile, remoteDirectory);
+
+            // 4. Delete Directories.
+            // TODO: Implement Delete directories.
+
+            Assert.True(result.Type == DFtpResultType.Ok && result.Files.Count == 1 &&
+                result.Files[0].GetName() == tempFile.GetName());
+            return;
         }
 
         [Fact]
         public void SearchFileExistsDeepSearchNotIncludeSubDirectories()
         {
             EstablishConnection();
+            String remoteDirectory = "/way/down/here/in/deep/folder/";
 
-            DFtpAction action = new SearchFileRemoteAction(client, "IM_HIDING", "/TEST_DIRECTORY_DONT_DELETE", false);
+            // 1. Create and put file on server.
+            DFtpFile tempFile = CreateAndPutFileOnServer(client, remoteDirectory);
+
+            // 2. This should return error, because the file is deep within a directory tree and 
+            // we are searching the root directory, non-recursively.
+            bool recursiveSearch = false;
+            DFtpAction action = new SearchFileRemoteAction(client, tempFile.GetName(), "/", recursiveSearch);
 
             DFtpResult result = action.Run();
 
+            // 3. Delete file.
+            RemoveFileOnServer(client, tempFile, remoteDirectory);
+
             Assert.True(result.Type == DFtpResultType.Error);
-        }
-
-        [Fact]
-        public void SearchForFilesWithPatternExists()
-        {
-            EstablishConnection();
-            
-            DFtpAction action = new SearchFileRemoteAction(client, "TEST_PATTERN", "/", true);
-
-            DFtpListResult result = (DFtpListResult)action.Run();
-
-            Assert.True(result.Files.Count == 3);
         }
 
     }

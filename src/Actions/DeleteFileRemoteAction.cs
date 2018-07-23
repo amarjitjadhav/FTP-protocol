@@ -30,12 +30,20 @@ namespace Actions
         {
             String target = remoteDirectory + remoteSelection.GetName();
             
-            // FluentFTP -- Delete me file. pls.
-            ftpClient.DeleteFile(target);
+            try
+            { 
+                // FluentFTP -- Delete me file. pls.
+                ftpClient.DeleteFile(target);
 
-            return ftpClient.FileExists(target) == false ?
-                new DFtpResult(DFtpResultType.Ok, "File with path \"" + target + "\" removed from server.") :  
-                new DFtpResult(DFtpResultType.Error, "file with path \"" + target + "\" could not be removed from server.");   
+                return ftpClient.FileExists(target) == false ?
+                    new DFtpResult(DFtpResultType.Ok, "File with path \"" + target + "\" removed from server.") :  
+                    new DFtpResult(DFtpResultType.Error, "file with path \"" + target + "\" could not be removed from server.");
+            }
+            catch (Exception ex)
+            {
+                return new DFtpResult(DFtpResultType.Error, "file with path \"" + target + "\" " +
+                    "could not be removed from server." + Environment.NewLine + ex.Message + Environment.NewLine);
+            }
         }
     }
 }
