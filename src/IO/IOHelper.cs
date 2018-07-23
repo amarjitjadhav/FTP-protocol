@@ -4,8 +4,16 @@ using System.Text;
 
 namespace IO
 {
+    /// <summary>
+    /// This class contains helpful functions for prompting the user for various types of values.
+    /// </summary>
     public static class IOHelper
     {
+        /// <summary>
+        /// Prompts the user to enter a string. An empty response is valid.
+        /// </summary>
+        /// <param name="display">This text will be displayed to the user, usually a question.</param>
+        /// <returns>Returns the string the user typed.</returns>
         public static String AskString(String display)
         {
             ConsoleUI.Initialize();
@@ -21,6 +29,13 @@ namespace IO
             return result;
         }
 
+        /// <summary>
+        /// This prompts the user to choose between a yes/no or ok/cancel type resopnse (modal).
+        /// </summary>
+        /// <param name="question">The text to display to the user. Usualy a yes/no question.</param>
+        /// <param name="trueText">The text to display for the true response (usually yes/ok)</param>
+        /// <param name="falseText">The texto display for the false response (usually no/cancel)</param>
+        /// <returns></returns>
         public static bool AskBool(String question, String trueText, String falseText)
         {
             bool selected = true;
@@ -50,6 +65,12 @@ namespace IO
             return selected;
         }
 
+        /// <summary>
+        /// This prompts the user to enter a valid integer. It will continue to prompt until 
+        /// a valid integer is entered.
+        /// </summary>
+        /// <param name="display">The text to be displayed to the user.</param>
+        /// <returns>Returns a valid integer value.</returns>
         public static int AskInt(String display)
         {
             int displayLength = display.Length;
