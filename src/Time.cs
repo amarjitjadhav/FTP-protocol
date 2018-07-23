@@ -10,12 +10,14 @@ namespace DumbFTP
 {
     class Time
     {
-        public static double deltaMs = 0.0;
-        public static long last = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        public static long deltaMs = 0;
+
+        private static long current = 0;
+        private static long last = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
         public static void Update()
         {
-            long current = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            current = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
             deltaMs = current - last;
 
@@ -25,7 +27,7 @@ namespace DumbFTP
             return;
         }
 
-        public static double TicksToMs(long ticks) => (double)ticks / TimeSpan.TicksPerMillisecond;
+        public static double MillisecondsToSeconds(long ms) => (double)ms / 1000.0;
 
     }
 }

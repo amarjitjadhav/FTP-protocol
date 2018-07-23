@@ -204,10 +204,10 @@ namespace IO
             }
         }
 
-        public static void WriteLine(String line, Color color, int xOffset = 0)
+        public static int WriteLine(String line, Color color, int xOffset = 0)
         {
             Write(xOffset, currentLineIndex--, line, color);
-            return;
+            return currentLineIndex;
         }
 
         public static int MaxWidth() => width;
