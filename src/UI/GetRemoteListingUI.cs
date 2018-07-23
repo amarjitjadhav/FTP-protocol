@@ -5,6 +5,7 @@ using System.Text;
 
 namespace DumbFTP.UI
 {
+    /*
     public class GetRemoteListingUI : IDFtpUI
     {
         public ConsoleKey Key => ConsoleKey.Tab;
@@ -45,4 +46,5 @@ namespace DumbFTP.UI
             return new DFtpListResult(DFtpResultType.Ok, "Directory listing for: " + directoryToView, files);
         }
     }
+    */
 }

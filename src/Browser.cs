@@ -14,9 +14,10 @@ namespace DumbFTP
     {
         public List<IDFtpUI> Actions { get; private set; } = new List<IDFtpUI>
         {
+            new ContextSwitchUI(),
             new PutFileUI(),
             new SearchFileRemoteUI(),
-            new GetRemoteListingUI(),
+            //new GetRemoteListingUI(),
             new DeleteFileRemoteUI(),
         };
 
@@ -39,7 +40,7 @@ namespace DumbFTP
 
         public void DrawActionsMenu()
         {
-            Console.Write("Actions: ");
+            Console.WriteLine("Actions: ");
             foreach (IDFtpUI action in Actions)
             {
                 if (action.RequiresLogin && Client.ftpClient == null)
@@ -67,7 +68,7 @@ namespace DumbFTP
                 {
                     continue;
                 }
-                Console.Write(action.MenuText + "  ");
+                Console.WriteLine(action.MenuText);
             }
             Console.WriteLine();
             return;
