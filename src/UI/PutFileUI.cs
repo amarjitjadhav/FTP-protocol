@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 using Actions;
 
-namespace DumbFTP.UI
+namespace UI
 {
     public class PutFileUI : IDFtpUI
     {

@@ -1,1 +1,1 @@
-7/23/2018 10:19:04 AM  :  Searched for pattern "abc" on remote server in "/" [No files found] => Error
+7/23/2018 12:50:17 PM  :  Searched for pattern "tmp" on remote server in "/" [Found: 9 files] => Ok

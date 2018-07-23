@@ -5,7 +5,7 @@ using System.IO;
 using Actions;
 using IO;
 
-namespace DumbFTP.UI
+namespace UI
 {
     public class DeleteFileRemoteUI : IDFtpUI
     {

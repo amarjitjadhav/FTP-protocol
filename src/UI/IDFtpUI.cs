@@ -2,7 +2,7 @@
 using IO;
 using System;
 
-namespace DumbFTP.UI
+namespace UI
 {
     public interface IDFtpUI
     {

@@ -7,7 +7,7 @@ using DumbFTP;
 using IO;
 using Actions;
 using Experimental;
-using DumbFTP.UI;
+using UI;
 
 
 class Program
@@ -43,10 +43,6 @@ class Program
             ConsoleUI.Write(0, ConsoleUI.MaxHeight() - 2, " Version - " + version, Color.Olive);
 
             ConsoleUI.Render();
-
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
 
             browser.DrawActionsMenu();
             ConsoleKeyInfo input = Console.ReadKey();

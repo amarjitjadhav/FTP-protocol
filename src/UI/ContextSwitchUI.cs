@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DumbFTP.UI
+namespace UI
 {
     public class ContextSwitchUI : IDFtpUI
     {
@@ -20,7 +20,7 @@ namespace DumbFTP.UI
 
         public bool HideForRemote => false;
 
-        public string MenuText => "[F5] Swap between viewing local and remote directory";
+        public string MenuText => "[F5] Switch between local/remote";
 
         public DFtpResult Go()
         {

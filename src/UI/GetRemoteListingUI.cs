@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DumbFTP.UI
+namespace UI
 {
     /*
     public class GetRemoteListingUI : IDFtpUI

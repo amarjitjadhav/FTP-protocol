@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using IO;
 
-namespace DumbFTP.UI
+namespace UI
 {
     public class SearchFileRemoteUI : IDFtpUI
     {
@@ -28,7 +28,6 @@ namespace DumbFTP.UI
         {
             String pattern = IOHelper.AskString("What pattern to search for?");
             bool includeSubdirectories = IOHelper.AskBool("Include subdirectories?", "yes", "no");
-            int number = IOHelper.AskInt("input number");
 
             // Create the action, Initialize it with the info we've collected
             DFtpAction action = new SearchFileRemoteAction(Client.ftpClient, pattern, Client.remoteDirectory, includeSubdirectories);

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using FluentFTP;
-using DumbFTP.UI;
 using IO;
 
-namespace DumbFTP
+namespace UI
 {
     /// <summary>
     /// This class 
@@ -19,6 +18,7 @@ namespace DumbFTP
             new SearchFileRemoteUI(),
             //new GetRemoteListingUI(),
             new DeleteFileRemoteUI(),
+            new SelectRemoteUI(),
         };
 
         public Browser()
@@ -40,7 +40,8 @@ namespace DumbFTP
 
         public void DrawActionsMenu()
         {
-            Console.WriteLine("Actions: ");
+            StringBuilder actionText = new StringBuilder();
+            actionText.Append("Actions ");
             foreach (IDFtpUI action in Actions)
             {
                 if (action.RequiresLogin && Client.ftpClient == null)
@@ -68,9 +69,10 @@ namespace DumbFTP
                 {
                     continue;
                 }
-                Console.WriteLine(action.MenuText);
+                actionText.Append(" | " + action.MenuText);
             }
-            Console.WriteLine();
+            ConsoleUI.Write(1, 0, actionText.ToString(), Color.Green);
+            ConsoleUI.Render();
             return;
         }
     }

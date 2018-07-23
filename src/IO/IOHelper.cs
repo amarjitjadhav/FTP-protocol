@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace IO
@@ -103,6 +104,7 @@ namespace IO
                 }
                 catch (System.FormatException e)
                 {
+                    History.Log(e.ToString());
                     valid = false;
                 }
                 ConsoleUI.CursorOff();
@@ -110,5 +112,70 @@ namespace IO
 
             return result;
         }
+
+        private static int GetLengthOfLongestItem<T>(T[] list)
+        {
+            int longest = 0;
+            foreach (T item in list)
+            {
+                int length = item.ToString().Length;
+                if (length > longest)
+                    longest = length;
+            }
+            return longest;
+        }
+
+        public static T Select<T>(String question, T[] list)
+        {
+            int numberOfItems = list.Length;
+            if (numberOfItems == 0)
+                return default(T);
+
+            // Set up width/height info for centering
+            int displayLength = question.Length;
+            int displayWidth = GetLengthOfLongestItem<T>(list);
+            if (displayLength > displayWidth)
+                displayWidth = displayLength;
+            int displayHeight = 1 + numberOfItems;
+            if (displayHeight > Console.WindowHeight - 1)
+                displayHeight = Console.WindowHeight - 1;
+            int viewLength = displayHeight - 1;
+
+            int x = Console.WindowWidth / 2 - displayWidth / 2;
+            int y = Console.WindowHeight / 2 + displayHeight / 2;
+
+            int selected = 0;
+            int firstItemInView = 0;
+            ConsoleUI.Initialize();
+            ConsoleKeyInfo input = new ConsoleKeyInfo();
+            do
+            {
+                ConsoleUI.ClearBuffers();
+                ConsoleUI.Write(x, y, question, Color.White);
+                for (int i = firstItemInView; i < viewLength; ++i)
+                {
+                    ConsoleUI.Write(x, y - i - 1, list[i].ToString(), selected == i ? Color.Gold.Invert() : Color.Gold);
+                }
+                ConsoleUI.Render();
+
+                //Handle input
+                input = Console.ReadKey();
+                if (input.Key == ConsoleKey.DownArrow && selected < numberOfItems - 1)
+                {
+                    ++selected;
+                    if (selected > firstItemInView + viewLength)
+                        ++firstItemInView;
+                }
+                else if (input.Key == ConsoleKey.UpArrow && selected > 0)
+                {
+                    --selected;
+                    if (selected < firstItemInView)
+                        --firstItemInView;
+                }
+            } while (input.Key != ConsoleKey.Enter);
+
+            return list[selected];
+        }
+
     }
 }
