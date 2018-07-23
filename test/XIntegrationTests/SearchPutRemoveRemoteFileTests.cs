@@ -9,11 +9,11 @@ using System.IO;
 
 namespace XIntegrationTests
 {
-    public class SearchFileRemoteTests
+    public class SearchPutRemoveRemoteFileTests
     {
         private static FtpClient client = null;
 
-        internal void EstablishConnection()
+        internal FtpClient EstablishConnection()
         {
             if (client == null)
             {
@@ -23,33 +23,63 @@ namespace XIntegrationTests
                     Credentials = new NetworkCredential("cs410", "cs410")
                 };
             }
+            return client;
         }
 
-        internal String CreateAndPutFileOnServer()
+        internal DFtpFile CreateAndPutFileOnServer(FtpClient ftpClient)
         {
-            EstablishConnection();
             String filepath = Path.GetTempFileName();
             String localDirectory = Path.GetDirectoryName(filepath);
             DFtpFile localSelection = new DFtpFile(filepath);
 
             String remoteDirectory = "/";
-            DFtpFile remoteSelection = null;
 
-            DFtpAction action = new PutFileAction(client, localDirectory, localSelection, remoteDirectory, remoteSelection);
+            DFtpAction action = new PutFileAction(client, localDirectory, localSelection, remoteDirectory);
 
             DFtpResult result = action.Run();
 
-            return filepath;
+            return localSelection;
         }
 
-        internal void RemoveFileOnServer(String filepath)
+        internal void RemoveFileOnServer(FtpClient ftpClient, DFtpFile file)
         {
+            String remoteDirectory = "/";
+            DFtpFile remoteSelection = file;
 
+            DFtpAction action = new DeleteFileRemoteAction(ftpClient, remoteDirectory, remoteSelection);
+
+            DFtpResult result = action.Run();
+            return;
         }
 
+        internal bool SearchForFileOnServer(FtpClient ftpClient, String pattern)
+        {
+            DFtpAction action = new SearchFileRemoteAction(ftpClient, pattern, "/");
 
+            DFtpResult result = action.Run();
 
+            return result.Type == DFtpResultType.Ok ? true : false;
+        }
 
+        [Fact]
+        public void CreateAndUploadThenRemoveFileTest()
+        {
+            EstablishConnection();
+
+            // 1. Create and put file on server.
+            DFtpFile newFile = CreateAndPutFileOnServer(client);
+
+            // 2. Search for file, make sure that it exists.
+            Assert.True(SearchForFileOnServer(client, newFile.GetName()));
+
+            // 3. Delete it
+            RemoveFileOnServer(client, newFile);
+
+            // 4. We should NOT see the file on the server anymore
+            Assert.False(SearchForFileOnServer(client, newFile.GetName()));
+            return;
+        }
+        
         [Fact]
         public void SearchFileNotExists()
         {
@@ -66,6 +96,8 @@ namespace XIntegrationTests
         public void SearchFileExists()
         {
             EstablishConnection();
+
+            //String newFilePath = CreateAndPutFileOnServer();
 
             DFtpAction action = new SearchFileRemoteAction(client, "TEST_FILE_DONT_DELETE", "/");
 

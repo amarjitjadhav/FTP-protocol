@@ -39,7 +39,7 @@ namespace DumbFTP.UI
             // Carry out the action and get the result
             DFtpResult result = action.Run();
 
-            History.Log(result.Message + " => " + result.Type.ToString());
+            History.Log(result.ToString());
             
             return result;
         }

@@ -64,7 +64,7 @@ namespace IO
             {
                 // This is code to enable ANSI Character support on windows taken from
                 // https://gist.github.com/tomzorz/6142d69852f831fb5393654c90a1f22e
-                var iStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+                IntPtr iStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
                 if (!GetConsoleMode(iStdOut, out uint outConsoleMode))
                 {
                     Console.WriteLine("WARNING: Failed to get output console mode");
@@ -138,10 +138,8 @@ namespace IO
 
         public static void ToggleColor()
         {
-            if (colorEnabled)
-                colorEnabled = false;
-            else
-                colorEnabled = true;
+            colorEnabled = colorEnabled ? false : true;
+            return;
         }
 
         public static void Write(int x, int y, char output, Color color)

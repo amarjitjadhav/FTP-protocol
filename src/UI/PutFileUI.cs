@@ -38,7 +38,7 @@ namespace DumbFTP.UI
 
             // Create the action
             // Initialize it with the info we've collected
-            DFtpAction action = new PutFileAction(Client.ftpClient, Client.localDirectory, Client.localSelection, Client.remoteDirectory, Client.remoteSelection);
+            DFtpAction action = new PutFileAction(Client.ftpClient, Client.localDirectory, Client.localSelection, Client.remoteDirectory);
 
             // Carry out the action and get the result
             //DFtpResult result = ;

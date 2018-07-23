@@ -8,8 +8,8 @@ namespace Actions
 {
     public class PutFileAction : DFtpAction
     {
-        public PutFileAction(FtpClient ftpClient, String localDirectory, DFtpFile localSelection, String remoteDirectory, DFtpFile remoteSelection) : 
-            base(ftpClient, localDirectory, localSelection, remoteDirectory, remoteSelection)
+        public PutFileAction(FtpClient ftpClient, String localDirectory, DFtpFile localSelection, String remoteDirectory) : 
+            base(ftpClient, localDirectory, localSelection, remoteDirectory, null)
         {
         }
 

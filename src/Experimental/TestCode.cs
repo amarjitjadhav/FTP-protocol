@@ -27,7 +27,9 @@ namespace Experimental
         {
             FtpListItem[] list = client.GetListing("/");
             foreach (FtpListItem item in list)
+            { 
                 Console.WriteLine(item.FullName);
+            }
         }
 
         /// <summary>
