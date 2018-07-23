@@ -116,6 +116,33 @@ namespace IO
         }
 
         /// <summary>
+        /// Turns on the cursor and moves it to the x/y locations specified.
+        /// </summary>
+        /// <param name="x">Distance from left</param>
+        /// <param name="y">Distance from bottom</param>
+        public static void CursorTo(int x, int y)
+        {
+            if (x < 0)
+                x = 0;
+            if (x >= width)
+                x = width - 1;
+            if (y < 0)
+                y = 0;
+            if (y >= height)
+                y = height - 1;
+            Console.SetCursorPosition(x, height - 1 - y);
+            Console.CursorVisible = true;
+        }
+
+        /// <summary>
+        /// Turns off the cursor.
+        /// </summary>
+        public static void CursorOff()
+        {
+            Console.CursorVisible = false;
+        }
+
+        /// <summary>
         /// Draw everything from the buffer to the console.
         /// </summary>
         public static void Render()

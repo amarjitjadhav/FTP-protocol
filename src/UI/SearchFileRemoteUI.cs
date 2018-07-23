@@ -26,15 +26,18 @@ namespace DumbFTP.UI
 
         public DFtpResult Go()
         {
-            Console.Write("\nWhat pattern to search for? : ");
-            String pattern = Console.ReadLine();
+            String pattern = IOHelper.AskString("What pattern to search for?");
+            //Console.Write("\nWhat pattern to search for? : ");
+            //String pattern = Console.ReadLine();
 
-            Console.Write("\nInclude subdirectories y/n ? : ");
-            ConsoleKeyInfo includeSubirectories = Console.ReadKey();
-            Console.WriteLine();
+            //Console.Write("\nInclude subdirectories y/n ? : ");
+            //ConsoleKeyInfo includeSubirectories = Console.ReadKey();
 
-            // Create the action, Initialize it with the info we've collected
-            DFtpAction action = new SearchFileRemoteAction(Client.ftpClient, pattern, Client.remoteDirectory, includeSubirectories.Key == ConsoleKey.Y);
+            //Console.WriteLine();
+            bool includeSubdirectories = IOHelper.AskBool("Include subdirectories?", "yes", "no");
+
+            // Create the action, Initialize it with the info we've collected | includeSubirectories.Key == ConsoleKey.Y
+            DFtpAction action = new SearchFileRemoteAction(Client.ftpClient, pattern, Client.remoteDirectory, includeSubdirectories);
 
             // Carry out the action and get the result
             DFtpResult result = action.Run();
