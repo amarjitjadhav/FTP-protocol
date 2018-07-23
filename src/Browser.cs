@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using FluentFTP;
 using DumbFTP.UI;
+using IO;
 
 namespace DumbFTP
 {
@@ -36,6 +37,10 @@ namespace DumbFTP
             {
                 Console.WriteLine(file.GetName() + " " + file.GetSize() + " " + (file.Type() == FluentFTP.FtpFileSystemObjectType.Directory? "dir" : "file"));
             }
+            
+            
+            ConsoleUI.WaitForAnyKey();
+            return;
         }
 
         public void ListActions()
@@ -71,6 +76,7 @@ namespace DumbFTP
                 Console.Write(action.MenuText + "  ");
             }
             Console.WriteLine();
+            return;
         }
     }
 }

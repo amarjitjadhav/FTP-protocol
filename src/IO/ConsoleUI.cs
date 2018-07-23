@@ -90,16 +90,10 @@ namespace IO
         /// Clear the contents of the buffer string table. Reset the 
         /// screen contents with default draw box.
         /// </summary>
-        public static void Clear()
+        public static void ClearBuffers()
         {
-            for (int x = 0; x < width; ++x)
-            {
-                for (int y = 0; y < height; ++y)
-                {
-                    buffer[x][y] = ' ';
-                    colorBuffer[x][y] = defaultColor;
-                }
-            }
+            ClearBuffers(Color.White);
+            Console.Clear();
             return;
         }
 
@@ -107,7 +101,7 @@ namespace IO
         /// Clear the contents of the buffer string table. Reset the 
         /// screen contents with default draw box.
         /// </summary>
-        public static void Clear(Color color)
+        public static void ClearBuffers(Color color)
         {
             for (int x = 0; x < width; ++x)
             {
@@ -117,6 +111,7 @@ namespace IO
                     colorBuffer[x][y] = color.ToCode();
                 }
             }
+            Console.Clear();
             return;
         }
 
@@ -179,14 +174,19 @@ namespace IO
         }
 
 
-        public static int MaxWidth()
-        {
-            return width;
-        }
+        public static int MaxWidth() => width;
 
-        public static int MaxHeight()
+        public static int MaxHeight() => height;
+
+        public static void WaitForAnyKey()
         {
-            return height;
+            Console.WriteLine("Press [Any Key] to continue..");
+            if (Console.KeyAvailable == true)
+            {
+                Console.ReadKey();
+            }
+            Console.ReadKey();
+            return;
         }
     }
 }

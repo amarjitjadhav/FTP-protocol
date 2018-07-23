@@ -34,9 +34,14 @@ class Program
 
         while (running)
         {
+            ConsoleUI.ClearBuffers();
             browser.ListActions();
             ConsoleKeyInfo input = Console.ReadKey();
-
+            if (input.Key == ConsoleKey.Escape)
+            {
+                // Exit program.
+                break;
+            }
             foreach (IDFtpUI action in actions)
             {
                 if (action.Key != input.Key)
@@ -83,7 +88,6 @@ class Program
                     // Cool, we did the action.
                     Console.WriteLine("Action completed successfully");
                 }
-
             }
 
 
