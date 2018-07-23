@@ -18,9 +18,9 @@ namespace DumbFTP.UI
 
         public bool HideForFile => false;
 
-        public bool HideForLocal => false;
+        public bool HideForLocal => true;
 
-        public bool HideForRemote => true;
+        public bool HideForRemote => false;
 
         public string MenuText => "(S)earch file remote";
 
