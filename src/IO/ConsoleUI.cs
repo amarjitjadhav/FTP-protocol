@@ -36,6 +36,8 @@ namespace IO
 
         public static void Initialize()
         {
+            SetBackgroundColor(ConsoleColor.Black);
+
             width = Console.WindowWidth;
             height = Console.WindowHeight;
             Console.CursorVisible = false;
@@ -211,6 +213,18 @@ namespace IO
                 Console.ReadKey();
             }
             Console.ReadKey();
+            return;
+        }
+
+        public static void SetBackgroundColor(ConsoleColor color)
+        {
+            Console.BackgroundColor = color;
+            return;
+        }
+
+        public static void SetForegroundColor(ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
             return;
         }
     }
