@@ -29,6 +29,7 @@ class Program
         }
 
         Console.WriteLine("Connected!");
+        Client.remoteDirectory = "/";
 
         Browser browser = new Browser();
 

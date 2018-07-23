@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using IO;
 
 namespace DumbFTP.UI
 {
@@ -34,9 +35,13 @@ namespace DumbFTP.UI
 
             // Create the action, Initialize it with the info we've collected
             DFtpAction action = new SearchFileRemoteAction(Client.ftpClient, pattern, Client.remoteDirectory, includeSubirectories.Key == ConsoleKey.Y);
-            
+
             // Carry out the action and get the result
-            return action.Run();
+            DFtpResult result = action.Run();
+
+            History.Log(result.Message + " => " + result.Type.ToString());
+            
+            return result;
         }
     }
 }

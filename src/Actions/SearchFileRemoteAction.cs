@@ -29,13 +29,14 @@ namespace Actions
         /// <returns>The DFtpResult casted as DFtpListResult that contains the files that were found.</returns>
         public override DFtpResult Run()
         {
-            
             List<DFtpFile> found = new List<DFtpFile>();
             RecursiveSearchFile(pattern, startPath, ref found);
-            
+
+            String info = new String("Searched for pattern \"" + pattern + "\" on remote server in \"" + startPath + "\"");   
+
             return  found.Count > 0 ? 
-                new DFtpListResult(DFtpResultType.Ok, "Found: " + found.Count + " files", found) : 
-                new DFtpListResult(DFtpResultType.Error, "No files found", found);
+                new DFtpListResult(DFtpResultType.Ok, info + " [Found: " + found.Count + " files]", found) : 
+                new DFtpListResult(DFtpResultType.Error, info + " [No files found]", found);
         }
 
         /// <summary>
