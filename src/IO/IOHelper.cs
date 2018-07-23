@@ -128,8 +128,7 @@ namespace IO
         public static T Select<T>(String question, T[] list)
         {
             int numberOfItems = list.Length;
-            if (numberOfItems == 0)
-                return default(T);
+            
 
             // Set up width/height info for centering
             int displayLength = question.Length;
@@ -141,6 +140,8 @@ namespace IO
                 displayHeight = Console.WindowHeight - 1;
             int headerAndSpacingHeight = 2;
             int viewHeight = displayHeight - headerAndSpacingHeight;
+            if (viewHeight < 1)
+                viewHeight = 1;
 
             int x = Console.WindowWidth / 2 - displayWidth / 2;
             int y = Console.WindowHeight / 2 + displayHeight / 2;
@@ -161,7 +162,14 @@ namespace IO
                         ConsoleUI.Write(x, itemY, list[i].ToString(), selected == i ? Color.Gold.Invert() : Color.Gold);
                     }
                 }
-
+                // IF there's nothing to select from print a message and return null
+                if (numberOfItems == 0)
+                { 
+                    ConsoleUI.Write(x, y - 2, "Nothing to select.", Color.Gold);
+                    ConsoleUI.Render();
+                    Console.ReadLine();
+                    return default(T);
+                }
                 // Debug
                 //ConsoleUI.Write(0, 1, "firstItemInView: " + firstItemInView, Color.White);
                 //ConsoleUI.Write(0, 1, "displayHeight: " + displayHeight, Color.White);
