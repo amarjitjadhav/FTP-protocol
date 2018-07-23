@@ -50,4 +50,9 @@ public class DFtpFile
     public long GetSize() => size;
 
     public FtpFileSystemObjectType Type() => fileType;
+
+    public String ToString()
+    {
+        return GetName();
+    }
 }
