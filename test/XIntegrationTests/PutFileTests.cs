@@ -7,7 +7,7 @@ using FluentFTP;
 using System.Net;
 using System.IO;
 
-namespace XUnitTests
+namespace XIntegrationTests
 {
     public class PutFileTests
     {
@@ -35,11 +35,11 @@ namespace XUnitTests
             String remoteDirectory = "/";
             DFtpFile remoteSelection = null;
 
-            DFtpAction action = new PutFile(client, localDirectory, localSelection, remoteDirectory, remoteSelection);
+            DFtpAction action = new PutFileAction(client, localDirectory, localSelection, remoteDirectory, remoteSelection);
             
             DFtpResult result = action.Run();
 
-            Assert.True(result.Type() == DFtpResult.Result.Ok);
+            Assert.True(result.Type == DFtpResultType.Ok);
         }
     }
 }

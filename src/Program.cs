@@ -29,8 +29,6 @@ class Program
         }
 
         Console.WriteLine("Connected!");
-        //state = ClientState.PUTFILE;
-        //running = delegates[(int)state].Invoke();
 
         Browser browser = new Browser();
 
@@ -71,14 +69,18 @@ class Program
                     continue;
                 }
 
+                // Run the action that was selected.
                 DFtpResult result = action.Go();
+
+                // If by running the action returned a list of file objects.
                 if (result is DFtpListResult)
                 {
                     browser.Load((DFtpListResult)result);
                     browser.Show();
                 }
-                else if (result.Type() == DFtpResult.Result.Ok)
+                else if (result.Type == DFtpResultType.Ok)
                 {
+                    // Cool, we did the action.
                     Console.WriteLine("Action completed successfully");
                 }
 

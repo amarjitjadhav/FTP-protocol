@@ -9,13 +9,13 @@ namespace Actions
     /// <summary>
     /// An action for searching for a file on the remote server.
     /// </summary>
-    public class SearchFileRemote : DFtpAction
+    public class SearchFileRemoteAction : DFtpAction
     {
         protected String pattern;
         protected String startPath;
         protected bool includeSubdirectories;
 
-        public SearchFileRemote(FtpClient ftpClient, String pattern, String startPath, bool includeSubdirectories = true)
+        public SearchFileRemoteAction(FtpClient ftpClient, String pattern, String startPath, bool includeSubdirectories = true)
             : base(ftpClient, null, null, null, null)
         {
             this.pattern = pattern;
@@ -34,8 +34,8 @@ namespace Actions
             RecursiveSearchFile(pattern, startPath, ref found);
             
             return  found.Count > 0 ? 
-                new DFtpListResult(DFtpResult.Result.Ok, "Found: " + found.Count + " files", found) : 
-                new DFtpListResult(DFtpResult.Result.Error, "No files found", found);
+                new DFtpListResult(DFtpResultType.Ok, "Found: " + found.Count + " files", found) : 
+                new DFtpListResult(DFtpResultType.Error, "No files found", found);
         }
 
         /// <summary>

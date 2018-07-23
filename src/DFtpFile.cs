@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using FluentFTP;
 
 public class DFtpFile
 {
@@ -34,31 +33,21 @@ public class DFtpFile
         permissions = file.RawPermissions;
     }
 
-    public String GetFullPath()
-    {
-        return fullPath;
-    }
+    public String GetFullPath() => fullPath;
 
     public String GetName()
     {
         if (displayName != null)
+        { 
             return displayName;
+        }
         String[] separatedName = fullPath.Split(Path.DirectorySeparatorChar);
         return separatedName[separatedName.Length - 1];
     }
 
-    public String GetDate()
-    {
-        return modifiedDate;
-    }
+    public String GetDate() => modifiedDate;
 
-    public long GetSize()
-    {
-        return size;
-    }
+    public long GetSize() => size;
 
-    public FtpFileSystemObjectType Type()
-    {
-        return fileType;
-    }
+    public FtpFileSystemObjectType Type() => fileType;
 }

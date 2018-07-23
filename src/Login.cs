@@ -15,13 +15,13 @@ namespace DumbFTP
             // String server, String user, String password
             Console.Write("Enter server, or press [Enter] for 'Hypersweet.com': ");
             String server = Console.ReadLine();
-            if (server == "") server = "hypersweet.com";
+            if (server == "") { server = "hypersweet.com"; }
             Console.Write("\nEnter username, or press [Enter] for 'cs410': ");
             String user = Console.ReadLine();
-            if (user == "") user = "cs410";
+            if (user == "") { user = "cs410"; }
             Console.Write("\nEnter password, or press [Enter] for 'cs410': ");
             String password = Console.ReadLine();
-            if (password == "") password = "cs410";
+            if (password == "") { password = "cs410"; }
             Console.WriteLine();
 
             try {

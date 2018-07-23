@@ -31,8 +31,9 @@ namespace DumbFTP.UI
             Console.Write("\nInclude subdirectories y/n ? : ");
             ConsoleKeyInfo includeSubirectories = Console.ReadKey();
             Console.WriteLine();
+
             // Create the action, Initialize it with the info we've collected
-            DFtpAction action = new SearchFileRemote(Client.ftpClient, pattern, Client.remoteDirectory, includeSubirectories.Key == ConsoleKey.Y);
+            DFtpAction action = new SearchFileRemoteAction(Client.ftpClient, pattern, Client.remoteDirectory, includeSubirectories.Key == ConsoleKey.Y);
             
             // Carry out the action and get the result
             return action.Run();

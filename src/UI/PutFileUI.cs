@@ -28,23 +28,17 @@ namespace DumbFTP.UI
         public DFtpResult Go()
         {
             // Create a temp file for upload and get its path
-            String file = Path.GetTempFileName();
+            //String file = Path.GetTempFileName();
 
             // Local directory from which the file will be uploaded (maybe not needed)
-            String localDirectory = Path.GetDirectoryName(file);
+            //String localDirectory = Path.GetDirectoryName(file);
 
             // Local file selected for upload
-            DFtpFile localSelection = new DFtpFile(file);
-
-            // Upload destination
-            String remoteDirectory = "/";
-
-            // Remote file selection doesn't matter for upload
-            DFtpFile remoteSelection = null;
+            //DFtpFile localSelection = new DFtpFile(file);
 
             // Create the action
             // Initialize it with the info we've collected
-            DFtpAction action = new PutFile(Client.ftpClient, Client.localDirectory, Client.localSelection, Client.remoteDirectory, Client.remoteSelection);
+            DFtpAction action = new PutFileAction(Client.ftpClient, Client.localDirectory, Client.localSelection, Client.remoteDirectory, Client.remoteSelection);
 
             // Carry out the action and get the result
             //DFtpResult result = ;

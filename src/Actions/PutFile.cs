@@ -6,9 +6,9 @@ using FluentFTP;
 
 namespace Actions
 {
-    public class PutFile : DFtpAction
+    public class PutFileAction : DFtpAction
     {
-        public PutFile(FtpClient ftpClient, String localDirectory, DFtpFile localSelection, String remoteDirectory, DFtpFile remoteSelection) : 
+        public PutFileAction(FtpClient ftpClient, String localDirectory, DFtpFile localSelection, String remoteDirectory, DFtpFile remoteSelection) : 
             base(ftpClient, localDirectory, localSelection, remoteDirectory, remoteSelection)
         {
         }
@@ -18,9 +18,9 @@ namespace Actions
             String source = localSelection.GetFullPath();
             String target = remoteDirectory + localSelection.GetName();
 
-            if (ftpClient.UploadFile(source, target))
-                return new DFtpResult(DFtpResult.Result.Ok);
-            return new DFtpResult(DFtpResult.Result.Error);
+            return ftpClient.UploadFile(source, target) == true ?
+                new DFtpResult(DFtpResultType.Ok) :   // Return ok if upload okay.
+                new DFtpResult(DFtpResultType.Error); // Return error if upload fail.
         }
     }
 }

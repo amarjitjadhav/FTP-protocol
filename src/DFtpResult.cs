@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
+
+public enum DFtpResultType { Ok, Error };
+
 public class DFtpResult
 {
-    public enum Result { Ok, Error };
-    public Result type;
-    public String message;
+    public DFtpResultType Type { get; protected set; }
+    public String Message { get; protected set; } = "";
     
-    public DFtpResult(Result type, String message = "")
+    public DFtpResult(DFtpResultType type, String message = "")
     {
-        this.type = type;
-        this.message = message;
+        this.Type = type;
+        this.Message = message;
     }
 
-    public Result Type()
-    {
-        return type;
-    }
 }

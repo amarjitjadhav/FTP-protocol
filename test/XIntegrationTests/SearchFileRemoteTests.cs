@@ -7,7 +7,7 @@ using FluentFTP;
 using System.Net;
 using System.IO;
 
-namespace XUnitTests
+namespace XIntegrationTests
 {
     public class SearchFileRemoteTests
     {
@@ -16,7 +16,7 @@ namespace XUnitTests
         internal void EstablishConnection()
         {
             if (client == null)
-            { 
+            {
                 client = new FtpClient("hypersweet.com")
                 {
                     Port = 21,
@@ -25,16 +25,41 @@ namespace XUnitTests
             }
         }
 
+        internal String CreateAndPutFileOnServer()
+        {
+            EstablishConnection();
+            String filepath = Path.GetTempFileName();
+            String localDirectory = Path.GetDirectoryName(filepath);
+            DFtpFile localSelection = new DFtpFile(filepath);
+
+            String remoteDirectory = "/";
+            DFtpFile remoteSelection = null;
+
+            DFtpAction action = new PutFileAction(client, localDirectory, localSelection, remoteDirectory, remoteSelection);
+
+            DFtpResult result = action.Run();
+
+            return filepath;
+        }
+
+        internal void RemoveFileOnServer(String filepath)
+        {
+
+        }
+
+
+
+
         [Fact]
         public void SearchFileNotExists()
         {
             EstablishConnection();
             
-            DFtpAction action = new SearchFileRemote(client, "this_file_shouldnt_exist_for_any_reason", "/");
+            DFtpAction action = new SearchFileRemoteAction(client, "this_file_shouldnt_exist_for_any_reason", "/");
             
             DFtpResult result = action.Run();
 
-            Assert.True(result.Type() == DFtpResult.Result.Error);
+            Assert.True(result.Type == DFtpResultType.Error);
         }
 
         [Fact]
@@ -42,11 +67,11 @@ namespace XUnitTests
         {
             EstablishConnection();
 
-            DFtpAction action = new SearchFileRemote(client, "TEST_FILE_DONT_DELETE", "/");
+            DFtpAction action = new SearchFileRemoteAction(client, "TEST_FILE_DONT_DELETE", "/");
 
             DFtpResult result = action.Run();
 
-            Assert.True(result.Type() == DFtpResult.Result.Ok);
+            Assert.True(result.Type == DFtpResultType.Ok);
         }
 
         [Fact]
@@ -54,11 +79,11 @@ namespace XUnitTests
         {
             EstablishConnection();
 
-            DFtpAction action = new SearchFileRemote(client, "IM_HIDING", "/TEST_DIRECTORY_DONT_DELETE");
+            DFtpAction action = new SearchFileRemoteAction(client, "IM_HIDING", "/TEST_DIRECTORY_DONT_DELETE");
 
             DFtpResult result = action.Run();
 
-            Assert.True(result.Type() == DFtpResult.Result.Ok);
+            Assert.True(result.Type == DFtpResultType.Ok);
         }
 
         [Fact]
@@ -66,11 +91,11 @@ namespace XUnitTests
         {
             EstablishConnection();
 
-            DFtpAction action = new SearchFileRemote(client, "IM_HIDING", "/TEST_DIRECTORY_DONT_DELETE", false);
+            DFtpAction action = new SearchFileRemoteAction(client, "IM_HIDING", "/TEST_DIRECTORY_DONT_DELETE", false);
 
             DFtpResult result = action.Run();
 
-            Assert.True(result.Type() == DFtpResult.Result.Error);
+            Assert.True(result.Type == DFtpResultType.Error);
         }
 
         [Fact]
@@ -78,7 +103,7 @@ namespace XUnitTests
         {
             EstablishConnection();
             
-            DFtpAction action = new SearchFileRemote(client, "TEST_PATTERN", "/", true);
+            DFtpAction action = new SearchFileRemoteAction(client, "TEST_PATTERN", "/", true);
 
             DFtpListResult result = (DFtpListResult)action.Run();
 

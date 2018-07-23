@@ -42,7 +42,7 @@ namespace DumbFTP.UI
                 files.Add(new DFtpFile(item));
             }
 
-            return new DFtpListResult(DFtpListResult.Result.Ok, "Directory listing for: " + directoryToView, files);
+            return new DFtpListResult(DFtpResultType.Ok, "Directory listing for: " + directoryToView, files);
         }
     }
 }

@@ -6,6 +6,9 @@ using DumbFTP.UI;
 
 namespace DumbFTP
 {
+    /// <summary>
+    /// This class 
+    /// </summary>
     public class Browser
     {
         private DFtpListResult list = null;

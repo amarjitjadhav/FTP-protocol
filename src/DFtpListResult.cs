@@ -9,10 +9,10 @@ public class DFtpListResult : DFtpResult
 {
     public List<DFtpFile> Files { get; private set; } = new List<DFtpFile>();
 
-    public DFtpListResult(Result type, String message, List<DFtpFile> files) : base(type, message)
+    public DFtpListResult(DFtpResultType type, String message, List<DFtpFile> files) : base(type, message)
     {
-        this.type = type;
-        this.message = message;
+        this.Type = type;
+        this.Message = message;
         this.Files = files;
     }
 
