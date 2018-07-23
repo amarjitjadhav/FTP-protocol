@@ -49,5 +49,45 @@ namespace IO
             
             return selected;
         }
+
+        public static int AskInt(String display)
+        {
+            int displayLength = display.Length;
+            int x = Console.WindowWidth / 2 - displayLength / 2;
+            int y = Console.WindowHeight / 2 + 1;
+            int result = 0;
+            bool valid = true;
+
+            ConsoleUI.Initialize();
+            do
+            {
+                ConsoleUI.ClearBuffers();
+                if (valid)
+                {
+                    ConsoleUI.Write(x, y, display, Color.White);
+                    ConsoleUI.Render();
+                    ConsoleUI.CursorTo(x, y - 2);
+                }
+                else
+                {
+                    ConsoleUI.Write(x, y, display, Color.White);
+                    ConsoleUI.Write(x, y - 1, "Must be a valid integer.", Color.Red);
+                    ConsoleUI.Render();
+                    ConsoleUI.CursorTo(x, y - 3);
+                }
+                try
+                {
+                    result = Convert.ToInt32(Console.ReadLine());
+                    valid = true;
+                }
+                catch (System.FormatException e)
+                {
+                    valid = false;
+                }
+                ConsoleUI.CursorOff();
+            } while (!valid);
+
+            return result;
+        }
     }
 }
