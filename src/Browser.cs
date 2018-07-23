@@ -26,12 +26,13 @@ namespace DumbFTP
     
         public void DrawResultList(DFtpListResult list)
         {
-            DrawActionsMenu();
+            Console.WriteLine();
             foreach (DFtpFile file in list.Files)
             {
                 Console.WriteLine(file.GetName() + " " + file.GetSize() + " " + (file.Type() == FluentFTP.FtpFileSystemObjectType.Directory? "dir" : "file"));
             }
-            
+            Console.WriteLine();
+
             ConsoleUI.WaitForAnyKey();
             return;
         }

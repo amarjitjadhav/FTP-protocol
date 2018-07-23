@@ -37,9 +37,17 @@ class Program
         {
 
             ConsoleUI.ClearBuffers();
-            ConsoleUI.Write(0, ConsoleUI.MaxHeight() - 1, "DumpFTP - " + version, Color.Gold);
+            String clientContextState = Client.state == ClientState.VIEWING_LOCAL ? "Viewing Local" : "Viewing Remote";
+
+            ConsoleUI.Write(0, ConsoleUI.MaxHeight() - 1, "DumpFTP - " + clientContextState, Color.Gold);
+            ConsoleUI.Write(0, ConsoleUI.MaxHeight() - 2, " Version - " + version, Color.Olive);
+
             ConsoleUI.Render();
+
             Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+
             browser.DrawActionsMenu();
             ConsoleKeyInfo input = Console.ReadKey();
 
