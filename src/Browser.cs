@@ -40,8 +40,7 @@ namespace UI
 
         public void DrawActionsMenu()
         {
-            StringBuilder actionText = new StringBuilder();
-            actionText.Append("Actions ");
+            ConsoleUI.WriteLine("Actions: ", Color.Gold);
             foreach (IDFtpUI action in Actions)
             {
                 if (action.RequiresLogin && Client.ftpClient == null)
@@ -69,10 +68,9 @@ namespace UI
                 {
                     continue;
                 }
-                actionText.Append(" | " + action.MenuText);
+                ConsoleUI.WriteLine(action.MenuText, Color.Olive, 5);
             }
-            ConsoleUI.Write(1, 0, actionText.ToString(), Color.Green);
-            ConsoleUI.Render();
+            ConsoleUI.WriteLine("", Color.Olive);
             return;
         }
     }

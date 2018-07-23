@@ -17,6 +17,7 @@ class Program
     static void Main(string[] args)
     {
         ConsoleUI.Initialize();
+        
         bool running = false;
 
         while (Client.ftpClient == null)
@@ -32,26 +33,38 @@ class Program
         Client.remoteDirectory = "/";
 
         Browser browser = new Browser();
+        double dt = 0;
+        ConsoleUI.ClearBuffers();
 
         while (running)
         {
+            dt += Time.deltaMs;
+            ConsoleKeyInfo input = new ConsoleKeyInfo();
 
-            ConsoleUI.ClearBuffers();
             String clientContextState = Client.state == ClientState.VIEWING_LOCAL ? "Viewing Local" : "Viewing Remote";
 
-            ConsoleUI.Write(0, ConsoleUI.MaxHeight() - 1, "DumpFTP - " + clientContextState, Color.Gold);
-            ConsoleUI.Write(0, ConsoleUI.MaxHeight() - 2, " Version - " + version, Color.Olive);
-
-            ConsoleUI.Render();
+            ConsoleUI.WriteLine("DumpFTP - " + clientContextState, Color.Gold);
+            ConsoleUI.WriteLine(" Version - " + version, Color.Olive);
 
             browser.DrawActionsMenu();
-            ConsoleKeyInfo input = Console.ReadKey();
+            ConsoleUI.Render();
 
+            while (!ConsoleUI.AnyKey())
+            {
+                Time.Update();
+                dt += Time.deltaMs;
+                ConsoleUI.Write(0, 0, dt.ToString() + " milliseconds have passed", Color.Salmon);
+                input = ConsoleUI.ReadKey();
+                ConsoleUI.Render();
+            }
+
+            
             if (input.Key == ConsoleKey.Escape)
             {
                 // Exit program.
                 break;
             }
+
             foreach (IDFtpUI action in browser.Actions)
             {
                 if (action.Key != input.Key)
@@ -95,11 +108,16 @@ class Program
                 else if (result.Type == DFtpResultType.Ok)
                 {
                     // Cool, we did the action.
-                    Console.WriteLine("Action completed successfully");
+                    ConsoleUI.WriteLine("Action completed successfully", Color.Gold);
                 }
             }
+            
 
+            ConsoleUI.Render();
 
+            ConsoleUI.ClearBuffers();
+            ConsoleUI.ResetKeyPress();
+            Time.Update();
           
         }
         

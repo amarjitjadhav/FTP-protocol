@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Threading;
+
+namespace DumbFTP
+{
+    class Time
+    {
+        public static double deltaMs = 0.0;
+        public static long last = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+        public static void Update()
+        {
+            long current = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+            deltaMs = current - last;
+
+            // Reset
+            last = current;
+
+            return;
+        }
+
+        public static double TicksToMs(long ticks) => (double)ticks / TimeSpan.TicksPerMillisecond;
+
+    }
+}

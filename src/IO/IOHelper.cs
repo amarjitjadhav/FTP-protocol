@@ -139,7 +139,8 @@ namespace IO
             int displayHeight = 1 + numberOfItems;
             if (displayHeight > Console.WindowHeight - 1)
                 displayHeight = Console.WindowHeight - 1;
-            int viewLength = displayHeight - 1;
+            int headerAndSpacingHeight = 2;
+            int viewHeight = displayHeight - headerAndSpacingHeight;
 
             int x = Console.WindowWidth / 2 - displayWidth / 2;
             int y = Console.WindowHeight / 2 + displayHeight / 2;
@@ -152,10 +153,20 @@ namespace IO
             {
                 ConsoleUI.ClearBuffers();
                 ConsoleUI.Write(x, y, question, Color.White);
-                for (int i = firstItemInView; i < viewLength; ++i)
+                for (int i = 0; i < numberOfItems; ++i)
                 {
-                    ConsoleUI.Write(x, y - i - 1, list[i].ToString(), selected == i ? Color.Gold.Invert() : Color.Gold);
+                    if (i >= firstItemInView && i < firstItemInView + viewHeight)
+                    {
+                        int itemY = y - (i - firstItemInView) - headerAndSpacingHeight;
+                        ConsoleUI.Write(x, itemY, list[i].ToString(), selected == i ? Color.Gold.Invert() : Color.Gold);
+                    }
                 }
+
+                // Debug
+                //ConsoleUI.Write(0, 1, "firstItemInView: " + firstItemInView, Color.White);
+                //ConsoleUI.Write(0, 1, "displayHeight: " + displayHeight, Color.White);
+                //ConsoleUI.Write(0, 1, "firstItemInView: " + firstItemInView, Color.White);
+
                 ConsoleUI.Render();
 
                 //Handle input
@@ -163,13 +174,13 @@ namespace IO
                 if (input.Key == ConsoleKey.DownArrow && selected < numberOfItems - 1)
                 {
                     ++selected;
-                    if (selected > firstItemInView + viewLength)
+                    if (selected == viewHeight + firstItemInView)
                         ++firstItemInView;
                 }
                 else if (input.Key == ConsoleKey.UpArrow && selected > 0)
                 {
                     --selected;
-                    if (selected < firstItemInView)
+                    if (selected == firstItemInView - 1)
                         --firstItemInView;
                 }
             } while (input.Key != ConsoleKey.Enter);
