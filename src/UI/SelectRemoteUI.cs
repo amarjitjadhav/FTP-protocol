@@ -35,8 +35,15 @@ namespace UI
             // Choose from files
             FtpListItem selected = IOHelper.Select<FtpListItem>("Choose a remote file to select.", list);
 
-            // Set the client's remote selection
-            Client.remoteSelection = new DFtpFile(selected);
+            // if it's a directory, set the client's remote directory, otherwise set selected file.
+            if (selected.Type == FtpFileSystemObjectType.Directory)
+            {
+                Client.remoteDirectory = new DFtpFile(selected).GetFullPath();
+                Client.remoteSelection = null;
+            }
+            // Otherwise set the client's remote selection
+            else
+                Client.remoteSelection = new DFtpFile(selected);
 
             return new DFtpResult(DFtpResultType.Ok, "Listed files in remote directory: " + Client.remoteDirectory);
         }
