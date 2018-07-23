@@ -13,7 +13,7 @@ namespace XIntegrationTests
         [Fact]
         public void SaveConnectionInformation_FileExists()
         {
-            ConnectionInformation connInfo = new ConnectionInformation("cs410", "cs410", "hypersweet.com");
+            ConnectionInformation connInfo = new ConnectionInformation("cs410", "hypersweet.com");
             connInfo.Save();
 
             Assert.True(File.Exists("saved_connections/" + connInfo.Username + ".txt"));
@@ -27,10 +27,9 @@ namespace XIntegrationTests
         public void SaveConnectionInformation_LoadInformationMatches()
         {
             String user = "cs410";
-            String pass = "cs410";
             String server = "hypersweet.com";
 
-            ConnectionInformation connInfo = new ConnectionInformation(user, pass, server);
+            ConnectionInformation connInfo = new ConnectionInformation(user, server);
             connInfo.Save();
 
             ConnectionInformation loadedConnInfo = new ConnectionInformation(user);
@@ -39,7 +38,6 @@ namespace XIntegrationTests
 
             Assert.True(
                 loadedConnInfo.Username == user && 
-                loadedConnInfo.Password == pass && 
                 loadedConnInfo.ServerAddress == server);
             return;
         }

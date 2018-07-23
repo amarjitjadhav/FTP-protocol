@@ -12,20 +12,17 @@ namespace DumbFTP
     public class ConnectionInformation
     {
         public String Username { get; private set; } = "";
-        public String Password { get; private set; } = "";
-
+        
         public String ServerAddress { get; private set; } = "";
 
         /// <summary>
         /// Constructor to build a connection from information about the user passed in.
         /// </summary>
         /// <param name="username"></param>
-        /// <param name="password"></param>
         /// <param name="serverAddress"></param>
-        public ConnectionInformation(String username, String password, String serverAddress)
+        public ConnectionInformation(String username, String serverAddress)
         {
             this.Username = username;
-            this.Password = password;
             this.ServerAddress = serverAddress;
         }
         /// <summary>
@@ -54,7 +51,7 @@ namespace DumbFTP
                 AutoFlush = true
             };
 
-            writer.WriteLine("{0},{1},{2}", Username, Password, ServerAddress);
+            writer.WriteLine("{0},{1}", Username, ServerAddress);
             writer.Close();
             return;
         }
@@ -72,11 +69,10 @@ namespace DumbFTP
             reader.Close();
 
             String[] tokens = line.Split(',');
-            if (tokens != null && tokens.Length == 3)
+            if (tokens != null && tokens.Length == 2)
             {
                 this.Username = tokens[0];
-                this.Password = tokens[1];
-                this.ServerAddress = tokens[2];
+                this.ServerAddress = tokens[1];
             }
             
             return;
