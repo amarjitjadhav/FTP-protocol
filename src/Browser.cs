@@ -12,41 +12,34 @@ namespace DumbFTP
     /// </summary>
     public class Browser
     {
-        private DFtpListResult list = null;
-        private List<IDFtpUI> actions = null;
+        public List<IDFtpUI> Actions { get; private set; } = new List<IDFtpUI>
+        {
+            new PutFileUI(),
+            new SearchFileRemoteUI(),
+            new GetRemoteListingUI(),
+            new DeleteFileRemoteUI(),
+        };
 
         public Browser()
         {
-            actions = new List<IDFtpUI>
-            {
-                new PutFileUI(),
-                new SearchFileRemoteUI(),
-                new GetRemoteListingUI(),
-            };
         }
-
-        public void Load(DFtpListResult list)
+    
+        public void DrawResultList(DFtpListResult list)
         {
-            this.list = list;
-        }
-
-        public void Show()
-        {
-            ListActions();
+            DrawActionsMenu();
             foreach (DFtpFile file in list.Files)
             {
                 Console.WriteLine(file.GetName() + " " + file.GetSize() + " " + (file.Type() == FluentFTP.FtpFileSystemObjectType.Directory? "dir" : "file"));
             }
             
-            
             ConsoleUI.WaitForAnyKey();
             return;
         }
 
-        public void ListActions()
+        public void DrawActionsMenu()
         {
             Console.Write("Actions: ");
-            foreach (IDFtpUI action in actions)
+            foreach (IDFtpUI action in Actions)
             {
                 if (action.RequiresLogin && Client.ftpClient == null)
                 {

@@ -9,25 +9,23 @@ using Actions;
 using Experimental;
 using DumbFTP.UI;
 
+
 class Program
 {
+    public static String version = "1.0alpha";
+
     static void Main(string[] args)
     {
-
-        List<IDFtpUI> actions = new List<IDFtpUI>
-        {
-            new PutFileUI(),
-            new SearchFileRemoteUI(),
-            new GetRemoteListingUI(),
-        };
-
-        
-        // my test change comment
+        ConsoleUI.Initialize();
         bool running = false;
 
         while (Client.ftpClient == null)
         {
             running = Login.TryConnect();
+            if (running == false)
+            {
+                Console.WriteLine("Try again.");
+            }
         }
 
         Console.WriteLine("Connected!");
@@ -37,15 +35,20 @@ class Program
 
         while (running)
         {
+
             ConsoleUI.ClearBuffers();
-            browser.ListActions();
+            ConsoleUI.Write(0, ConsoleUI.MaxHeight() - 1, "DumpFTP - " + version, Color.Gold);
+            ConsoleUI.Render();
+            Console.WriteLine();
+            browser.DrawActionsMenu();
             ConsoleKeyInfo input = Console.ReadKey();
+
             if (input.Key == ConsoleKey.Escape)
             {
                 // Exit program.
                 break;
             }
-            foreach (IDFtpUI action in actions)
+            foreach (IDFtpUI action in browser.Actions)
             {
                 if (action.Key != input.Key)
                 {
@@ -83,8 +86,7 @@ class Program
                 // If by running the action returned a list of file objects.
                 if (result is DFtpListResult)
                 {
-                    browser.Load((DFtpListResult)result);
-                    browser.Show();
+                    browser.DrawResultList((DFtpListResult)result);
                 }
                 else if (result.Type == DFtpResultType.Ok)
                 {

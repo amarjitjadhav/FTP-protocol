@@ -4,7 +4,7 @@ using System;
 
 namespace DumbFTP.UI
 {
-    interface IDFtpUI
+    public interface IDFtpUI
     {
         //protected bool isMocking;
         ConsoleKey Key { get; }

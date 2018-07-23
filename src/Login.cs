@@ -31,8 +31,13 @@ namespace DumbFTP
                     Port = 21,
                     Credentials = new NetworkCredential(user, password),
                 };
-                
-                Client.ftpClient = client;
+
+                client.Connect();
+                if (client.IsConnected)
+                { 
+                    Client.ftpClient = client;
+                }
+
             }
             catch (Exception e)
             {
@@ -40,7 +45,7 @@ namespace DumbFTP
                 Console.WriteLine("Could not connect to server: " + e.Message);
             }
 
-            return true;
+            return Client.ftpClient != null && Client.ftpClient.IsConnected;
         }
     }
 }
