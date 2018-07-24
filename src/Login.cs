@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
+using IO;
+
 namespace DumbFTP
 {
     public class Login
@@ -12,17 +14,17 @@ namespace DumbFTP
         public static bool TryConnect()
         {
             // Get input from user?
-            // String server, String user, String password
-            Console.Write("Enter server, or press [Enter] for 'Hypersweet.com': ");
-            String server = Console.ReadLine();
+            // Server name
+            String server = IOHelper.AskString("Enter server, or press [Enter] for 'Hypersweet.com'.");
             if (server == "") { server = "hypersweet.com"; }
-            Console.Write("\nEnter username, or press [Enter] for 'cs410': ");
-            String user = Console.ReadLine();
+
+            // User name
+            String user = IOHelper.AskString("Enter username, or press [Enter] for 'cs410'.");
             if (user == "") { user = "cs410"; }
-            Console.Write("\nEnter password, or press [Enter] for 'cs410': ");
-            String password = Console.ReadLine();
+
+            // Password
+            String password = IOHelper.AskString("Enter password, or press [Enter] for 'cs410'.");
             if (password == "") { password = "cs410"; }
-            Console.WriteLine();
 
             try {
                 // Connect the ftp client
