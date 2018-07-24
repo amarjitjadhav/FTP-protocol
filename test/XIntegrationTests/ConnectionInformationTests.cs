@@ -12,7 +12,7 @@ namespace XIntegrationTests
 
         [Fact]
         public void SaveConnectionInformation_FileExists()
-        {
+        {   
             ConnectionInformation connInfo = new ConnectionInformation("cs410", "hypersweet.com");
             connInfo.Save();
 

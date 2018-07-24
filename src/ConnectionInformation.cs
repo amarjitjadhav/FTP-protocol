@@ -39,12 +39,13 @@ namespace DumbFTP
         {
             String filepath = "saved_connections/" + Username + ".txt";
 
-            File.WriteAllText(filepath, String.Empty);
 
             if (!Directory.Exists("saved_connections"))
             {
                 Directory.CreateDirectory("saved_connections");
             }
+
+            File.WriteAllText(filepath, String.Empty);
 
             StreamWriter writer = new StreamWriter(File.Open(filepath, System.IO.FileMode.Create))
             {
