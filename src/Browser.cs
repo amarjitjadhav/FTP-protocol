@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Actions;
 using FluentFTP;
 using IO;
 
@@ -16,7 +17,6 @@ namespace UI
             new ContextSwitchUI(),
             new PutFileUI(),
             new SearchFileRemoteUI(),
-            //new GetRemoteListingUI(),
             new DeleteFileRemoteUI(),
             new SelectRemoteUI(),
         };
@@ -84,8 +84,34 @@ namespace UI
                 }
                 ConsoleUI.WriteLine(action.MenuText, Color.Olive, 5);
             }
-            ConsoleUI.WriteLine("", Color.Olive);
             return;
+        }
+
+        public void DrawListing()
+        {
+            DFtpResult result = null;
+            DFtpAction action = null;
+            if (Client.state == ClientState.VIEWING_LOCAL)
+            {
+                ConsoleUI.WriteLine("Listing for: " + Client.localDirectory, Color.Gold);
+                return;
+                //action = new GetListingLocalAction(Client.ftpClient, Client.localDirectory);
+                //result = action.Run();
+            }
+            else if (Client.state == ClientState.VIEWING_REMOTE)
+            {
+                ConsoleUI.WriteLine("Listing for: " + Client.remoteDirectory, Color.Gold);
+                action = new GetListingRemoteAction(Client.ftpClient, Client.remoteDirectory);
+            }
+            result = action.Run();
+            if (result is DFtpListResult)
+            {
+                DFtpListResult listResult = (DFtpListResult)result;
+                foreach (DFtpFile file in listResult.Files)
+                {
+                    ConsoleUI.WriteLine(file.ToString(), Color.Green);
+                }
+            }
         }
     }
 }

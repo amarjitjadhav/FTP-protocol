@@ -44,9 +44,12 @@ class Program
 
             ConsoleUI.WriteLine("DumpFTP - " + clientContextState, Color.Gold);
             ConsoleUI.WriteLine(" Version - " + version, Color.Olive);
-
+            ConsoleUI.WriteLine("", Color.Olive);
             browser.DrawClientInfo();
+            ConsoleUI.WriteLine("", Color.Olive);
             browser.DrawActionsMenu();
+            ConsoleUI.WriteLine("", Color.Olive);
+            browser.DrawListing();
             ConsoleUI.Render();
 
             while (!ConsoleUI.AnyKey())
@@ -112,6 +115,7 @@ class Program
                 }
             }
             
+
 
             ConsoleUI.Render();
 

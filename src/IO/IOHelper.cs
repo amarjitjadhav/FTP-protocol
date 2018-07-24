@@ -50,8 +50,8 @@ namespace IO
             {
                 ConsoleUI.ClearBuffers();
                 ConsoleUI.Write(x, y, question, Color.White);
-                ConsoleUI.Write(x, y - 2, trueText, selected ? Color.Gold.Invert() : Color.Gold);
-                ConsoleUI.Write(x + trueText.Length + 2, y - 2, falseText, selected ? Color.Gold : Color.Gold.Invert());
+                ConsoleUI.Write(x, y - 2, trueText, selected ? Color.Green.Invert() : Color.Green);
+                ConsoleUI.Write(x + trueText.Length + 2, y - 2, falseText, selected ? Color.Green : Color.Green.Invert());
                 ConsoleUI.Render();
                 input = Console.ReadKey();
                 if (selected)
@@ -159,7 +159,7 @@ namespace IO
                     if (i >= firstItemInView && i < firstItemInView + viewHeight)
                     {
                         int itemY = y - (i - firstItemInView) - headerAndSpacingHeight;
-                        ConsoleUI.Write(x, itemY, list[i].ToString(), selected == i ? Color.Gold.Invert() : Color.Gold);
+                        ConsoleUI.Write(x, itemY, list[i].ToString(), selected == i ? Color.Green.Invert() : Color.Green);
                     }
                 }
                 // IF there's nothing to select from print a message and return null
