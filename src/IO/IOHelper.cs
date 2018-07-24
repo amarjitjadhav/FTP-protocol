@@ -165,15 +165,11 @@ namespace IO
                 // IF there's nothing to select from print a message and return null
                 if (numberOfItems == 0)
                 { 
-                    ConsoleUI.Write(x, y - 2, "Nothing to select.", Color.Gold);
+                    ConsoleUI.Write(x, y - 2, "Nothing to select.", Color.Red);
                     ConsoleUI.Render();
                     Console.ReadLine();
                     return default(T);
                 }
-                // Debug
-                //ConsoleUI.Write(0, 1, "firstItemInView: " + firstItemInView, Color.White);
-                //ConsoleUI.Write(0, 1, "displayHeight: " + displayHeight, Color.White);
-                //ConsoleUI.Write(0, 1, "firstItemInView: " + firstItemInView, Color.White);
 
                 ConsoleUI.Render();
 
