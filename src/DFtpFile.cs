@@ -51,7 +51,7 @@ public class DFtpFile
 
     public FtpFileSystemObjectType Type() => fileType;
 
-    public String ToString()
+    public override String ToString()
     {
         return GetName();
     }

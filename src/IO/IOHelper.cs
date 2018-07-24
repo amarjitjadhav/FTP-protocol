@@ -148,7 +148,7 @@ namespace IO
 
             int selected = 0;
             int firstItemInView = 0;
-            ConsoleUI.Initialize();
+            //ConsoleUI.Initialize();
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             do
             {
