@@ -23,7 +23,6 @@ namespace XIntegrationTests
         }
 
         [Fact]
-
         public void SaveConnectionInformation_LoadInformationMatches()
         {
             String user = "cs410";
@@ -39,6 +38,29 @@ namespace XIntegrationTests
             Assert.True(
                 loadedConnInfo.Username == user && 
                 loadedConnInfo.ServerAddress == server);
+            return;
+        }
+
+
+        [Fact]
+        public void LoadAllConnections()
+        {
+            // Setup.
+            new ConnectionInformation("user1", "server1").Save();
+            new ConnectionInformation("user2", "server2").Save();
+            new ConnectionInformation("user3", "server3").Save();
+
+            // Action.
+            List<ConnectionInformation> list = ConnectionInformation.GetAllSavedConnections();
+
+            Assert.Contains(new ConnectionInformation("user1", "server1"), list);
+            Assert.Contains(new ConnectionInformation("user2", "server2"), list);
+            Assert.Contains(new ConnectionInformation("user3", "server3"), list);
+
+
+            File.Delete("saved_connections/user1.txt");
+            File.Delete("saved_connections/user2.txt");
+            File.Delete("saved_connections/user3.txt");
             return;
         }
 

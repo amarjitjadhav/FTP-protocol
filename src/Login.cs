@@ -47,6 +47,12 @@ namespace DumbFTP
                 Console.WriteLine("Could not connect to server: " + e.Message);
             }
 
+            if (IOHelper.AskBool("Would you like to save this connection information?", "yes", "no"))
+            {
+                ConnectionInformation connInfo = new ConnectionInformation(user, server);
+                connInfo.Save();
+            }
+            
             return Client.ftpClient != null && Client.ftpClient.IsConnected;
         }
     }
