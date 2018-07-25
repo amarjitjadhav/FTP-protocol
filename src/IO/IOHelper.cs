@@ -139,9 +139,12 @@ namespace IO
             if (displayHeight > Console.WindowHeight - 1)
                 displayHeight = Console.WindowHeight - 1;
             int headerAndSpacingHeight = 2;
-            int viewHeight = displayHeight - headerAndSpacingHeight;
+
+            int viewHeight = displayHeight - headerAndSpacingHeight + 1;
+
             if (viewHeight < 1)
                 viewHeight = 1;
+            
 
             int x = Console.WindowWidth / 2 - displayWidth / 2;
             int y = Console.WindowHeight / 2 + displayHeight / 2;
