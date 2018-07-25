@@ -63,7 +63,11 @@ namespace UI
                     // DO LOGIN.???
                     continue;
                 }
-                if (action.RequiresFile && ( Client.localSelection == null || Client.localSelection.Type() != FtpFileSystemObjectType.File) )
+                if (Client.state == ClientState.VIEWING_LOCAL && action.RequiresFile && ( Client.localSelection == null || Client.localSelection.Type() != FtpFileSystemObjectType.File) )
+                {
+                    continue;
+                }
+                if (Client.state == ClientState.VIEWING_REMOTE && action.RequiresFile && (Client.remoteSelection == null || Client.remoteSelection.Type() != FtpFileSystemObjectType.File))
                 {
                     continue;
                 }
