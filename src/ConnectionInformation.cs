@@ -138,5 +138,14 @@ namespace DumbFTP
         {
             return this.Username.GetHashCode() + this.ServerAddress.GetHashCode(); ;
         }
+
+        /// <summary>
+        /// Returns a string representation of this object.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "User: " + this.Username + "  Server: " + this.ServerAddress;
+        }
     }
 }
