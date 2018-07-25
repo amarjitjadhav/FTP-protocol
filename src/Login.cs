@@ -40,12 +40,6 @@ namespace DumbFTP
             String password = IOHelper.AskString("Enter password, or press [Enter] for 'cs410'.");
             if (password == "") { password = "cs410"; }
 
-            // See if the user wants to save this new connection.
-            if (newConnection && IOHelper.AskBool("Would you like to save this connection information?", "yes", "no"))
-            {
-                new ConnectionInformation(connInfo.Username, connInfo.ServerAddress).Save();
-            }
-
             // Connect the ftp client
             try
             {
@@ -69,8 +63,12 @@ namespace DumbFTP
                 Console.WriteLine("Could not connect to server: " + e.Message);
             }
 
-          
-            
+            // See if the user wants to save this new connection.
+            if (newConnection && IOHelper.AskBool("Would you like to save this connection information?", "yes", "no"))
+            {
+                new ConnectionInformation(connInfo.Username, connInfo.ServerAddress).Save();
+            }
+
             return Client.ftpClient != null && Client.ftpClient.IsConnected;
         }
     }
