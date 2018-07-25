@@ -158,6 +158,5 @@ namespace XIntegrationTests
 
             Assert.True(result.Type == DFtpResultType.Error);
         }
-
     }
 }

@@ -42,7 +42,7 @@ class Program
 
             String clientContextState = Client.state == ClientState.VIEWING_LOCAL ? "Viewing Local" : "Viewing Remote";
 
-            ConsoleUI.WriteLine("DumpFTP - " + clientContextState, Color.Gold);
+            ConsoleUI.WriteLine("DumbFTP - " + clientContextState, Color.Gold);
             ConsoleUI.WriteLine(" Version - " + version, Color.Olive);
             ConsoleUI.WriteLine("", Color.Olive);
             browser.DrawClientInfo();
