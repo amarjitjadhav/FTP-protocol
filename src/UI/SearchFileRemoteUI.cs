@@ -14,7 +14,7 @@ namespace UI
 
         public bool RequiresFile => false;
 
-        public bool HideForDirectory => true;
+        public bool HideForDirectory => false;
 
         public bool HideForFile => false;
 
@@ -34,8 +34,6 @@ namespace UI
 
             // Carry out the action and get the result
             DFtpResult result = action.Run();
-
-            History.Log(result.ToString());
             
             return result;
         }

@@ -36,7 +36,7 @@ namespace Actions
 
             return  found.Count > 0 ? 
                 new DFtpListResult(DFtpResultType.Ok, info + " [Found: " + found.Count + " files]", found) : 
-                new DFtpListResult(DFtpResultType.Error, info + " [No files found]", found);
+                new DFtpResult(DFtpResultType.Error, info + " [No files found]");
         }
 
         /// <summary>

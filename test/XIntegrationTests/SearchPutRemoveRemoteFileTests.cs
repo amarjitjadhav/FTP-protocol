@@ -60,7 +60,7 @@ namespace XIntegrationTests
         }
 
         [Fact]
-        public void CreateAndUploadThenRemoveFileTest()
+        public void CreateAndPutFileOnServerSearchThenRemoveTest()
         {
             EstablishConnection();
 

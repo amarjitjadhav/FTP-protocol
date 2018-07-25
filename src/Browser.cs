@@ -104,6 +104,9 @@ namespace UI
                 action = new GetListingRemoteAction(Client.ftpClient, Client.remoteDirectory);
             }
             result = action.Run();
+
+            History.Log(result.ToString());
+
             if (result is DFtpListResult)
             {
                 DFtpListResult listResult = (DFtpListResult)result;
