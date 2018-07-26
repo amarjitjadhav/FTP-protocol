@@ -113,6 +113,12 @@ namespace IO
             return result;
         }
 
+        /// <summary>
+        /// Loops through the array to find the longest item (string representation).
+        /// </summary>
+        /// <typeparam name="T">Type of item in list</typeparam>
+        /// <param name="list">List of items</param>
+        /// <returns>Returns an integer length</returns>
         private static int GetLengthOfLongestItem<T>(T[] list)
         {
             int longest = 0;
@@ -125,6 +131,26 @@ namespace IO
             return longest;
         }
 
+        /// <summary>
+        /// Shows the user a scrolling selection screen to choose from among items in a list.
+        /// </summary>
+        /// <typeparam name="T">Type of item in the list.</typeparam>
+        /// <param name="question">Text to display.</param>
+        /// <param name="list">List of items.</param>
+        /// <returns>Returns the item selected.</returns>
+        public static T Select<T>(String question, List<T> list)
+        {
+            T[] array = list.ToArray();
+            return Select<T>(question, array);
+        }
+
+        /// <summary>
+        /// Shows the user a scrilling selection screen to choose from among items in an array.
+        /// </summary>
+        /// <typeparam name="T">Type of item in the array.</typeparam>
+        /// <param name="question">Text to display.</param>
+        /// <param name="list">Array of items.</param>
+        /// <returns>Returns the item selected.</returns>
         public static T Select<T>(String question, T[] list)
         {
             int numberOfItems = list.Length;
