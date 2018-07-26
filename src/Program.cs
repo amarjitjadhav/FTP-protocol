@@ -12,32 +12,48 @@ using UI;
 class Program
 {
     public static String version = "1.0alpha";
+    public const double allowedIdleTime = 120.0f; 
+
+    public static void LoginLoop(bool fromIdle)
+    {
+        Console.Clear();
+
+        if (fromIdle)
+        {
+            Console.WriteLine("You were timed out for being idle too long");
+        }
+        Client.ftpClient = null;
+        
+        while (Client.ftpClient == null)
+        {
+            bool success = Login.TryConnect();
+            if (success == false)
+            {
+                Console.WriteLine("Try again.");
+            }
+        }
+        Console.WriteLine("Connected!");
+
+        return;
+    }
 
     static void Main(string[] args)
     {
         ConsoleUI.Initialize();
         
-        bool running = false;
 
-        while (Client.ftpClient == null)
-        {
-            running = Login.TryConnect();
-            if (running == false)
-            {
-                Console.WriteLine("Try again.");
-            }
-        }
+        LoginLoop(false);
 
-        Console.WriteLine("Connected!");
         Client.remoteDirectory = "/";
 
         Browser browser = new Browser();
-        double dt = 0;
+        long idleTime = 0;
         ConsoleUI.ClearBuffers();
 
+        bool running = true;
         while (running)
         {
-            dt += Time.deltaMs;
+            idleTime += Time.deltaMs;
             ConsoleKeyInfo input = new ConsoleKeyInfo();
 
             String clientContextState = Client.state == ClientState.VIEWING_LOCAL ? "Viewing Local" : "Viewing Remote";
@@ -55,13 +71,21 @@ class Program
             while (!ConsoleUI.AnyKey())
             {
                 Time.Update();
-                dt += Time.deltaMs;
-                ConsoleUI.Write(0, 0, dt.ToString() + " milliseconds have passed", Color.Salmon);
+                idleTime += Time.deltaMs;
+                ConsoleUI.Write(0, 0, "Idle for " + Time.MillisecondsToSeconds(idleTime).ToString() + " seconds", Color.Salmon);
                 input = ConsoleUI.ReadKey();
                 ConsoleUI.Render();
+                if (Time.MillisecondsToSeconds(idleTime) >= allowedIdleTime)
+                {
+                    // Exit program.
+                    LoginLoop(true);
+                    break;
+                }
             }
-
             
+
+            idleTime = 0;
+
             if (input.Key == ConsoleKey.Escape)
             {
                 // Exit program.
