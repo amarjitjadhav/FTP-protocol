@@ -53,7 +53,12 @@ namespace IO
                 ConsoleUI.Write(x, y - 2, trueText, selected ? Color.Green.Invert() : Color.Green);
                 ConsoleUI.Write(x + trueText.Length + 2, y - 2, falseText, selected ? Color.Green : Color.Green.Invert());
                 ConsoleUI.Render();
-                input = Console.ReadKey();
+                while (Console.KeyAvailable == false)
+                { }
+                while (Console.KeyAvailable == true)
+                {
+                    input = Console.ReadKey(true);
+                }
                 if (selected)
                 {
                     if (input.Key == ConsoleKey.RightArrow)
@@ -203,7 +208,12 @@ namespace IO
                 ConsoleUI.Render();
 
                 //Handle input
-                input = Console.ReadKey();
+                while (Console.KeyAvailable == false)
+                { }
+                while (Console.KeyAvailable == true)
+                {
+                    input = Console.ReadKey(true);
+                }
                 if (input.Key == ConsoleKey.DownArrow && selected < numberOfItems - 1)
                 {
                     ++selected;

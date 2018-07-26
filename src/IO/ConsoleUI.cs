@@ -98,7 +98,7 @@ namespace IO
         public static void ClearBuffers()
         {
             ClearBuffers(Color.White);
-            Console.Clear();
+            //Console.Clear(); //
             return;
         }
 
@@ -117,7 +117,7 @@ namespace IO
                 }
             }
             currentLineIndex = MaxHeight() - 1;
-            Console.Clear();
+            //Console.Clear();
             return;
         }
 
