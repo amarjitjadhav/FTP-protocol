@@ -31,6 +31,23 @@ namespace IO
         }
 
         /// <summary>
+        /// Displays a message to the user and prompts them to press enter to continue.
+        /// </summary>
+        /// <param name="display">Message to display.</param>
+        public static void Message(String display)
+        {
+            ConsoleUI.Initialize();
+            ConsoleUI.ClearBuffers();
+            int displayLength = display.Length;
+            int x = Console.WindowWidth / 2 - displayLength / 2;
+            int y = Console.WindowHeight / 2 + 1;
+            ConsoleUI.Write(x, y, display, Color.White);
+            ConsoleUI.Write(x, y - 2, "Press [enter] to continue.", Color.White);
+            ConsoleUI.Render();
+            Console.ReadLine();
+        }
+
+        /// <summary>
         /// This prompts the user to choose between a yes/no or ok/cancel type resopnse (modal).
         /// </summary>
         /// <param name="question">The text to display to the user. Usualy a yes/no question.</param>

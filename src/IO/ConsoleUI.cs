@@ -146,6 +146,7 @@ namespace IO
         public static void CursorOff()
         {
             Console.CursorVisible = false;
+            Console.SetCursorPosition(0, 0);
         }
 
         /// <summary>

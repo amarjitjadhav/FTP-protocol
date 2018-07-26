@@ -116,7 +116,7 @@ class Program
                 else if (result.Type == DFtpResultType.Ok)
                 {
                     // Cool, we did the action.
-                    ConsoleUI.WriteLine("Action completed successfully", Color.Gold);
+                    // ConsoleUI.WriteLine("Action completed successfully", Color.Gold); //comment out for now
                 }
             }
             

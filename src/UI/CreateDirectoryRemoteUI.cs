@@ -33,7 +33,7 @@ namespace UI
 
             // Carry out the action and get the result
             DFtpResult result = action.Run();
-            
+
             return result;
         }
     }
