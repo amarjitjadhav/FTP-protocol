@@ -248,5 +248,39 @@ namespace IO
             return list[selected];
         }
 
+        /// <summary>
+        /// Wraps a string into a list of strings of the specified width.
+        /// Code based on post found in this thread:
+        /// https://social.msdn.microsoft.com/Forums/en-US/e549e7a7-bcd9-4f18-b797-4590180855c2/wrap-the-text-with-fixed-size-length-of-30-using-c?forum=csharpgeneral
+        /// </summary>
+        /// <param name="line">String to wrap.</param>
+        /// <param name="width">Width at which to wrap.</param>
+        /// <returns></returns>
+        public static List<String> WordWrap(String line, int width)
+        {
+            List<String> sentence = new List<String>();
+            int index = 0;
+            String result = "";
+            foreach (char c in line)
+            {
+                //if smaller than width, add the the result
+                if (index <= width)
+                {
+                    //increase char index
+                    index++;
+                    result += c;
+                }
+                if (index == width - 4)
+                {
+                    //if index hits the chars within width, add to list and clear result and index
+                    sentence.Add(result);
+                    result = "";
+                    index = 0;
+                }
+            }
+            //add the last remaing characters 
+            sentence.Add(result);
+            return sentence;
+        }
     }
 }

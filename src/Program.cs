@@ -12,7 +12,9 @@ using UI;
 class Program
 {
     public static String version = "1.0alpha";
-    public const double allowedIdleTime = 120.0f; 
+    public const double allowedIdleTime = 120.0f;
+    private static int width;
+    private static int height;
 
     public static void LoginLoop(bool fromIdle)
     {
@@ -39,6 +41,8 @@ class Program
 
     static void Main(string[] args)
     {
+        width = Console.WindowWidth;
+        height = Console.WindowHeight;
         ConsoleUI.Initialize();
         
 
@@ -53,18 +57,16 @@ class Program
         bool running = true;
         while (running)
         {
+            Program.CheckForResize();
             idleTime += Time.deltaMs;
             ConsoleKeyInfo input = new ConsoleKeyInfo();
 
             String clientContextState = Client.state == ClientState.VIEWING_LOCAL ? "Viewing Local" : "Viewing Remote";
 
-            ConsoleUI.WriteLine("DumbFTP - " + clientContextState, Color.Gold);
-            ConsoleUI.WriteLine(" Version - " + version, Color.Olive);
-            ConsoleUI.WriteLine("", Color.Olive);
+            ConsoleUI.WriteLine("DumbFTP v" + version, Color.Gold);
+            ConsoleUI.WriteLineWrapped("You are currently connected to '" + Client.serverName + "'. Below are the current working directories and any selected files on both the client (local) and the server (remote). The view can be switched by pressing [tab]. Actions which can be performe will appear below. Please note that some actions may only be carried out after a selection has been made.", Color.White, 2);
             browser.DrawClientInfo();
-            ConsoleUI.WriteLine("", Color.Olive);
             browser.DrawActionsMenu();
-            ConsoleUI.WriteLine("", Color.Olive);
             browser.DrawListing();
             ConsoleUI.Render();
 
@@ -72,6 +74,7 @@ class Program
             {
                 Time.Update();
                 idleTime += Time.deltaMs;
+                ConsoleUI.Write(0, 0, "                                ", Color.White);
                 ConsoleUI.Write(0, 0, "Idle for " + Time.MillisecondsToSeconds(idleTime).ToString() + " seconds", Color.Salmon);
                 input = ConsoleUI.ReadKey();
                 ConsoleUI.Render();
@@ -152,7 +155,16 @@ class Program
             ConsoleUI.ResetKeyPress();
             Time.Update();
           
+        } 
+    }
+
+    private static void CheckForResize()
+    {
+        if (Program.width != Console.WindowWidth || Program.height != Console.WindowHeight)
+        {
+            Program.width = Console.WindowWidth;
+            Program.height = Console.WindowHeight;
+            ConsoleUI.Initialize();
         }
-        
     }
 }

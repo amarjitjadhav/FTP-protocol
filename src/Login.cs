@@ -51,7 +51,8 @@ namespace DumbFTP
 
                 client.Connect();
                 if (client.IsConnected)
-                { 
+                {
+                    Client.serverName = connInfo.ServerAddress;
                     Client.ftpClient = client;
                 }
 

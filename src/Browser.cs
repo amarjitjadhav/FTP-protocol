@@ -47,10 +47,11 @@ namespace UI
             String remoteSelectionText = "";
             if (Client.remoteSelection != null)
                 remoteSelectionText = Client.remoteSelection.ToString();
-            ConsoleUI.WriteLine("Client.localDirectory:  " + Client.localDirectory, Color.White);
-            ConsoleUI.WriteLine("Client.localDirectory:  " + localSelectionText, Color.White);
-            ConsoleUI.WriteLine("Client.remoteDirectory: " + Client.remoteDirectory, Color.White);
-            ConsoleUI.WriteLine("Client.remoteSelection: " + remoteSelectionText, Color.White);
+            ConsoleUI.WriteLine("Client info", Color.Gold);
+            ConsoleUI.WriteLine("Local working directory:  " + Client.localDirectory, Color.White, 2);
+            ConsoleUI.WriteLine("Local selected file/dir:  " + localSelectionText, Color.White, 2);
+            ConsoleUI.WriteLine("Remote working directory: " + Client.remoteDirectory, Color.White, 2);
+            ConsoleUI.WriteLine("Remote selected file/dir: " + remoteSelectionText, Color.White, 2);
         }
 
         public void DrawActionsMenu()
@@ -87,7 +88,7 @@ namespace UI
                 {
                     continue;
                 }
-                ConsoleUI.WriteLine(action.MenuText, Color.Olive, 5);
+                ConsoleUI.WriteLine(action.MenuText, Color.Olive, 2);
             }
             return;
         }

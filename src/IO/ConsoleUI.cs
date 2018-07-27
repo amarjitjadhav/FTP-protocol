@@ -205,9 +205,33 @@ namespace IO
             }
         }
 
+        /// <summary>
+        /// Writes a line to the screen starting at the top and moving downard.
+        /// </summary>
+        /// <param name="line">String to write.</param>
+        /// <param name="color">Color of text.</param>
+        /// <param name="xOffset">Amount to indent.</param>
+        /// <returns>Returns the current index of the next line.</returns>
         public static int WriteLine(String line, Color color, int xOffset = 0)
         {
             Write(xOffset, currentLineIndex--, line, color);
+            return currentLineIndex;
+        }
+
+        /// <summary>
+        /// Writes as many lines as are necessary for text to be wrapped on the screen.
+        /// </summary>
+        /// <param name="line">String to write wrapped.</param>
+        /// <param name="color">Color of text.</param>
+        /// <param name="xOffset">Amount to indent.</param>
+        /// <returns>Returns the current index of the next line.</returns>
+        public static int WriteLineWrapped(String line, Color color, int xOffset = 0)
+        {
+            List<String> wrapped = IOHelper.WordWrap(line, width - xOffset);
+            foreach (String str in wrapped)
+            {
+                Write(xOffset, currentLineIndex--, str, color);
+            }
             return currentLineIndex;
         }
 
