@@ -13,6 +13,7 @@ public class Client
     public static ClientState state = ClientState.VIEWING_LOCAL;
     public static long idleTime = 0;
 
+    public static String serverName = null;
     public static String localDirectory = null;
     public static DFtpFile localSelection = null;
     public static String remoteDirectory = null;

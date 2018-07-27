@@ -49,7 +49,9 @@ namespace XIntegrationTests
             foreach (FtpListItem item in files)
             {
                 if (item.Name == directoryName)
+                { 
                     found = true;
+                }
             }
             Assert.True(found);
 

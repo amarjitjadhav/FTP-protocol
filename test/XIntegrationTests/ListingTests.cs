@@ -76,9 +76,15 @@ namespace XIntegrationTests
             DFtpResult result = action.Run();
             DFtpListResult listResult = null;
             if (result is DFtpListResult)
+            {
                 listResult = (DFtpListResult)result;
+            }
+            
             else
+            {
                 return;
+            }
+            
 
             // Check that there are three files
             Assert.True(listResult.Files.Count == 3);
