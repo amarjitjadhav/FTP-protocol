@@ -43,10 +43,14 @@ namespace UI
         {
             String localSelectionText = "";
             if (Client.localSelection != null)
+            { 
                 localSelectionText = Client.localSelection.ToString();
+            }
             String remoteSelectionText = "";
             if (Client.remoteSelection != null)
+            { 
                 remoteSelectionText = Client.remoteSelection.ToString();
+            }
             ConsoleUI.WriteLine("Client.localDirectory:  " + Client.localDirectory, Color.White);
             ConsoleUI.WriteLine("Client.localDirectory:  " + localSelectionText, Color.White);
             ConsoleUI.WriteLine("Client.remoteDirectory: " + Client.remoteDirectory, Color.White);

@@ -68,7 +68,7 @@ namespace DumbFTP
             {
                 new ConnectionInformation(connInfo.Username, connInfo.ServerAddress).Save();
             }
-
+            
             return Client.ftpClient != null && Client.ftpClient.IsConnected;
         }
     }

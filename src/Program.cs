@@ -53,13 +53,13 @@ class Program
 
 
         Browser browser = new Browser();
-        long idleTime = 0;
+        
         ConsoleUI.ClearBuffers();
 
         bool running = true;
         while (running)
         {
-            idleTime += Time.deltaMs;
+            Client.idleTime += Time.deltaMs;
             ConsoleKeyInfo input = new ConsoleKeyInfo();
 
             String clientContextState = Client.state == ClientState.VIEWING_LOCAL ? "Viewing Local" : "Viewing Remote";
@@ -77,11 +77,11 @@ class Program
             while (!ConsoleUI.AnyKey())
             {
                 Time.Update();
-                idleTime += Time.deltaMs;
-                ConsoleUI.Write(0, 0, "Idle for " + Time.MillisecondsToSeconds(idleTime).ToString() + " seconds", Color.Salmon);
+                Client.idleTime += Time.deltaMs;
+                ConsoleUI.Write(0, 0, "Idle for " + Time.MillisecondsToSeconds(Client.idleTime).ToString() + " seconds", Color.Salmon);
                 input = ConsoleUI.ReadKey();
                 ConsoleUI.Render();
-                if (Time.MillisecondsToSeconds(idleTime) >= allowedIdleTime)
+                if (Time.MillisecondsToSeconds(Client.idleTime) >= allowedIdleTime)
                 {
                     // Exit program.
                     LoginLoop(true);
@@ -90,7 +90,7 @@ class Program
             }
             
 
-            idleTime = 0;
+            Client.idleTime = 0;
 
             if (input.Key == ConsoleKey.Escape)
             {
