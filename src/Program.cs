@@ -24,8 +24,9 @@ class Program
         {
             Console.WriteLine("You were timed out for being idle too long");
         }
+
         Client.ftpClient = null;
-        
+
         while (Client.ftpClient == null)
         {
             bool success = Login.TryConnect();
@@ -34,6 +35,12 @@ class Program
                 Console.WriteLine("Try again.");
             }
         }
+
+        Client.localDirectory = null;
+        Client.remoteDirectory = "/";
+        Client.remoteSelection = null;
+        Client.localSelection = null;
+
         Console.WriteLine("Connected!");
 
         return;
@@ -48,7 +55,6 @@ class Program
 
         LoginLoop(false);
 
-        Client.remoteDirectory = "/";
 
         Browser browser = new Browser();
         long idleTime = 0;
@@ -153,7 +159,7 @@ class Program
 
             ConsoleUI.ClearBuffers();
             ConsoleUI.ResetKeyPress();
-            Time.Update();
+            //Time.Update();
           
         } 
     }
