@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace DumbFTP
 {
-    class Time
+    public class Time
     {
         public static long deltaMs = 0;
 
@@ -25,6 +25,11 @@ namespace DumbFTP
             last = current;
 
             return;
+        }
+
+        public static long MillisecondsPastEquinox()
+        {
+            return DateTimeOffset.Now.ToUnixTimeMilliseconds();
         }
 
         public static double MillisecondsToSeconds(long ms) => (double)ms / 1000.0;

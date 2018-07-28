@@ -36,6 +36,7 @@ public class Client
     
         // Open the remote file.
         Stream remoteStream = ftpClient.OpenRead(remoteSelection.GetFullPath());
+        ftpClient.GetReply(); // to read the success/failure response from the server
 
         // Open the local file.
         using (Stream localStream = new FileStream(localSelection.GetFullPath(),
@@ -46,6 +47,10 @@ public class Client
             byte[] remoteBytes = remoteStream.ReadBytes();
             byte[] localBytes = localStream.ReadBytes();
 
+            remoteStream.Close();
+            localStream.Close();
+            
+            
             return (remoteBytes != null && localBytes != null) ? !remoteBytes.SequenceEqual(localBytes) : false;
         }
     }

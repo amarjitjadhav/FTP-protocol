@@ -8,18 +8,26 @@ namespace Actions
 {
     public class PutFileAction : DFtpAction
     {
-        public PutFileAction(FtpClient ftpClient, String localDirectory, DFtpFile localSelection, String remoteDirectory) : 
+        private bool overwrite = true;
+
+        public PutFileAction(FtpClient ftpClient, String localDirectory, DFtpFile localSelection, String remoteDirectory, bool overwrite = true) : 
             base(ftpClient, localDirectory, localSelection, remoteDirectory, null)
         {
+            this.overwrite = overwrite;
         }
 
         public override DFtpResult Run()
         {
             String source = localSelection.GetFullPath();
             String target = remoteDirectory + localSelection.GetName();
+            FtpExists existsMode = overwrite ? FtpExists.Overwrite : FtpExists.Skip;
+            bool createDirectoryStructure = true;
+            FtpVerify verifyMode = FtpVerify.Retry;
+            ftpClient.RetryAttempts = 3;
+
             try
             { 
-                return ftpClient.UploadFile(source, target, FtpExists.Overwrite, true) == true ?
+                return ftpClient.UploadFile(source, target, existsMode, createDirectoryStructure, verifyMode) == true ?
                     new DFtpResult(DFtpResultType.Ok) :   // Return ok if upload okay.
                     new DFtpResult(DFtpResultType.Error); // Return error if upload fail.
             }
