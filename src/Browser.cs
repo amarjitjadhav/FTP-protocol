@@ -107,6 +107,7 @@ namespace UI
             if (Client.state == ClientState.VIEWING_LOCAL)
             {
                 ConsoleUI.WriteLine("Listing for: " + Client.localDirectory, Color.Gold);
+                ConsoleUI.WriteLine("Unimplemented...", Color.White);
                 return;
                 //action = new GetListingLocalAction(Client.ftpClient, Client.localDirectory);
                 //result = action.Run();

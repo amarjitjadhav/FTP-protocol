@@ -7,7 +7,7 @@ using DumbFTP;
 using IO;
 using Actions;
 using UI;
-
+using System.IO;
 
 class Program
 {
@@ -36,7 +36,7 @@ class Program
             }
         }
 
-        Client.localDirectory = null;
+        Client.localDirectory = Directory.GetCurrentDirectory();
         Client.remoteDirectory = "/";
         Client.remoteSelection = null;
         Client.localSelection = null;
