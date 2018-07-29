@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+public enum DFtpFileType { Local, Remote };
 
 public class DFtpFile
 {
@@ -15,7 +16,7 @@ public class DFtpFile
     protected FtpFileSystemObjectType fileType;
 
     protected String permissions;
-
+    protected DFtpFileType localOrRemote = DFtpFileType.Local; 
 
     public DFtpFile(String fullPath, String displayName = null, String modifiedDate = "", long size = 0)
     {
@@ -31,6 +32,15 @@ public class DFtpFile
     {
         fileType = file.Type;
         permissions = file.RawPermissions;
+        localOrRemote = DFtpFileType.Remote;
+    }
+
+    public String GetDirectory()
+    {
+        if (localOrRemote == DFtpFileType.Remote)
+            return Path.GetDirectoryName(fullPath);
+        else
+            return Path.GetDirectoryName(fullPath);
     }
 
     public String GetFullPath() => fullPath;

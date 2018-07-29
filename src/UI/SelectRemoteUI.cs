@@ -30,27 +30,35 @@ namespace UI
         public DFtpResult Go()
         {
             // Get listing for remote directory
-            FtpListItem[] list = Client.ftpClient.GetListing(Client.remoteDirectory);
-
-            // Choose from files
-            FtpListItem selected = IOHelper.Select<FtpListItem>("Choose a remote file to select.", list);
-
-            if (selected != null)
+            DFtpAction getListingAction = new GetListingRemoteAction(Client.ftpClient, Client.remoteDirectory);
+            DFtpResult tempResult = getListingAction.Run();
+            DFtpListResult listResult = null;
+            if (tempResult is DFtpListResult)
             {
-                // if it's a directory, set the client's remote directory, otherwise set selected file.
-                if (selected.Type == FtpFileSystemObjectType.Directory)
-                {
-                    Client.remoteDirectory = new DFtpFile(selected).GetFullPath();
-                    Client.remoteSelection = null;
-                }
-                // Otherwise set the client's remote selection
-                else
-                {
-                    Client.remoteSelection = new DFtpFile(selected);
-                }
-            }
+                listResult = (DFtpListResult)tempResult;
 
-            return new DFtpResult(DFtpResultType.Ok, "Listed files in remote directory: " + Client.remoteDirectory);
+                // Choose from files
+                DFtpFile selected = IOHelper.Select<DFtpFile>("Choose a remote file to select.", listResult.Files);
+
+                if (selected != null)
+                {
+                    // if it's a directory, set the client's remote directory, otherwise set selected file.
+                    if (selected.Type() == FtpFileSystemObjectType.Directory)
+                    {
+                        Client.remoteDirectory = selected.GetFullPath();
+                        Client.remoteSelection = null;
+                    }
+                    // Otherwise set the client's remote selection
+                    else
+                    {
+                        Client.remoteSelection = selected;
+                    }
+                }
+
+                return new DFtpResult(DFtpResultType.Ok, "Listed files in remote directory: " + Client.remoteDirectory);
+            }
+            else
+                return tempResult;
         }
     }
 }
