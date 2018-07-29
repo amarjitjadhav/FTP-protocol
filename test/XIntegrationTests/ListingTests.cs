@@ -50,6 +50,16 @@ namespace XIntegrationTests
             return;
         }
 
+        internal void GetFileFromRemoteServer(FtpClient ftpClient, String localDirectory, DFtpFile file, String remoteDirectory = testDirectory)
+        {
+            DFtpFile remoteSelection = file;
+
+            DFtpAction action = new GetFileFromRemoteServer(ftpClient, localDirectory, remoteDirectory, remoteSelection);
+
+            DFtpResult result = action.Run();
+            return;
+        }
+
         internal bool SearchForFileOnServer(FtpClient ftpClient, String pattern)
         {
             DFtpAction action = new SearchFileRemoteAction(ftpClient, pattern, "/");
