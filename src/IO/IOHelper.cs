@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 
 namespace IO
 {
@@ -10,6 +11,8 @@ namespace IO
     /// </summary>
     public static class IOHelper
     {
+        private static int pageKeyStepSize = 10;
+        
         /// <summary>
         /// Prompts the user to enter a string. An empty response is valid.
         /// </summary>
@@ -199,6 +202,27 @@ namespace IO
 
             int selected = 0;
             int firstItemInView = 0;
+
+            void SelectUp()
+            {
+                if (selected > 0)
+                {
+                    --selected;
+                    if (selected == firstItemInView - 1)
+                        --firstItemInView;
+                }
+            }
+
+            void SelectDown()
+            {
+                if (selected < numberOfItems - 1)
+                {
+                    ++selected;
+                    if (selected == viewHeight + firstItemInView)
+                        ++firstItemInView;
+                }
+            }
+
             //ConsoleUI.Initialize();
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             do
@@ -215,7 +239,7 @@ namespace IO
                 }
                 // IF there's nothing to select from print a message and return null
                 if (numberOfItems == 0)
-                { 
+                {
                     ConsoleUI.Write(x, y - 2, "Nothing to select.", Color.Red);
                     ConsoleUI.Render();
                     Console.ReadLine();
@@ -231,18 +255,31 @@ namespace IO
                 {
                     input = Console.ReadKey(true);
                 }
-                if (input.Key == ConsoleKey.DownArrow && selected < numberOfItems - 1)
+
+                if (input.Key == ConsoleKey.DownArrow)
                 {
-                    ++selected;
-                    if (selected == viewHeight + firstItemInView)
-                        ++firstItemInView;
+                    SelectDown();
                 }
-                else if (input.Key == ConsoleKey.UpArrow && selected > 0)
+                else if (input.Key == ConsoleKey.PageDown)
                 {
-                    --selected;
-                    if (selected == firstItemInView - 1)
-                        --firstItemInView;
+                    for (int i = 0; i < pageKeyStepSize; ++i)
+                    {
+                        SelectDown();
+                    }
                 }
+                else if (input.Key == ConsoleKey.UpArrow)
+                {
+                   SelectUp();
+                }
+                else if (input.Key == ConsoleKey.PageUp)
+                {
+                    for (int i = 0; i < pageKeyStepSize; ++i)
+                    {
+                        SelectUp();
+                    }
+                }
+                
+                
             } while (input.Key != ConsoleKey.Enter);
 
             return list[selected];
