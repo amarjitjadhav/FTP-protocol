@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using FluentFTP;
@@ -35,6 +36,12 @@ namespace Actions
             this.localSelection = localSelection;
             this.remoteDirectory = remoteDirectory;
             this.remoteSelection = remoteSelection;
+        }
+
+        protected bool isWindows()
+        {
+           return System.Runtime.InteropServices.RuntimeInformation
+                                               .IsOSPlatform(OSPlatform.Windows);
         }
 
         /// <summary>

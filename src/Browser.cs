@@ -22,12 +22,9 @@ namespace UI
             new SearchFileRemoteUI(),
             new DeleteFileRemoteUI(),
             new SelectRemoteUI(),
-<<<<<<< HEAD
-            new GetFileFromRemoteServerUI()
-=======
+            new GetFileFromRemoteServerUI(),
             new SelectLocalUI(),
->>>>>>> 86a669fe1eb66e3678da4e6523a3d9de2398a0c7
-        };
+       };
 
         public Browser()
         {
