@@ -13,6 +13,7 @@ namespace XIntegrationTests
     {
         private static FtpClient client = null;
         private const String testDirectory = "/remote_listing_test_directory/";
+        private const String LocalTestDirectory = @"C:\TestD";
 
         internal FtpClient EstablishConnection()
         {
@@ -31,7 +32,7 @@ namespace XIntegrationTests
         {
             String filepath = Path.GetTempFileName();
             String localDirectory = Path.GetDirectoryName(filepath);
-            DFtpFile localSelection = new DFtpFile(filepath);
+            DFtpFile localSelection = new DFtpFile(filepath, FtpFileSystemObjectType.File);
 
             DFtpAction action = new PutFileAction(client, localDirectory, localSelection, remoteDirectory);
 
@@ -109,6 +110,22 @@ namespace XIntegrationTests
             }
 
             return;
+        }
+        [Fact]
+        public void GetListingLocal()
+        {
+            DFtpAction action = new GetListingLocalAction(LocalTestDirectory);
+            DFtpResult result = action.Run();
+            DFtpListResult lresult = null;
+            if (result is DFtpListResult)
+            {
+                lresult = (DFtpListResult)result;
+            }
+            else
+            {
+                return;
+            }
+            Assert.True(lresult.Files.Count == 4);
         }
     }
 }

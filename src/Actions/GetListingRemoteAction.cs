@@ -17,12 +17,22 @@ namespace Actions
         {
             try
             {
-                FtpListItem[] files = ftpClient.GetListing(remoteDirectory);
-                return new DFtpListResult(DFtpResultType.Ok, "Got listing for " + remoteDirectory, files);
+                List<DFtpFile> dFtpListing = new List<DFtpFile>();
+                FtpListItem[] fluentListing = ftpClient.GetListing(remoteDirectory);
+                PopulateList(fluentListing, ref dFtpListing);
+                return new DFtpListResult(DFtpResultType.Ok, "Got listing for " + remoteDirectory, dFtpListing);
             }
             catch (Exception ex)
             {
                 return new DFtpResult(DFtpResultType.Error, ex.Message); // FluentFTP didn't like something.
+            }
+        }
+
+        private void PopulateList(FtpListItem[] result, ref List<DFtpFile> list)
+        {
+            foreach (FtpListItem item in result)
+            {
+                list.Add(new DFtpFile(item));
             }
         }
     }

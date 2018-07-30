@@ -6,7 +6,7 @@ namespace UI
 {
     public class ContextSwitchUI : IDFtpUI
     {
-        public ConsoleKey Key => ConsoleKey.F5;
+        public ConsoleKey Key => ConsoleKey.Tab;
 
         public bool RequiresLogin => true;
 
@@ -20,7 +20,7 @@ namespace UI
 
         public bool HideForRemote => false;
 
-        public string MenuText => "[F5] Switch between local/remote";
+        public string MenuText => "[Tab] Switch between local/remote";
 
         public DFtpResult Go()
         {

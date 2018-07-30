@@ -15,12 +15,18 @@ namespace UI
         public List<IDFtpUI> Actions { get; private set; } = new List<IDFtpUI>
         {
             new ContextSwitchUI(),
+            new ChangeDirectoryDownUI(),
+            new ChangeDirectoryUpUI(),
             new CreateDirectoryRemoteUI(),
             new PutFileUI(),
             new SearchFileRemoteUI(),
             new DeleteFileRemoteUI(),
             new SelectRemoteUI(),
+<<<<<<< HEAD
             new GetFileFromRemoteServerUI()
+=======
+            new SelectLocalUI(),
+>>>>>>> 86a669fe1eb66e3678da4e6523a3d9de2398a0c7
         };
 
         public Browser()
@@ -108,10 +114,7 @@ namespace UI
             if (Client.state == ClientState.VIEWING_LOCAL)
             {
                 ConsoleUI.WriteLine("Listing for: " + Client.localDirectory, Color.Gold);
-                ConsoleUI.WriteLine("Unimplemented...", Color.White);
-                return;
-                //action = new GetListingLocalAction(Client.ftpClient, Client.localDirectory);
-                //result = action.Run();
+                action = new GetListingLocalAction(Client.localDirectory);
             }
             else if (Client.state == ClientState.VIEWING_REMOTE)
             {

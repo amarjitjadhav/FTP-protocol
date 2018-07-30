@@ -40,7 +40,8 @@ class Program
         Client.remoteDirectory = "/";
         Client.remoteSelection = null;
         Client.localSelection = null;
-
+        Client.idleTime = 0;
+        Time.Update();
         Console.WriteLine("Connected!");
 
         return;
@@ -96,9 +97,6 @@ class Program
                 }
             }
             
-
-            Client.idleTime = 0;
-
             if (input.Key == ConsoleKey.Escape)
             {
                 // Exit program.
@@ -155,15 +153,19 @@ class Program
                     // Cool, we did the action.
                     // ConsoleUI.WriteLine("Action completed successfully", Color.Gold); //comment out for now
                 }
+
+                // Reset idle time since we carried out an action.
+                Client.idleTime = 0;
+
             }
-            
+
 
 
             ConsoleUI.Render();
 
             ConsoleUI.ClearBuffers();
             ConsoleUI.ResetKeyPress();
-            //Time.Update();
+            Time.Update();
           
         } 
     }
