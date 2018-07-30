@@ -20,6 +20,7 @@ namespace UI
             new SearchFileRemoteUI(),
             new DeleteFileRemoteUI(),
             new SelectRemoteUI(),
+            new GetFileFromRemoteServerUI()
         };
 
         public Browser()

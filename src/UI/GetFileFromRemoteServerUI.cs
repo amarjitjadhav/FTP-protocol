@@ -9,13 +9,13 @@ namespace UI
 {
     public class GetFileFromRemoteServerUI : IDFtpUI
     {
-        public ConsoleKey Key => ConsoleKey.R;
+        public ConsoleKey Key => ConsoleKey.G;
 
         public bool RequiresLogin => true;
 
-        public bool RequiresFile => true;
+        public bool RequiresFile => false;
 
-        public bool HideForDirectory => true;
+        public bool HideForDirectory => false;
 
         public bool HideForFile => false;
 
@@ -23,7 +23,7 @@ namespace UI
 
         public bool HideForRemote => false;
 
-        public string MenuText => "Get File From (R)emote Server";
+        public string MenuText => "(G)et File From Remote Server";
 
 
         public DFtpResult Go()
