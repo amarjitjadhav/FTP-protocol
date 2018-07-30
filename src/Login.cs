@@ -11,12 +11,12 @@ namespace DumbFTP
     public class Login
     {
       
-        public static bool TryConnect()
+        public static bool TryConnect(String lastAttemptMessage = "")
         {
             ConnectionInformation connInfo = new ConnectionInformation("", "");
             
             // Get input from user?
-            bool newConnection = IOHelper.AskBool("Welcome to the DumbFTP Client", "New connection", "Load saved connection");
+            bool newConnection = IOHelper.AskBool("Welcome to the DumbFTP Client " + lastAttemptMessage, "New connection", "Load saved connection");
 
             if (newConnection)
             {
@@ -33,6 +33,11 @@ namespace DumbFTP
             }
             else
             {
+                List<ConnectionInformation> savedConnections = ConnectionInformation.GetAllSavedConnections();
+                if (savedConnections == null || savedConnections.Count == 0)
+                {
+                    return TryConnect("[No saved connections]");
+                }
                 connInfo = IOHelper.Select<ConnectionInformation>("Which connection would you like?", ConnectionInformation.GetAllSavedConnections().ToArray());
             }
             
