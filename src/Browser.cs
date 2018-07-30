@@ -22,6 +22,7 @@ namespace UI
             new SearchFileRemoteUI(),
             new DeleteFileRemoteUI(),
             new SelectRemoteUI(),
+            new SelectLocalUI(),
         };
 
         public Browser()
@@ -109,10 +110,7 @@ namespace UI
             if (Client.state == ClientState.VIEWING_LOCAL)
             {
                 ConsoleUI.WriteLine("Listing for: " + Client.localDirectory, Color.Gold);
-                ConsoleUI.WriteLine("Unimplemented...", Color.White);
-                return;
-                //action = new GetListingLocalAction(Client.ftpClient, Client.localDirectory);
-                //result = action.Run();
+                action = new GetListingLocalAction(Client.localDirectory);
             }
             else if (Client.state == ClientState.VIEWING_REMOTE)
             {
