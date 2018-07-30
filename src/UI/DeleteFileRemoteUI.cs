@@ -19,7 +19,7 @@ namespace UI
 
         public bool HideForFile => false;
 
-        public bool HideForLocal => false;
+        public bool HideForLocal => true;
 
         public bool HideForRemote => false;
 
