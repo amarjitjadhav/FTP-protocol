@@ -36,7 +36,7 @@ class Program
             }
         }
 
-        Client.localDirectory = Directory.GetCurrentDirectory();
+        Client.localDirectory = Path.GetTempPath();
         Client.remoteDirectory = "/";
         Client.remoteSelection = null;
         Client.localSelection = null;
