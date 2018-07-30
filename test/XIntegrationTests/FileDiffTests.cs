@@ -32,7 +32,7 @@ namespace XIntegrationTests
         {
             String filepath = Path.GetTempFileName();
             String localDirectory = Path.GetDirectoryName(filepath);
-            DFtpFile localSelection = new DFtpFile(filepath);
+            DFtpFile localSelection = new DFtpFile(filepath, FtpFileSystemObjectType.File);
 
 
             DFtpAction action = new PutFileAction(client, localDirectory, localSelection, remoteDirectory);
@@ -73,8 +73,8 @@ namespace XIntegrationTests
             client.DownloadFile(file.GetName(), file.GetName());
 
             // Compare the local selection with the remote selection.
-            Client.localSelection = new DFtpFile(file.GetName());
-            Client.remoteSelection = new DFtpFile(file.GetName());
+            Client.localSelection = new DFtpFile(file.GetName(), FtpFileSystemObjectType.File);
+            Client.remoteSelection = new DFtpFile(file.GetName(), FtpFileSystemObjectType.File);
 
             
             // Same files should not be different.
