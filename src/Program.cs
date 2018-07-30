@@ -40,7 +40,8 @@ class Program
         Client.remoteDirectory = "/";
         Client.remoteSelection = null;
         Client.localSelection = null;
-
+        Client.idleTime = 0;
+        Time.Update();
         Console.WriteLine("Connected!");
 
         return;
@@ -164,7 +165,7 @@ class Program
 
             ConsoleUI.ClearBuffers();
             ConsoleUI.ResetKeyPress();
-            //Time.Update();
+            Time.Update();
           
         } 
     }
