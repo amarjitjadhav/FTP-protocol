@@ -11,3 +11,5 @@ packages/
 *.coverage
 /TestResults
 *.txt
+src/Actions/GetFileAction.cs
+src/UI/GetFileUI.cs

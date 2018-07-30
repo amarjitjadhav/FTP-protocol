@@ -20,8 +20,8 @@ namespace Actions
             if (Directory.Exists(localDirectory))
             {
                 List<DFtpFile> dFtpLocalListing = new List<DFtpFile>();
-                PopulateLocalList(Directory.GetFiles(localDirectory),ref dFtpLocalListing);
-                PopulateLocalList(Directory.GetDirectories(localDirectory), ref dFtpLocalListing);
+                PopulateLocalList(Directory.GetFiles(localDirectory),ref dFtpLocalListing, true);
+                PopulateLocalList(Directory.GetDirectories(localDirectory), ref dFtpLocalListing, false);
                 return new DFtpListResult(DFtpResultType.Ok, "Got listing for " + localDirectory, dFtpLocalListing);
             }
             else
@@ -30,11 +30,21 @@ namespace Actions
             }
         }
 
-        private void PopulateLocalList(String[] result, ref List<DFtpFile> list)
+        private void PopulateLocalList(String[] result, ref List<DFtpFile> list, bool flag)
         {
-            foreach (String item in result)
+            if(flag == true)
             {
-                list.Add(new DFtpFile((localDirectory + item)));
+                foreach (String item in result)
+                {
+                    list.Add(new DFtpFile((localDirectory + item), FtpFileSystemObjectType.File));
+                }
+            }
+            else
+            {
+                foreach (String item in result)
+                {
+                    list.Add(new DFtpFile((localDirectory + item), FtpFileSystemObjectType.Directory));
+                }
             }
         }
     }

@@ -30,7 +30,7 @@ namespace XIntegrationTests
         {
             String filepath = Path.GetTempFileName();
             String localDirectory = Path.GetDirectoryName(filepath);
-            DFtpFile localSelection = new DFtpFile(filepath);
+            DFtpFile localSelection = new DFtpFile(filepath, FtpFileSystemObjectType.File);
 
 
             DFtpAction action = new PutFileAction(client, localDirectory, localSelection, remoteDirectory);
@@ -77,7 +77,6 @@ namespace XIntegrationTests
             Assert.False(SearchForFileOnServer(client, newFile.GetName()));
             return;
         }
-        
         [Fact]
         public void SearchFileNotExists()
         {
