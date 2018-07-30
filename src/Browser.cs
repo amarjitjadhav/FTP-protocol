@@ -15,6 +15,8 @@ namespace UI
         public List<IDFtpUI> Actions { get; private set; } = new List<IDFtpUI>
         {
             new ContextSwitchUI(),
+            new ChangeDirectoryDownRemoteUI(),
+            new ChangeDirectoryUpRemoteUI(),
             new CreateDirectoryRemoteUI(),
             new PutFileUI(),
             new SearchFileRemoteUI(),

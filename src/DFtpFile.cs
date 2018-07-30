@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-public enum DFtpFileType { Local, Remote };
-
 public class DFtpFile
 {
     protected String fullPath;
@@ -16,7 +14,7 @@ public class DFtpFile
     protected FtpFileSystemObjectType fileType;
 
     protected String permissions;
-    protected DFtpFileType localOrRemote = DFtpFileType.Local; 
+    protected bool remote; 
 
     public DFtpFile(String fullPath, String displayName = null, String modifiedDate = "", long size = 0)
     {
@@ -25,25 +23,36 @@ public class DFtpFile
         this.modifiedDate = modifiedDate;
         this.size = size;
         this.permissions = null;
+        this.remote = false;
     }
+
+
 
     public DFtpFile(FtpListItem file)
         : this(file.FullName, file.Name, file.Modified.ToString(), file.Size)
     {
         fileType = file.Type;
         permissions = file.RawPermissions;
-        localOrRemote = DFtpFileType.Remote;
+        remote = true;
     }
 
-    public String GetDirectory()
+    /// <summary>
+    /// Returns the full path of the parent directory of this file/directory.
+    /// </summary>
+    /// <returns>String representing the full path of the contining </returns>
+    public String GetParentDirectory()
     {
-        if (localOrRemote == DFtpFileType.Remote)
-            return Path.GetDirectoryName(fullPath);
-        else
-            return Path.GetDirectoryName(fullPath);
+        String dir = Path.GetDirectoryName(fullPath);
+        if (remote)
+            dir.Replace(@"\", "/");
+        return dir;
     }
 
-    public String GetFullPath() => fullPath;
+    public String GetFullPath() {
+        if (remote)
+            return fullPath.Replace(@"\", "/");
+        return fullPath;
+    }
 
     public String GetName()
     {
