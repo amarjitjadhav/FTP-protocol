@@ -16,13 +16,13 @@ class Program
     private static int width;
     private static int height;
 
-    public static void LoginLoop(bool fromIdle)
+    public static void LoginLoop(bool fromIdleOrLogoff)
     {
         Console.Clear();
 
-        if (fromIdle)
+        if (fromIdleOrLogoff)
         {
-            Console.WriteLine("You were timed out for being idle too long");
+            Console.WriteLine("You were logged off.");
         }
 
         Client.ftpClient = null;
@@ -61,6 +61,7 @@ class Program
         ConsoleUI.ClearBuffers();
 
         bool running = true;
+
         while (running)
         {
             Client.idleTime += Time.deltaMs;
@@ -88,9 +89,9 @@ class Program
 
                 input = ConsoleUI.ReadKey();
                 ConsoleUI.Render();
-                if (Time.MillisecondsToSeconds(Client.idleTime) >= allowedIdleTime)
+                if (Time.MillisecondsToSeconds(Client.idleTime) >= allowedIdleTime || Client.ftpClient == null)
                 {
-                    // Exit program.
+                    // Login screen.
                     LoginLoop(true);
                     break;
                 }

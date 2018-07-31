@@ -18,6 +18,7 @@ public class Client
     public static DFtpFile localSelection = null;
     public static String remoteDirectory = null;
     public static DFtpFile remoteSelection = null;
+
     public static FtpClient ftpClient = null;
 
     public static int windowWidth;

@@ -31,9 +31,9 @@ namespace Actions
                     return new DFtpResult(DFtpResultType.Error, "Directory does not exist");
                 }
             }
-            catch(UnauthorizedAccessException e)
+            catch(UnauthorizedAccessException ex)
             {
-                return new DFtpResult(DFtpResultType.Error, "You do not have permission to access this directory.");
+                return new DFtpResult(DFtpResultType.Error, "You do not have permission to access this directory. "+ ex.Message);
             }
         }
 
