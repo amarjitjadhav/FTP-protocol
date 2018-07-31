@@ -65,6 +65,11 @@ public class DFtpFile
         return separatedName[separatedName.Length - 1];
     }
 
+    public void SetName(String name)
+    {
+        this.displayName = name;
+    }
+
     public String GetDate() => modifiedDate;
 
     public long GetSize() => size;

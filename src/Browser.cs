@@ -25,6 +25,8 @@ namespace UI
             new GetFileFromRemoteServerUI(),
             new SelectLocalUI(),
             new LogOffRemoteServerUI(),
+            new RenameFileRemoteActionUI(),
+            new RenameFileLocalActionUI(),
        };
 
         public Browser()
