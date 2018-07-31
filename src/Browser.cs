@@ -19,6 +19,8 @@ namespace UI
             //new GetRemoteListingUI(),
             new DeleteFileRemoteUI(),
             new SelectRemoteUI(),
+            new RenameFileLocalActionUI(),
+            new RenameFileRemoteActionUI()
         };
 
         public Browser()
