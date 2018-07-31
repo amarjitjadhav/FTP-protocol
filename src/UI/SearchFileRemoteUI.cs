@@ -8,7 +8,7 @@ namespace UI
 {
     public class SearchFileRemoteUI : IDFtpUI
     {
-        public ConsoleKey Key => ConsoleKey.S;
+        public ConsoleKey Key => ConsoleKey.E;
 
         public bool RequiresLogin => true;
 
@@ -22,7 +22,7 @@ namespace UI
 
         public bool HideForRemote => false;
 
-        public string MenuText => "(S)earch file remote";
+        public string MenuText => "S(e)arch file remote";
 
         public DFtpResult Go()
         {
