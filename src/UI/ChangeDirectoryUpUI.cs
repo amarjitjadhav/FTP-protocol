@@ -37,13 +37,14 @@ namespace UI
                 if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     String[] separated = Client.localDirectory.Split(@"\");
+                    parent = parent + separated[0];
+                    if(separated.Length == 1)
+                    {
+                        parent = parent + @"\";
+                    }
                     for (int i = 1; i < separated.Length - 1; ++i)
                     {
                         parent = parent + @"\" + separated[i];
-                    }
-                    if (parent == "")
-                    {
-                        parent = @"\";
                     }
                     Client.localSelection = null;
                     Client.localDirectory = parent;
