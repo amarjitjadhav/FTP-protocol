@@ -11,6 +11,9 @@ using System.Linq;
 
 namespace UI
 {
+    /// <summary>
+    /// This UI command descends into a directory, changing the current directory and removing selection.
+    /// </summary>
     public class ChangeDirectoryDownUI : IDFtpUI
     {
         public ConsoleKey Key => ConsoleKey.Enter;
@@ -29,6 +32,10 @@ namespace UI
 
         public string MenuText => "[Enter] = Change directory";
 
+        /// <summary>
+        /// Displays a list of possible directories to enter, then changes the client to the selected directory.
+        /// </summary>
+        /// <returns>Returns a DFtpResult indicating success or failure.</returns>
         public DFtpResult Go()
         {
             // Get listing for current directory

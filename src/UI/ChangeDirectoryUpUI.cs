@@ -11,6 +11,9 @@ using System.Linq;
 
 namespace UI
 {
+    /// <summary>
+    /// This UI command ascends into the parent directory, changing the current directory and removing selection.
+    /// </summary>
     public class ChangeDirectoryUpUI : IDFtpUI
     {
         public ConsoleKey Key => ConsoleKey.Backspace;
@@ -29,6 +32,11 @@ namespace UI
 
         public string MenuText => "[Backspace] = Go to parent directory";
 
+        /// <summary>
+        /// If the current directory has a parent directory, changes the current directory to that one.
+        /// Removes any currently selected file/dir.
+        /// </summary>
+        /// <returns>Returns a DFtpResult indicating success or failure.</returns>
         public DFtpResult Go()
         {
             String parent = "";
