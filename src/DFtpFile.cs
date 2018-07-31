@@ -77,7 +77,8 @@ public class DFtpFile : IComparable
     }
     public override String ToString()
     {
-        return GetName();
+        return Get_Type() + " : " + GetName();
+        //return GetName();
     }
 
     public int CompareTo(DFtpFile other)
