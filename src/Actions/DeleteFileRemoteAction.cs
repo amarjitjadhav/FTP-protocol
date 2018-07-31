@@ -28,7 +28,7 @@ namespace Actions
         /// <returns>DftpResultType.Ok, if the file was removed.</returns>
         public override DFtpResult Run()
         {
-            String target = remoteDirectory + remoteSelection.GetName();
+            String target = remoteDirectory + "/" + remoteSelection.GetName();
             
             try
             { 

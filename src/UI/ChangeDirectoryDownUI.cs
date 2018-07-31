@@ -86,7 +86,14 @@ namespace UI
                         Client.localSelection = null;
                         if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                         {
-                            Client.localDirectory = Client.localDirectory + @"\" + selection;
+                            if (Client.localDirectory.EndsWith("\\"))
+                            {
+                                Client.localDirectory = Client.localDirectory + selection.GetName();
+                            }
+                            else
+                            {
+                                Client.localDirectory = Client.localDirectory + @"\" + selection.GetName();
+                            }
                         }
                         else
                         {

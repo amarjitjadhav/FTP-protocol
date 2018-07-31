@@ -49,12 +49,12 @@ namespace UI
             String localSelectionText = "";
             if (Client.localSelection != null)
             { 
-                localSelectionText = Client.localSelection.Get_Type() + Client.localSelection.ToString();
+                localSelectionText = Client.localSelection.GetName();
             }
             String remoteSelectionText = "";
             if (Client.remoteSelection != null)
             { 
-                remoteSelectionText = Client.localSelection.Get_Type() + Client.remoteSelection.ToString();
+                remoteSelectionText = Client.remoteSelection.GetName();
 
             }
 
@@ -128,7 +128,15 @@ namespace UI
                 DFtpListResult listResult = (DFtpListResult)result;
                 foreach (DFtpFile file in listResult.Files)
                 {
-                    ConsoleUI.WriteLine((file.Get_Type() + " : " + file.ToString()), Color.Green);
+                    if(file.Type() == FtpFileSystemObjectType.File)
+                    {
+                        ConsoleUI.WriteLine((file.ToString()), Color.Green);
+                    }
+                    else if(file.Type() == FtpFileSystemObjectType.Directory)
+                    {
+                        ConsoleUI.WriteLine((file.ToString()), Color.Orange);
+                    }
+                
                 }
             }
         }

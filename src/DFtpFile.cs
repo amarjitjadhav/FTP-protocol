@@ -77,6 +77,7 @@ public class DFtpFile
     }
     public override String ToString()
     {
-        return GetName();
+        return Get_Type() + " : " + GetName();
+        //return GetName();
     }
 }
