@@ -40,7 +40,6 @@ namespace UI
             }
             Console.WriteLine();
 
-            ConsoleUI.WaitForAnyKey();
             return;
         }
 

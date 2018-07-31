@@ -11,7 +11,7 @@ namespace UI
 {
     public class SelectRemoteUI : IDFtpUI
     {
-        public ConsoleKey Key => ConsoleKey.E;
+        public ConsoleKey Key => ConsoleKey.S;
 
         public bool RequiresLogin => true;
 
@@ -25,7 +25,7 @@ namespace UI
 
         public bool HideForRemote => false;
 
-        public string MenuText => "S(e)lect file/directory";
+        public string MenuText => "(S)elect file/directory";
 
         public DFtpResult Go()
         {

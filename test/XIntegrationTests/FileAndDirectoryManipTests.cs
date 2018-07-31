@@ -37,7 +37,7 @@ namespace XIntegrationTests
 
 
             // Create directory
-            DFtpAction action = new CreateDirectoryRemoteAction(client, "/" + directoryName);
+            DFtpAction action = new CreateDirectoryRemoteAction(client, directoryName);
             DFtpResult result = action.Run();
 
             // Check for error
