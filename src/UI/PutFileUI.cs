@@ -6,6 +6,9 @@ using Actions;
 
 namespace UI
 {
+    /// <summary>
+    /// The user interaction class for attempting to upload a file to the remote server.
+    /// </summary>
     public class PutFileUI : IDFtpUI
     {
         public ConsoleKey Key => ConsoleKey.U;
@@ -25,25 +28,17 @@ namespace UI
         public string MenuText => "(U)pload File";
 
 
+        /// <summary>
+        /// Attemps to upload a file from the client context to the remote server.
+        /// </summary>
+        /// <returns>A DftpResult object containing an OK or ERROR with a message of the 
+        /// resulting operation.</returns>
         public DFtpResult Go()
         {
-            // Create a temp file for upload and get its path
-            //String file = Path.GetTempFileName();
-
-            // Local directory from which the file will be uploaded (maybe not needed)
-            //String localDirectory = Path.GetDirectoryName(file);
-
-            // Local file selected for upload
-            //DFtpFile localSelection = new DFtpFile(file);
-
-            // Create the action
-            // Initialize it with the info we've collected
+            // Create the action. Initialize it with the info we've collected
             DFtpAction action = new PutFileAction(Client.ftpClient, Client.localDirectory, Client.localSelection, Client.remoteDirectory);
 
-            // Carry out the action and get the result
-            //DFtpResult result = ;
-            //if (result.Type() == DFtpResult.Result.Ok)
-            //    Console.WriteLine("Upload result: Ok");
+            // Return the result after running.
             return action.Run();
         }
     }

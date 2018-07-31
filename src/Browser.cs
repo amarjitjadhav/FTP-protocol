@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Actions;
 using FluentFTP;
 using IO;
 
@@ -14,14 +15,17 @@ namespace UI
         public List<IDFtpUI> Actions { get; private set; } = new List<IDFtpUI>
         {
             new ContextSwitchUI(),
+            new ChangeDirectoryDownUI(),
+            new ChangeDirectoryUpUI(),
+            new CreateDirectoryRemoteUI(),
             new PutFileUI(),
             new SearchFileRemoteUI(),
-            //new GetRemoteListingUI(),
             new DeleteFileRemoteUI(),
             new SelectRemoteUI(),
-            new RenameFileLocalActionUI(),
-            new RenameFileRemoteActionUI()
-        };
+            new GetFileFromRemoteServerUI(),
+            new SelectLocalUI(),
+            new LogOffRemoteServerUI(),
+       };
 
         public Browser()
         {
@@ -44,14 +48,22 @@ namespace UI
         {
             String localSelectionText = "";
             if (Client.localSelection != null)
-                localSelectionText = Client.localSelection.ToString();
+            { 
+                localSelectionText = Client.localSelection.Get_Type() + Client.localSelection.ToString();
+            }
             String remoteSelectionText = "";
             if (Client.remoteSelection != null)
-                remoteSelectionText = Client.remoteSelection.ToString();
-            ConsoleUI.WriteLine("Client.localDirectory:  " + Client.localDirectory, Color.White);
-            ConsoleUI.WriteLine("Client.localDirectory:  " + localSelectionText, Color.White);
-            ConsoleUI.WriteLine("Client.remoteDirectory: " + Client.remoteDirectory, Color.White);
-            ConsoleUI.WriteLine("Client.remoteSelection: " + remoteSelectionText, Color.White);
+            { 
+                remoteSelectionText = Client.localSelection.Get_Type() + Client.remoteSelection.ToString();
+
+            }
+
+            ConsoleUI.WriteLine("Client info", Color.Gold);
+            ConsoleUI.WriteLine("Local working directory:  " + Client.localDirectory, Color.White, 2);
+            ConsoleUI.WriteLine("Local selected file/dir:  " + localSelectionText, Color.White, 2);
+            ConsoleUI.WriteLine("Remote working directory: " + Client.remoteDirectory, Color.White, 2);
+            ConsoleUI.WriteLine("Remote selected file/dir: " + remoteSelectionText, Color.White, 2);
+            return;
         }
 
         public void DrawActionsMenu()
@@ -64,7 +76,11 @@ namespace UI
                     // DO LOGIN.???
                     continue;
                 }
-                if (action.RequiresFile && ( Client.localSelection == null || Client.localSelection.Type() != FtpFileSystemObjectType.File) )
+                if (Client.state == ClientState.VIEWING_LOCAL && action.RequiresFile && ( Client.localSelection == null || Client.localSelection.Type() != FtpFileSystemObjectType.File) )
+                {
+                    continue;
+                }
+                if (Client.state == ClientState.VIEWING_REMOTE && action.RequiresFile && (Client.remoteSelection == null || Client.remoteSelection.Type() != FtpFileSystemObjectType.File))
                 {
                     continue;
                 }
@@ -84,10 +100,37 @@ namespace UI
                 {
                     continue;
                 }
-                ConsoleUI.WriteLine(action.MenuText, Color.Olive, 5);
+                ConsoleUI.WriteLine(action.MenuText, Color.Olive, 2);
             }
-            ConsoleUI.WriteLine("", Color.Olive);
             return;
+        }
+
+        public void DrawListing()
+        {
+            DFtpResult result = null;
+            DFtpAction action = null;
+            if (Client.state == ClientState.VIEWING_LOCAL)
+            {
+                ConsoleUI.WriteLine("Listing for: " + Client.localDirectory, Color.Gold);
+                action = new GetListingLocalAction(Client.localDirectory);
+            }
+            else if (Client.state == ClientState.VIEWING_REMOTE)
+            {
+                ConsoleUI.WriteLine("Listing for: " + Client.remoteDirectory, Color.Gold);
+                action = new GetListingRemoteAction(Client.ftpClient, Client.remoteDirectory);
+            }
+            result = action.Run();
+
+            History.Log(result.ToString());
+
+            if (result is DFtpListResult)
+            {
+                DFtpListResult listResult = (DFtpListResult)result;
+                foreach (DFtpFile file in listResult.Files)
+                {
+                    ConsoleUI.WriteLine((file.Get_Type() + " : " + file.ToString()), Color.Green);
+                }
+            }
         }
     }
 }

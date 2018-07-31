@@ -30,7 +30,7 @@ namespace XIntegrationTests
         {
             String filepath = Path.GetTempFileName();
             String localDirectory = Path.GetDirectoryName(filepath);
-            DFtpFile localSelection = new DFtpFile(filepath);
+            DFtpFile localSelection = new DFtpFile(filepath, FtpFileSystemObjectType.File);
 
 
             DFtpAction action = new PutFileAction(client, localDirectory, localSelection, remoteDirectory);
@@ -49,7 +49,15 @@ namespace XIntegrationTests
             DFtpResult result = action.Run();
             return;
         }
+        internal void GetFileFromRemoteServer(FtpClient ftpClient, String localDirectory, DFtpFile file, String remoteDirectory = "/")
+        {
+            DFtpFile remoteSelection = file;
 
+            DFtpAction action = new GetFileFromRemoteServer(ftpClient, localDirectory, remoteDirectory, remoteSelection);
+
+            DFtpResult result = action.Run();
+            return;
+        }
         internal bool SearchForFileOnServer(FtpClient ftpClient, String pattern)
         {
             DFtpAction action = new SearchFileRemoteAction(ftpClient, pattern, "/");
@@ -60,7 +68,7 @@ namespace XIntegrationTests
         }
 
         [Fact]
-        public void CreateAndUploadThenRemoveFileTest()
+        public void CreateAndPutFileOnServerSearchThenRemoveTest()
         {
             EstablishConnection();
 
@@ -77,7 +85,6 @@ namespace XIntegrationTests
             Assert.False(SearchForFileOnServer(client, newFile.GetName()));
             return;
         }
-        
         [Fact]
         public void SearchFileNotExists()
         {
@@ -158,6 +165,5 @@ namespace XIntegrationTests
 
             Assert.True(result.Type == DFtpResultType.Error);
         }
-
     }
 }

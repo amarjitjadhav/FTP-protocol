@@ -9,9 +9,9 @@ using IO;
 
 namespace UI
 {
-    public class SelectRemoteUI : IDFtpUI
+    public class SelectLocalUI : IDFtpUI
     {
-        public ConsoleKey Key => ConsoleKey.E;
+        public ConsoleKey Key => ConsoleKey.S;
 
         public bool RequiresLogin => true;
 
@@ -21,30 +21,27 @@ namespace UI
 
         public bool HideForFile => false;
 
-        public bool HideForLocal => true;
+        public bool HideForLocal => false;
 
-        public bool HideForRemote => false;
+        public bool HideForRemote => true;
 
-        public string MenuText => "S(e)lect file/directory";
+        public string MenuText => "(S)elect local file/directory";
 
         public DFtpResult Go()
         {
             // Get listing for remote directory
-            DFtpAction getListingAction = new GetListingRemoteAction(Client.ftpClient, Client.remoteDirectory);
+            DFtpAction getListingAction = new GetListingLocalAction(Client.localDirectory);
             DFtpResult tempResult = getListingAction.Run();
             DFtpListResult listResult = null;
             if (tempResult is DFtpListResult)
             {
                 listResult = (DFtpListResult)tempResult;
-
-                // Choose from files
-                DFtpFile selected = IOHelper.Select<DFtpFile>("Choose a remote file to select.", listResult.Files);
-
+                DFtpFile selected = IOHelper.Select<DFtpFile>("Choose a local file to select.", listResult.Files);
                 // If something has been selected, update the remote selection
                 if (selected != null)
                 {
-                    Client.remoteSelection = selected;
-                    return new DFtpResult(DFtpResultType.Ok, "Selected file/dir '" + Client.remoteSelection + "'.");
+                    Client.localSelection = selected;
+                    return new DFtpResult(DFtpResultType.Ok, "Selected file/dir '" + Client.localSelection + "'.");
                 }
             }
             return tempResult;

@@ -6,9 +6,9 @@ using IO;
 
 namespace UI
 {
-    public class SearchFileRemoteUI : IDFtpUI
+    public class CreateDirectoryRemoteUI : IDFtpUI
     {
-        public ConsoleKey Key => ConsoleKey.S;
+        public ConsoleKey Key => ConsoleKey.C;
 
         public bool RequiresLogin => true;
 
@@ -22,19 +22,18 @@ namespace UI
 
         public bool HideForRemote => false;
 
-        public string MenuText => "(S)earch file remote";
+        public string MenuText => "(C)reate directory";
 
         public DFtpResult Go()
         {
-            String pattern = IOHelper.AskString("What pattern to search for?");
-            bool includeSubdirectories = IOHelper.AskBool("Include subdirectories?", "yes", "no");
+            String name = IOHelper.AskString("Enter new directory name.");
 
             // Create the action, Initialize it with the info we've collected
-            DFtpAction action = new SearchFileRemoteAction(Client.ftpClient, pattern, Client.remoteDirectory, includeSubdirectories);
+            DFtpAction action = new CreateDirectoryRemoteAction(Client.ftpClient, Client.remoteDirectory + "/" + name);
 
             // Carry out the action and get the result
             DFtpResult result = action.Run();
-            
+
             return result;
         }
     }

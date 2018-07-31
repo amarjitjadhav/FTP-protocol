@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 
 namespace IO
 {
@@ -10,6 +11,8 @@ namespace IO
     /// </summary>
     public static class IOHelper
     {
+        private static int pageKeyStepSize = 10;
+        
         /// <summary>
         /// Prompts the user to enter a string. An empty response is valid.
         /// </summary>
@@ -28,6 +31,23 @@ namespace IO
             String result = Console.ReadLine();
             ConsoleUI.CursorOff();
             return result;
+        }
+
+        /// <summary>
+        /// Displays a message to the user and prompts them to press enter to continue.
+        /// </summary>
+        /// <param name="display">Message to display.</param>
+        public static void Message(String display)
+        {
+            ConsoleUI.Initialize();
+            ConsoleUI.ClearBuffers();
+            int displayLength = display.Length;
+            int x = Console.WindowWidth / 2 - displayLength / 2;
+            int y = Console.WindowHeight / 2 + 1;
+            ConsoleUI.Write(x, y, display, Color.White);
+            ConsoleUI.Write(x, y - 2, "Press [enter] to continue.", Color.White);
+            ConsoleUI.Render();
+            Console.ReadLine();
         }
 
         /// <summary>
@@ -50,10 +70,15 @@ namespace IO
             {
                 ConsoleUI.ClearBuffers();
                 ConsoleUI.Write(x, y, question, Color.White);
-                ConsoleUI.Write(x, y - 2, trueText, selected ? Color.Gold.Invert() : Color.Gold);
-                ConsoleUI.Write(x + trueText.Length + 2, y - 2, falseText, selected ? Color.Gold : Color.Gold.Invert());
+                ConsoleUI.Write(x, y - 2, trueText, selected ? Color.Green.Invert() : Color.Green);
+                ConsoleUI.Write(x + trueText.Length + 2, y - 2, falseText, selected ? Color.Green : Color.Green.Invert());
                 ConsoleUI.Render();
-                input = Console.ReadKey();
+                while (Console.KeyAvailable == false)
+                { }
+                while (Console.KeyAvailable == true)
+                {
+                    input = Console.ReadKey(true);
+                }
                 if (selected)
                 {
                     if (input.Key == ConsoleKey.RightArrow)
@@ -113,6 +138,12 @@ namespace IO
             return result;
         }
 
+        /// <summary>
+        /// Loops through the array to find the longest item (string representation).
+        /// </summary>
+        /// <typeparam name="T">Type of item in list</typeparam>
+        /// <param name="list">List of items</param>
+        /// <returns>Returns an integer length</returns>
         private static int GetLengthOfLongestItem<T>(T[] list)
         {
             int longest = 0;
@@ -125,6 +156,26 @@ namespace IO
             return longest;
         }
 
+        /// <summary>
+        /// Shows the user a scrolling selection screen to choose from among items in a list.
+        /// </summary>
+        /// <typeparam name="T">Type of item in the list.</typeparam>
+        /// <param name="question">Text to display.</param>
+        /// <param name="list">List of items.</param>
+        /// <returns>Returns the item selected.</returns>
+        public static T Select<T>(String question, List<T> list)
+        {
+            T[] array = list.ToArray();
+            return Select<T>(question, array);
+        }
+
+        /// <summary>
+        /// Shows the user a scrilling selection screen to choose from among items in an array.
+        /// </summary>
+        /// <typeparam name="T">Type of item in the array.</typeparam>
+        /// <param name="question">Text to display.</param>
+        /// <param name="list">Array of items.</param>
+        /// <returns>Returns the item selected.</returns>
         public static T Select<T>(String question, T[] list)
         {
             int numberOfItems = list.Length;
@@ -139,15 +190,39 @@ namespace IO
             if (displayHeight > Console.WindowHeight - 1)
                 displayHeight = Console.WindowHeight - 1;
             int headerAndSpacingHeight = 2;
-            int viewHeight = displayHeight - headerAndSpacingHeight;
+
+            int viewHeight = displayHeight - headerAndSpacingHeight + 1;
+
             if (viewHeight < 1)
                 viewHeight = 1;
+            
 
             int x = Console.WindowWidth / 2 - displayWidth / 2;
             int y = Console.WindowHeight / 2 + displayHeight / 2;
 
             int selected = 0;
             int firstItemInView = 0;
+
+            void SelectUp()
+            {
+                if (selected > 0)
+                {
+                    --selected;
+                    if (selected == firstItemInView - 1)
+                        --firstItemInView;
+                }
+            }
+
+            void SelectDown()
+            {
+                if (selected < numberOfItems - 1)
+                {
+                    ++selected;
+                    if (selected == viewHeight + firstItemInView)
+                        ++firstItemInView;
+                }
+            }
+
             //ConsoleUI.Initialize();
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             do
@@ -159,42 +234,90 @@ namespace IO
                     if (i >= firstItemInView && i < firstItemInView + viewHeight)
                     {
                         int itemY = y - (i - firstItemInView) - headerAndSpacingHeight;
-                        ConsoleUI.Write(x, itemY, list[i].ToString(), selected == i ? Color.Gold.Invert() : Color.Gold);
+                        ConsoleUI.Write(x, itemY, list[i].ToString(), selected == i ? Color.Green.Invert() : Color.Green);
                     }
                 }
                 // IF there's nothing to select from print a message and return null
                 if (numberOfItems == 0)
-                { 
-                    ConsoleUI.Write(x, y - 2, "Nothing to select.", Color.Gold);
+                {
+                    ConsoleUI.Write(x, y - 2, "Nothing to select.", Color.Red);
                     ConsoleUI.Render();
                     Console.ReadLine();
                     return default(T);
                 }
-                // Debug
-                //ConsoleUI.Write(0, 1, "firstItemInView: " + firstItemInView, Color.White);
-                //ConsoleUI.Write(0, 1, "displayHeight: " + displayHeight, Color.White);
-                //ConsoleUI.Write(0, 1, "firstItemInView: " + firstItemInView, Color.White);
 
                 ConsoleUI.Render();
 
                 //Handle input
-                input = Console.ReadKey();
-                if (input.Key == ConsoleKey.DownArrow && selected < numberOfItems - 1)
+                while (Console.KeyAvailable == false)
+                { }
+                while (Console.KeyAvailable == true)
                 {
-                    ++selected;
-                    if (selected == viewHeight + firstItemInView)
-                        ++firstItemInView;
+                    input = Console.ReadKey(true);
                 }
-                else if (input.Key == ConsoleKey.UpArrow && selected > 0)
+
+                if (input.Key == ConsoleKey.DownArrow)
                 {
-                    --selected;
-                    if (selected == firstItemInView - 1)
-                        --firstItemInView;
+                    SelectDown();
                 }
+                else if (input.Key == ConsoleKey.PageDown)
+                {
+                    for (int i = 0; i < pageKeyStepSize; ++i)
+                    {
+                        SelectDown();
+                    }
+                }
+                else if (input.Key == ConsoleKey.UpArrow)
+                {
+                   SelectUp();
+                }
+                else if (input.Key == ConsoleKey.PageUp)
+                {
+                    for (int i = 0; i < pageKeyStepSize; ++i)
+                    {
+                        SelectUp();
+                    }
+                }
+                
+                
             } while (input.Key != ConsoleKey.Enter);
 
             return list[selected];
         }
 
+        /// <summary>
+        /// Wraps a string into a list of strings of the specified width.
+        /// Code based on post found in this thread:
+        /// https://social.msdn.microsoft.com/Forums/en-US/e549e7a7-bcd9-4f18-b797-4590180855c2/wrap-the-text-with-fixed-size-length-of-30-using-c?forum=csharpgeneral
+        /// </summary>
+        /// <param name="line">String to wrap.</param>
+        /// <param name="width">Width at which to wrap.</param>
+        /// <returns></returns>
+        public static List<String> WordWrap(String line, int width)
+        {
+            List<String> sentence = new List<String>();
+            int index = 0;
+            String result = "";
+            foreach (char c in line)
+            {
+                //if smaller than width, add the the result
+                if (index <= width)
+                {
+                    //increase char index
+                    index++;
+                    result += c;
+                }
+                if (index == width - 4)
+                {
+                    //if index hits the chars within width, add to list and clear result and index
+                    sentence.Add(result);
+                    result = "";
+                    index = 0;
+                }
+            }
+            //add the last remaing characters 
+            sentence.Add(result);
+            return sentence;
+        }
     }
 }
