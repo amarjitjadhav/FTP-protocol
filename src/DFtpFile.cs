@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-public class DFtpFile
+public class DFtpFile : IComparable
 {
     protected String fullPath;
     protected String displayName;
@@ -79,4 +79,29 @@ public class DFtpFile
     {
         return GetName();
     }
+
+    public int CompareTo(DFtpFile other)
+    {
+        if (this.Type() == FtpFileSystemObjectType.Directory && other.Type() == FtpFileSystemObjectType.File)
+        {
+            return -1;
+        }
+        else if (this.Type() == FtpFileSystemObjectType.File && other.Type() == FtpFileSystemObjectType.Directory)
+        {
+            return 1;
+        }
+        else
+        {
+            return String.Compare(this.GetName(), other.GetName());
+        }
+    }
+
+    public int CompareTo(object obj)
+    {
+        if (obj is DFtpFile)
+            return this.CompareTo((DFtpFile)obj);
+        else
+            throw new Exception();
+    }
+
 }

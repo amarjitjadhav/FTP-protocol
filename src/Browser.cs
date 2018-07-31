@@ -55,7 +55,6 @@ namespace UI
             if (Client.remoteSelection != null)
             { 
                 remoteSelectionText = Client.localSelection.Get_Type() + Client.remoteSelection.ToString();
-
             }
 
             ConsoleUI.WriteLine("Client info", Color.Gold);

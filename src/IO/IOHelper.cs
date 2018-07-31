@@ -156,6 +156,12 @@ namespace IO
             return longest;
         }
 
+        public static T SelectSorted<T>(String question, List<T> list) where T : IComparable
+        {
+            list.Sort();
+            return Select<T>(question, list);
+        }
+
         /// <summary>
         /// Shows the user a scrolling selection screen to choose from among items in a list.
         /// </summary>
@@ -163,7 +169,7 @@ namespace IO
         /// <param name="question">Text to display.</param>
         /// <param name="list">List of items.</param>
         /// <returns>Returns the item selected.</returns>
-        public static T Select<T>(String question, List<T> list)
+        public static T Select<T>(String question, List<T> list) where T : IComparable
         {
             T[] array = list.ToArray();
             return Select<T>(question, array);
@@ -176,7 +182,7 @@ namespace IO
         /// <param name="question">Text to display.</param>
         /// <param name="list">Array of items.</param>
         /// <returns>Returns the item selected.</returns>
-        public static T Select<T>(String question, T[] list)
+        public static T Select<T>(String question, T[] list) where T : IComparable
         {
             int numberOfItems = list.Length;
             

@@ -38,7 +38,7 @@ namespace UI
                 listResult = (DFtpListResult)tempResult;
 
                 // Choose from files
-                DFtpFile selected = IOHelper.Select<DFtpFile>("Choose a remote file to select.", listResult.Files);
+                DFtpFile selected = IOHelper.SelectSorted<DFtpFile>("Choose a remote file to select.", listResult.Files);
 
                 // If something has been selected, update the remote selection
                 if (selected != null)

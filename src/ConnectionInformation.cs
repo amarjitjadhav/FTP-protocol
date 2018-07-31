@@ -9,7 +9,7 @@ namespace DumbFTP
     /// <summary>
     /// Class that holds information about a particular connection.
     /// </summary>
-    public class ConnectionInformation
+    public class ConnectionInformation : IComparable
     {
         public String Username { get; private set; } = "";
         
@@ -146,6 +146,27 @@ namespace DumbFTP
         public override string ToString()
         {
             return "User: " + this.Username + "  Server: " + this.ServerAddress;
+        }
+
+        public int CompareTo(ConnectionInformation other)
+        {
+            int temp = String.Compare(this.ServerAddress, other.ServerAddress);
+            if (temp == 0)
+            {
+                return String.Compare(this.Username, other.Username);
+            }
+            else
+            {
+                return temp;
+            }
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is ConnectionInformation)
+                return this.CompareTo((ConnectionInformation)obj);
+            else
+                throw new Exception();
         }
     }
 }
