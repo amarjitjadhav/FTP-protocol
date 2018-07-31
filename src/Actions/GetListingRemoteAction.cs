@@ -34,6 +34,7 @@ namespace Actions
             {
                 list.Add(new DFtpFile(item));
             }
+            list.Sort();
         }
     }
 }
