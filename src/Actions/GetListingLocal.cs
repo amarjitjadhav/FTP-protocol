@@ -17,16 +17,23 @@ namespace Actions
 
         public override DFtpResult Run()
         {
-            if (Directory.Exists(localDirectory))
+            try
             {
-                List<DFtpFile> dFtpLocalListing = new List<DFtpFile>();
-                PopulateLocalList(Directory.GetFiles(localDirectory),ref dFtpLocalListing, true);
-                PopulateLocalList(Directory.GetDirectories(localDirectory), ref dFtpLocalListing, false);
-                return new DFtpListResult(DFtpResultType.Ok, "Got listing for " + localDirectory, dFtpLocalListing);
+                if (Directory.Exists(localDirectory))
+                {
+                    List<DFtpFile> dFtpLocalListing = new List<DFtpFile>();
+                    PopulateLocalList(Directory.GetFiles(localDirectory), ref dFtpLocalListing, true);
+                    PopulateLocalList(Directory.GetDirectories(localDirectory), ref dFtpLocalListing, false);
+                    return new DFtpListResult(DFtpResultType.Ok, "Got listing for " + localDirectory, dFtpLocalListing);
+                }
+                else
+                {
+                    return new DFtpResult(DFtpResultType.Error, "Directory does not exist");
+                }
             }
-            else
+            catch(UnauthorizedAccessException e)
             {
-                return new DFtpResult(DFtpResultType.Error, "Directory does not exist");
+                return new DFtpResult(DFtpResultType.Error, "You do not have permission to access this directory.");
             }
         }
 

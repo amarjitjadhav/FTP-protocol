@@ -71,6 +71,10 @@ public class DFtpFile
 
     public FtpFileSystemObjectType Type() => fileType;
 
+    public string Get_Type()
+    {
+        return fileType.ToString();
+    }
     public override String ToString()
     {
         return GetName();
