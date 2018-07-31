@@ -73,6 +73,6 @@ public class DFtpFile
 
     public override String ToString()
     {
-        return this.fileType + " : " + GetName();
+        return GetName();
     }
 }

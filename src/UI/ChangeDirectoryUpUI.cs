@@ -38,13 +38,34 @@ namespace UI
                 {
                     String[] separated = Client.localDirectory.Split(@"\");
                     parent = parent + separated[0];
-                    if(separated.Length == 1)
-                    {
-                        parent = parent + @"\";
+                    if(separated[separated.Length - 1] == "") {
+                    
+                        if(separated.Length <= 2)
+                        {
+                            parent = parent + @"\";
+                        }
+                        else
+                        {
+                            for (int i = 1; i < separated.Length - 2; ++i)
+                            {
+                                parent = parent + @"\" + separated[i];
+                            }
+                        }
+
                     }
-                    for (int i = 1; i < separated.Length - 1; ++i)
+                    else
                     {
-                        parent = parent + @"\" + separated[i];
+                        if (separated.Length <= 2)
+                        {
+                            parent = parent + @"\";
+                        }
+                        else
+                        {
+                            for (int i = 1; i < separated.Length - 1; ++i)
+                            {
+                                parent = parent + @"\" + separated[i];
+                            }
+                        }
                     }
                     Client.localSelection = null;
                     Client.localDirectory = parent;

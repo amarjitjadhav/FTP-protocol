@@ -36,7 +36,7 @@ namespace Actions
             {
                 foreach (String item in result)
                 {
-                    list.Add(new DFtpFile((localDirectory + item), FtpFileSystemObjectType.File));
+                    list.Add(new DFtpFile((item), FtpFileSystemObjectType.File));
                 }
             }
             else
