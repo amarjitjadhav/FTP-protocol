@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+
 using FluentFTP;
 
 namespace Actions
@@ -41,7 +43,8 @@ namespace Actions
 
             try
             {
-                result = ftpClient.MoveFile(oldPath, newPath, FtpExists.Skip);
+                //File.Move
+                //result = ftpClient.MoveFile(oldPath, newPath, FtpExists.Skip);
                 return result == false ?
                     new DFtpResult(DFtpResultType.Ok, "File with path \"" + oldPath + "\" moved to \"" + newPath + "\" on local server.") :
                     new DFtpResult(DFtpResultType.Error, "File with path \"" + oldPath + "\" could not be moved to \"" + newPath + "\" on local server.");

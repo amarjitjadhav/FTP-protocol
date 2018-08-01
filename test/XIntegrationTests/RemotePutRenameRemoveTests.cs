@@ -61,7 +61,7 @@ namespace XIntegrationTests
         {
             DFtpFile remoteSelection = file;
 
-            DFtpAction action = new GetFileFromRemoteServer(ftpClient, localDirectory, remoteDirectory, remoteSelection);
+            DFtpAction action = new GetFileFromRemoteServerAction(ftpClient, localDirectory, remoteDirectory, remoteSelection);
 
             DFtpResult result = action.Run();
             return;
@@ -93,7 +93,7 @@ namespace XIntegrationTests
             Assert.True(SearchForFileOnServer(client, "ChangedName"));
 
             // 5. Delete it
-            RemoveFileOnServer(client, newFile);
+            client.DeleteFile("/ChangedName");
 
             // 6. We should NOT see the file on the server anymore
             Assert.False(SearchForFileOnServer(client, newFile.GetName()));
