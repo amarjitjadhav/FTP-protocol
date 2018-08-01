@@ -96,7 +96,7 @@ namespace XIntegrationTests
             client.DeleteFile("/ChangedName");
 
             // 6. We should NOT see the file on the server anymore
-            Assert.False(SearchForFileOnServer(client, newFile.GetName()));
+            Assert.False(SearchForFileOnServer(client, "ChangedName"));
             return;
         }
     }

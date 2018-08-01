@@ -46,7 +46,7 @@ namespace XIntegrationTests
         {
             //DFtpFile remoteSelection = remoteDirectory;
 
-            DFtpAction action = new DeleteRemoteDirectory(ftpClient, remoteDirectory);
+            DFtpAction action = new DeleteRemoteDirectoryAction(ftpClient, remoteDirectory);
 
             DFtpResult result = action.Run();
             return;
