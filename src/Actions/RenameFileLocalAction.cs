@@ -47,7 +47,7 @@ namespace Actions
                 }
                 catch(Exception x)
                 {
-                    return new DFtpResult(DFtpResultType.Error, "File with path \"" + oldPath + "\" could not be moved to \"" + newPath + "\" on local server.");
+                    return new DFtpResult(DFtpResultType.Error, "File with path \"" + oldPath + "\" could not be moved to \"" + newPath + "\" on local server. Error:" + x);
                 }
             }
             catch(Exception ex)

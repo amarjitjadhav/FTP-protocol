@@ -11,12 +11,13 @@ namespace IO
     /// </summary>
     public static class IOHelper
     {
-        private static int pageKeyStepSize = 10;
-        
+        private static int pageKeyStepSize = 10;    //How many items to skip when pressing PgUp/PgDn
+        private static int screenBorder = 1;    //How much space to leave around the edge of the screen
+
         /// <summary>
         /// Prompts the user to enter a string. An empty response is valid.
         /// </summary>
-        /// <param name="display">This text will be displayed to the user, usually a question.</param>
+        /// <param name="display">This text will be displayed to the user, usually a message.</param>
         /// <returns>Returns the string the user typed.</returns>
         public static String AskString(String display)
         {
@@ -37,15 +38,29 @@ namespace IO
         /// Displays a message to the user and prompts them to press enter to continue.
         /// </summary>
         /// <param name="display">Message to display.</param>
-        public static void Message(String display)
+        public static void Message(String message)
         {
             ConsoleUI.Initialize();
             ConsoleUI.ClearBuffers();
-            int displayLength = display.Length;
-            int x = Console.WindowWidth / 2 - displayLength / 2;
-            int y = Console.WindowHeight / 2 + 1;
-            ConsoleUI.Write(x, y, display, Color.White);
-            ConsoleUI.Write(x, y - 2, "Press [enter] to continue.", Color.White);
+
+            // Break up the message into lines if need be
+            List<String> messageLines = WordWrap(message, Console.WindowWidth - 2 * screenBorder);
+
+            // Set up display width for the longest line or full screen, whichever is shorter.
+            // Used for centering on screen.
+            int displayWidth = GetLengthOfLongestItem<String>(messageLines);
+            displayWidth = Math.Min(displayWidth, Console.WindowWidth - 2 * screenBorder);
+
+            // Set up height info for centering display area
+            int headerAndSpacingHeight = messageLines.Count + 1;
+            int displayHeight = headerAndSpacingHeight + 1;
+            displayHeight = Math.Min(displayHeight, Console.WindowHeight - 2 * screenBorder);
+
+            int x = Console.WindowWidth / 2 - displayWidth / 2;
+            int y = Console.WindowHeight / 2 + displayHeight / 2;
+
+            ConsoleUI.Write(x, y, messageLines, Color.White);
+            ConsoleUI.Write(x, y - headerAndSpacingHeight, "Press [enter] to continue.", Color.White);
             ConsoleUI.Render();
             Console.ReadLine();
         }
@@ -53,25 +68,41 @@ namespace IO
         /// <summary>
         /// This prompts the user to choose between a yes/no or ok/cancel type resopnse (modal).
         /// </summary>
-        /// <param name="question">The text to display to the user. Usualy a yes/no question.</param>
+        /// <param name="message">The text to display to the user. Usualy a yes/no message.</param>
         /// <param name="trueText">The text to display for the true response (usually yes/ok)</param>
         /// <param name="falseText">The texto display for the false response (usually no/cancel)</param>
         /// <returns></returns>
-        public static bool AskBool(String question, String trueText, String falseText)
+        public static bool AskBool(String message, String trueText, String falseText)
         {
+            ConsoleUI.Initialize();
+            ConsoleUI.ClearBuffers();
+
+            // Break up the message into lines if need be
+            List<String> messageLines = WordWrap(message, Console.WindowWidth - 2 * screenBorder);
+
+            // Set up display width for the longest line or full screen, whichever is shorter.
+            // Used for centering on screen.
+            int displayWidth = GetLengthOfLongestItem<String>(messageLines);
+            displayWidth = Math.Min(displayWidth, Console.WindowWidth - 2 * screenBorder);
+
+            // Set up height info for centering display area
+            int headerAndSpacingHeight = messageLines.Count + 1;
+            int displayHeight = headerAndSpacingHeight + 1;
+            displayHeight = Math.Min(displayHeight, Console.WindowHeight - 2 * screenBorder);
+
+            int x = Console.WindowWidth / 2 - displayWidth / 2;
+            int y = Console.WindowHeight / 2 + displayHeight / 2;
+
             bool selected = true;
-            int displayLength = question.Length;
-            int x = Console.WindowWidth / 2 - displayLength / 2;
-            int y = Console.WindowHeight / 2 + 1;
 
             ConsoleUI.Initialize();
             ConsoleKeyInfo input = new ConsoleKeyInfo();
             do
             {
                 ConsoleUI.ClearBuffers();
-                ConsoleUI.Write(x, y, question, Color.White);
-                ConsoleUI.Write(x, y - 2, trueText, selected ? Color.Green.Invert() : Color.Green);
-                ConsoleUI.Write(x + trueText.Length + 2, y - 2, falseText, selected ? Color.Green : Color.Green.Invert());
+                ConsoleUI.Write(x, y, message, Color.White);
+                ConsoleUI.Write(x, y - headerAndSpacingHeight, trueText, selected ? Color.Green.Invert() : Color.Green);
+                ConsoleUI.Write(x + trueText.Length + 2, y - headerAndSpacingHeight, falseText, selected ? Color.Green : Color.Green.Invert());
                 ConsoleUI.Render();
                 while (Console.KeyAvailable == false)
                 { }
@@ -97,11 +128,27 @@ namespace IO
         /// </summary>
         /// <param name="display">The text to be displayed to the user.</param>
         /// <returns>Returns a valid integer value.</returns>
-        public static int AskInt(String display)
+        public static int AskInt(String message)
         {
-            int displayLength = display.Length;
-            int x = Console.WindowWidth / 2 - displayLength / 2;
-            int y = Console.WindowHeight / 2 + 1;
+            ConsoleUI.Initialize();
+            ConsoleUI.ClearBuffers();
+
+            // Break up the message into lines if need be
+            List<String> messageLines = WordWrap(message, Console.WindowWidth - 2 * screenBorder);
+
+            // Set up display width for the longest line or full screen, whichever is shorter.
+            // Used for centering on screen.
+            int displayWidth = GetLengthOfLongestItem<String>(messageLines);
+            displayWidth = Math.Min(displayWidth, Console.WindowWidth - 2 * screenBorder);
+
+            // Set up height info for centering display area
+            int headerAndSpacingHeight = messageLines.Count + 1;
+            int displayHeight = headerAndSpacingHeight + 1;
+            displayHeight = Math.Min(displayHeight, Console.WindowHeight - 2 * screenBorder);
+
+            int x = Console.WindowWidth / 2 - displayWidth / 2;
+            int y = Console.WindowHeight / 2 + displayHeight / 2;
+
             int result = 0;
             bool valid = true;
 
@@ -111,16 +158,16 @@ namespace IO
                 ConsoleUI.ClearBuffers();
                 if (valid)
                 {
-                    ConsoleUI.Write(x, y, display, Color.White);
+                    ConsoleUI.Write(x, y, messageLines, Color.White);
                     ConsoleUI.Render();
-                    ConsoleUI.CursorTo(x, y - 2);
+                    ConsoleUI.CursorTo(x, y - headerAndSpacingHeight - 1);
                 }
                 else
                 {
-                    ConsoleUI.Write(x, y, display, Color.White);
+                    ConsoleUI.Write(x, y, messageLines, Color.White);
                     ConsoleUI.Write(x, y - 1, "Must be a valid integer.", Color.Red);
                     ConsoleUI.Render();
-                    ConsoleUI.CursorTo(x, y - 3);
+                    ConsoleUI.CursorTo(x, y - headerAndSpacingHeight - 1);
                 }
                 try
                 {
@@ -174,55 +221,69 @@ namespace IO
             return longest;
         }
 
-        public static T SelectSorted<T>(String question, List<T> list) where T : IComparable
-        {
-            list.Sort();
-            return Select<T>(question, list);
-        }
-
         /// <summary>
-        /// Shows the user a scrolling selection screen to choose from among items in a list.
+        /// Shows the user a scrolling selection screen to choose from among items in an array.
         /// </summary>
         /// <typeparam name="T">Type of item in the list.</typeparam>
-        /// <param name="question">Text to display.</param>
-        /// <param name="list">List of items.</param>
+        /// <param name="message">Instructions or message to display to the user.</param>
+        /// <param name="items">Array of items.</param>
+        /// <param name="sortList">Whether or not to sort before displaying.</param>
         /// <returns>Returns the item selected.</returns>
-        public static T Select<T>(String question, List<T> list) where T : IComparable
+        public static T Select<T>(String message, T[] items, bool sortList = false) where T : IComparable
         {
-            T[] array = list.ToArray();
-            return Select<T>(question, array);
+            List<T> list = new List<T>();
+            foreach (T item in items)
+            {
+                list.Add(item);
+            }
+            if (sortList)
+            {
+                list.Sort();
+            }
+            return Select<T>(message, list);
         }
 
         /// <summary>
-        /// Shows the user a scrilling selection screen to choose from among items in an array.
+        /// Shows the user a scrilling selection screen to choose from among items in a list.
         /// </summary>
-        /// <typeparam name="T">Type of item in the array.</typeparam>
-        /// <param name="question">Text to display.</param>
-        /// <param name="list">Array of items.</param>
+        /// <typeparam name="T">Type of item in the list.</typeparam>
+        /// <param name="message">Instructions or message to display.</param>
+        /// <param name="list">List of items.</param>
+        /// <param name="sortList">Whether or not to sort before displaying.</param>
         /// <returns>Returns the item selected.</returns>
-        public static T Select<T>(String question, T[] list) where T : IComparable
+        public static T Select<T>(String message, List<T> list, bool sortList = false) where T : IComparable
         {
-            int numberOfItems = list.Length;
-            
+            ConsoleUI.Initialize();
+            ConsoleUI.ClearBuffers();
 
-            // Set up width/height info for centering
-            int displayLength = question.Length;
-            int displayWidth = GetLengthOfLongestItem<T>(list);
-            if (displayLength > displayWidth)
-                displayWidth = displayLength;
-            int displayHeight = 1 + numberOfItems;
-            if (displayHeight > Console.WindowHeight - 1)
-                displayHeight = Console.WindowHeight - 1;
-            int headerAndSpacingHeight = 2;
+            if (sortList)
+            {
+                list.Sort();
+            }
 
-            int viewHeight = displayHeight - headerAndSpacingHeight + 1;
+            int numberOfItems = list.Count;
 
+            // Break up the message into lines if need be
+            List<String> messageLines = WordWrap(message, Console.WindowWidth - 2 * screenBorder);
+
+            // Set up display width for the longest line or full screen, whichever is shorter.
+            // Used for centering small selections.
+            int displayWidth = GetLengthOfLongestItem<String>(messageLines);
+            displayWidth = Math.Max(displayWidth, GetLengthOfLongestItem<T>(list));
+            displayWidth = Math.Min(displayWidth, Console.WindowWidth - 2 * screenBorder);
+
+            // Set up height info for centering display area
+            int headerAndSpacingHeight = messageLines.Count + 1;
+            int displayHeight = numberOfItems + headerAndSpacingHeight;
+            displayHeight = Math.Min(displayHeight, Console.WindowHeight - 2 * screenBorder);
+
+            // Set up height info for scrolling view if 
+            int viewHeight = displayHeight - headerAndSpacingHeight;
             if (viewHeight < 1)
-                viewHeight = 1;
-            
+                viewHeight = 1;            
 
-            int x = Console.WindowWidth / 2 - displayWidth / 2;
-            int y = Console.WindowHeight / 2 + displayHeight / 2;
+            int displayCornerX = Console.WindowWidth / 2 - displayWidth / 2;
+            int displayCornerY = Console.WindowHeight / 2 + displayHeight / 2;
 
             int selected = 0;
             int firstItemInView = 0;
@@ -252,19 +313,21 @@ namespace IO
             do
             {
                 ConsoleUI.ClearBuffers();
-                ConsoleUI.Write(x, y, question, Color.White);
+                ConsoleUI.Write(displayCornerX, displayCornerY, messageLines, Color.White);
                 for (int i = 0; i < numberOfItems; ++i)
                 {
                     if (i >= firstItemInView && i < firstItemInView + viewHeight)
                     {
-                        int itemY = y - (i - firstItemInView) - headerAndSpacingHeight;
-                        ConsoleUI.Write(x, itemY, list[i].ToString(), selected == i ? Color.Green.Invert() : Color.Green);
+                        int itemY = displayCornerY - headerAndSpacingHeight - i + firstItemInView;
+
+                        // Draw item
+                        ConsoleUI.Write(displayCornerX, itemY, list[i].ToString(), selected == i ? Color.Green.Invert() : Color.Green);
                     }
                 }
                 // IF there's nothing to select from print a message and return null
                 if (numberOfItems == 0)
                 {
-                    ConsoleUI.Write(x, y - 2, "Nothing to select.", Color.Red);
+                    ConsoleUI.Write(displayCornerX, displayCornerY - headerAndSpacingHeight, "Nothing to select.", Color.Red);
                     ConsoleUI.Render();
                     Console.ReadLine();
                     return default(T);
@@ -302,9 +365,7 @@ namespace IO
                         SelectUp();
                     }
                 }
-                
-                
-            } while (input.Key != ConsoleKey.Enter);
+            } while (input.Key != ConsoleKey.Enter && input.Key != ConsoleKey.Escape);
 
             return list[selected];
         }
@@ -315,18 +376,21 @@ namespace IO
         /// the current selection.
         /// </summary>
         /// <typeparam name="T">Type of item in the array.</typeparam>
-        /// <param name="question">Text to display.</param>
+        /// <param name="message">Text to display.</param>
         /// <param name="list">Array of items.</param>
         /// <returns>Returns a list of the items selected.</returns>
-        public static List<T> SelectMultiple<T>(String question, List<T> list, bool sortList = false) where T : IComparable
+        public static List<T> SelectMultiple<T>(String message, List<T> list, bool sortList = false) where T : IComparable
         {
-            bool firstLoop = true;
             ConsoleUI.Initialize();
+            ConsoleUI.ClearBuffers();
+
             List<T> results = new List<T>();
             int numberOfItems = list.Count;
 
-            // Break up the question into lines if need be
-            List<String> questionLines = WordWrap(question, Console.WindowWidth);
+            int roomForSelectionMarker = 2;
+
+            // Break up the message into lines if need be
+            List<String> messageLines = WordWrap(message, Console.WindowWidth - 2 * screenBorder);
 
             // Sort if the user wants to
             if (sortList)
@@ -334,17 +398,14 @@ namespace IO
                 list.Sort();
             }
 
-            int roomForSelectionMarker = 2;
-            int screenBorder = 0;
-
             // Set up display width for the longest line or full screen, whichever is shorter.
             // Used for centering small selections.
-            int displayWidth = GetLengthOfLongestItem<String>(questionLines);
+            int displayWidth = GetLengthOfLongestItem<String>(messageLines);
             displayWidth = Math.Max(displayWidth, GetLengthOfLongestItem<T>(list) + roomForSelectionMarker);
             displayWidth = Math.Min(displayWidth, Console.WindowWidth - 2 * screenBorder);
 
             // Set up height info for centering display area
-            int headerAndSpacingHeight = questionLines.Count + 1;
+            int headerAndSpacingHeight = messageLines.Count + 1;
             int displayHeight = numberOfItems + headerAndSpacingHeight;
             displayHeight = Math.Min(displayHeight, Console.WindowHeight - 2 * screenBorder);
             
@@ -392,7 +453,7 @@ namespace IO
             do
             {
                 ConsoleUI.ClearBuffers();
-                ConsoleUI.Write(displayCornerX, displayCornerY, questionLines, Color.White);
+                ConsoleUI.Write(displayCornerX, displayCornerY, messageLines, Color.White);
                 for (int i = 0; i < numberOfItems; ++i)
                 {
                     if (i >= firstItemInView && i < firstItemInView + viewHeight)

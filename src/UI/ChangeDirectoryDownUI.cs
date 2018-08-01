@@ -52,7 +52,7 @@ namespace UI
                     list = list.Where(x => x.Type() == FtpFileSystemObjectType.Directory).ToList();
 
                     // Choose from directories
-                    DFtpFile selection = IOHelper.Select<DFtpFile>("Choose a directory to enter.", list);
+                    DFtpFile selection = IOHelper.Select<DFtpFile>("Choose a directory to enter.", list, true);
 
                     // If something has been selected, update the remote selection
                     if (selection != null)
@@ -78,7 +78,7 @@ namespace UI
                     list = list.Where(x => x.Type() == FtpFileSystemObjectType.Directory).ToList();
 
                     // Choose from directories
-                    DFtpFile selection = IOHelper.Select<DFtpFile>("Choose a directory to enter.", list);
+                    DFtpFile selection = IOHelper.Select<DFtpFile>("Choose a directory to enter.", list, true);
 
                     // If something has been selected, update the local selection
                     if (selection != null)

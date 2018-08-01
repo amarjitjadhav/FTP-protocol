@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using Actions;
+using IO;
 
 namespace UI
 {
@@ -38,8 +39,15 @@ namespace UI
             // Create the action. Initialize it with the info we've collected
             DFtpAction action = new PutFileAction(Client.ftpClient, Client.localDirectory, Client.localSelection, Client.remoteDirectory);
 
+            DFtpResult result = action.Run();
+
+            // Give some feedback if successful
+            if (result.Type == DFtpResultType.Ok)
+            {
+                IOHelper.Message("The file '" + Client.localSelection.GetName() + "' uploaded successfully.");
+            }
             // Return the result after running.
-            return action.Run();
+            return result;
         }
     }
 }

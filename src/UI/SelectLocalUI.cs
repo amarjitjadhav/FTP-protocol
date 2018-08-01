@@ -36,7 +36,7 @@ namespace UI
             if (tempResult is DFtpListResult)
             {
                 listResult = (DFtpListResult)tempResult;
-                DFtpFile selected = IOHelper.Select<DFtpFile>("Choose a local file to select.", listResult.Files);
+                DFtpFile selected = IOHelper.Select<DFtpFile>("Choose a local file to select.", listResult.Files, true);
                 // If something has been selected, update the remote selection
                 if (selected != null)
                 {

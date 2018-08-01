@@ -38,7 +38,7 @@ namespace DumbFTP
                 {
                     return TryConnect("[No saved connections]");
                 }
-                connInfo = IOHelper.Select<ConnectionInformation>("Which connection would you like?", ConnectionInformation.GetAllSavedConnections().ToArray());
+                connInfo = IOHelper.Select<ConnectionInformation>("Which connection would you like?", ConnectionInformation.GetAllSavedConnections().ToArray(), true);
             }
             
             // Password
