@@ -21,7 +21,7 @@ namespace Actions
         /// <param name="remoteSelection">The file to rename</param>
 
         public RenameFileRemoteAction(FtpClient ftpClient, String remoteDirectory, DFtpFile remoteSelection, String newName)
-            : base(ftpClient, null, null, remoteDirectory, remoteSelection)
+            : base(ftpClient, null , null, remoteDirectory, remoteSelection)
         {
             this.newName = newName;
         }
@@ -35,8 +35,8 @@ namespace Actions
 
         public override DFtpResult Run()
         {
-            String oldPath = remoteDirectory + remoteSelection.GetName();
-            String newPath = remoteDirectory + newName;
+            String oldPath = remoteDirectory + "/" + remoteSelection.GetName();
+            String newPath = remoteDirectory + "/" + newName;
             bool result = false;
 
             try
