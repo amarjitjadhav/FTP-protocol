@@ -53,7 +53,7 @@ namespace XIntegrationTests
         {
             DFtpFile remoteSelection = file;
 
-            DFtpAction action = new GetFileFromRemoteServer(ftpClient, localDirectory, remoteDirectory, remoteSelection);
+            DFtpAction action = new GetFileFromRemoteServerAction(ftpClient, localDirectory, remoteDirectory, remoteSelection);
 
             DFtpResult result = action.Run();
             return;
@@ -137,7 +137,7 @@ namespace XIntegrationTests
             RemoveFileOnServer(client, tempFile, remoteDirectory);
 
             // 4. Delete Directories.
-            // TODO: Implement Delete directories.
+            client.DeleteDirectory("/way", FtpListOption.AllFiles);
 
             Assert.True(result.Type == DFtpResultType.Ok && result.Files.Count == 1 &&
                 result.Files[0].GetName() == tempFile.GetName());
@@ -163,7 +163,11 @@ namespace XIntegrationTests
             // 3. Delete file.
             RemoveFileOnServer(client, tempFile, remoteDirectory);
 
+            // 4. Delete Directory.
+            client.DeleteDirectory("/way", FtpListOption.AllFiles);
+
             Assert.True(result.Type == DFtpResultType.Error);
+            return;
         }
     }
 }

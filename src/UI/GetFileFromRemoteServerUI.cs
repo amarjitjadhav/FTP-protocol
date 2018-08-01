@@ -30,7 +30,7 @@ namespace UI
         {
             // Create the action
             // Initialize it with the info we've collected
-            DFtpAction action = new GetFileFromRemoteServer(Client.ftpClient, Client.localDirectory, Client.remoteDirectory, Client.remoteSelection);
+            DFtpAction action = new GetFileFromRemoteServerAction(Client.ftpClient, Client.localDirectory, Client.remoteDirectory, Client.remoteSelection);
 
             // Carry out the action and get the result
             DFtpResult result = action.Run();

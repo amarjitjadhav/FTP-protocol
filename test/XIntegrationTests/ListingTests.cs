@@ -55,7 +55,7 @@ namespace XIntegrationTests
         {
             DFtpFile remoteSelection = file;
 
-            DFtpAction action = new GetFileFromRemoteServer(ftpClient, localDirectory, remoteDirectory, remoteSelection);
+            DFtpAction action = new GetFileFromRemoteServerAction(ftpClient, localDirectory, remoteDirectory, remoteSelection);
 
             DFtpResult result = action.Run();
             return;
