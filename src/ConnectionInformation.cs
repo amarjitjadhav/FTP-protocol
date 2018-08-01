@@ -82,7 +82,8 @@ namespace DumbFTP
             StreamReader reader = new StreamReader(File.Open(filepath, System.IO.FileMode.Open));
             String line = reader.ReadLine();
             reader.Close();
-
+            if (line == null)
+                return;
             String[] tokens = line.Split(',');
             if (tokens != null && tokens.Length == 2)
             {
