@@ -26,29 +26,30 @@ namespace XIntegrationTests
             return client;
         }
 
-        internal DFtpFile CreateAndPutFileOnServer(FtpClient ftpClient, String newFileName, String remoteDirectory = "/")
+        internal DFtpFile CreateAndPutFileOnServer(FtpClient ftpClient, String newFileName)
         {
             String filepath = Path.GetTempFileName();
+            String testdir = "Test1";
             String localDirectory = Path.GetDirectoryName(filepath);
+            DFtpAction action = new CreateDirectoryRemoteAction(ftpClient, testdir);
+            DFtpResult test = action.Run();
             DFtpFile localSelection = new DFtpFile(filepath, FtpFileSystemObjectType.File, newFileName);
+            DFtpAction fileaction = new PutFileAction(client, localDirectory, localSelection, testdir);
 
-
-            DFtpAction action = new PutFileAction(client, localDirectory, localSelection, remoteDirectory);
-
-            DFtpResult result = action.Run();
+            DFtpResult result = fileaction.Run();
 
             return localSelection;
         }
 
-        internal void RenameFileOnServer(FtpClient ftpClient, DFtpFile file, String newName, String remoteDirectory = "/")
+        internal void RenameFileOnServer(FtpClient ftpClient, DFtpFile file, String newName)
         {
             DFtpFile remoteSelection = file;
-            DFtpAction action = new RenameFileRemoteAction(ftpClient, remoteDirectory, remoteSelection, newName);
+            DFtpAction action = new RenameFileRemoteAction(ftpClient, "test1", remoteSelection, newName);
             DFtpResult result = action.Run();
             return;
         }
 
-        internal void RemoveFileOnServer(FtpClient ftpClient, DFtpFile file, String remoteDirectory = "/")
+        internal void RemoveFileOnServer(FtpClient ftpClient, DFtpFile file, String remoteDirectory = "/test1")
         {
             DFtpFile remoteSelection = file;
 
@@ -68,7 +69,7 @@ namespace XIntegrationTests
         }
         internal bool SearchForFileOnServer(FtpClient ftpClient, String pattern)
         {
-            DFtpAction action = new SearchFileRemoteAction(ftpClient, pattern, "/");
+            DFtpAction action = new SearchFileRemoteAction(ftpClient, pattern, "/test1");
 
             DFtpResult result = action.Run();
 
@@ -84,7 +85,7 @@ namespace XIntegrationTests
             DFtpFile newFile = CreateAndPutFileOnServer(client, "NewFile");
 
             // 2. Search for file, make sure that it exists.
-            Assert.True(SearchForFileOnServer(client, "NewFile"));
+            Assert.True(SearchForFileOnServer(client, newFile.GetName()));
 
             // 3. Rename the file
             RenameFileOnServer(client, newFile, "ChangedName");

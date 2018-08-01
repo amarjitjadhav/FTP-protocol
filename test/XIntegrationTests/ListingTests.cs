@@ -12,7 +12,7 @@ namespace XIntegrationTests
     public class ListingTests
     {
         private static FtpClient client = null;
-        private const String testDirectory = "/remote_listing_test_directory/";
+        private const String testDirectory = "/remote_listing_test_directory";
         private const String LocalTestDirectory = @"C:\TestD";
 
         internal FtpClient EstablishConnection()
@@ -108,7 +108,7 @@ namespace XIntegrationTests
                 // Make sure it's gone
                 Assert.False(SearchForFileOnServer(client, file.GetName()));
             }
-
+            client.DeleteDirectory(testDirectory);
             return;
         }
         [Fact]
