@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace XIntegrationTests
 {
-    public class DeletDirectoryTest
+    public class DeleteDirectoryTest
     {
         private static FtpClient client = null;
         private const String testDirectory = "/remote_listing_test_directory/";
@@ -46,7 +46,7 @@ namespace XIntegrationTests
         {
             //DFtpFile remoteSelection = remoteDirectory;
 
-            DFtpAction action = new DeletRemoteDirectory(ftpClient, remoteDirectory);
+            DFtpAction action = new DeleteRemoteDirectory(ftpClient, remoteDirectory);
 
             DFtpResult result = action.Run();
             return;
