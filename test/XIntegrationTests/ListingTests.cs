@@ -109,6 +109,8 @@ namespace XIntegrationTests
                 Assert.False(SearchForFileOnServer(client, file.GetName()));
             }
 
+            client.DeleteDirectory(testDirectory, FtpListOption.AllFiles);
+
             return;
         }
         [Fact]

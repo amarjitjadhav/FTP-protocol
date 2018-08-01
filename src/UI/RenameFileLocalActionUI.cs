@@ -9,7 +9,7 @@ namespace UI
 {
     public class RenameFileLocalActionUI : IDFtpUI
     {
-        public ConsoleKey Key => ConsoleKey.N;
+        public ConsoleKey Key => ConsoleKey.R;
 
         public bool RequiresLogin => true;
 
@@ -23,7 +23,7 @@ namespace UI
 
         public bool HideForRemote => true;
 
-        public string MenuText => "Re(N)ame File";
+        public string MenuText => "(R)ename File";
 
 
         public DFtpResult Go()

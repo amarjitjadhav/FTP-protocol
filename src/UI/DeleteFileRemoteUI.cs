@@ -9,7 +9,7 @@ namespace UI
 {
     public class DeleteFileRemoteUI : IDFtpUI
     {
-        public ConsoleKey Key => ConsoleKey.R;
+        public ConsoleKey Key => ConsoleKey.D;
 
         public bool RequiresLogin => true;
 
@@ -23,7 +23,7 @@ namespace UI
 
         public bool HideForRemote => false;
 
-        public string MenuText => "Delete (R)emote File";
+        public string MenuText => "(D)elete Remote File";
 
 
         public DFtpResult Go()
