@@ -36,7 +36,7 @@ namespace UI
             DFtpResult result = action.Run();
 
             // Nullify the selection if successful.
-            if (result.Type() == DFtpResultType.Ok)
+            if (result.Type == DFtpResultType.Ok)
                 Client.remoteSelection = null;
 
             History.Log(result.ToString());
