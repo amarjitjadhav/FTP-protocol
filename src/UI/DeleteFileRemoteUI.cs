@@ -37,10 +37,11 @@ namespace UI
 
             // Nullify the selection if successful.
             if (result.Type == DFtpResultType.Ok)
+            {
+                IOHelper.Message("The file '" + Client.remoteSelection.GetName() + "' was deleted successfully.");
                 Client.remoteSelection = null;
-
-            //History.Log(result.ToString());
-                
+            }
+            
             return result;
         }
     }

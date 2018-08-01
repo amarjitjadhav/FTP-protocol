@@ -34,9 +34,13 @@ namespace UI
 
             // Carry out the action and get the result
             DFtpResult result = action.Run();
-
-            //History.Log(result.ToString());
-
+            
+            // Give some feedback if successful
+            if (result.Type == DFtpResultType.Ok)
+            {
+                IOHelper.Message("The file '" + Client.remoteSelection.GetName() + "' downloaded successfully.");
+            }
+            // Return the result after running.
             return result;
         }
     }

@@ -36,8 +36,12 @@ namespace UI
             // Carry out the action and get the result
             DFtpResult result = action.Run();
 
-            //History.Log(result.ToString());
-                
+            if (result.Type == DFtpResultType.Ok)
+            {
+                IOHelper.Message("The file was successfully renamed to '" + newName + "'.");
+                Client.remoteSelection = null;
+            }
+
             return result;
         }
     }

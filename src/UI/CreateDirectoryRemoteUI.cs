@@ -34,6 +34,13 @@ namespace UI
             // Carry out the action and get the result
             DFtpResult result = action.Run();
 
+            // Give some feedback if successful
+            if (result.Type == DFtpResultType.Ok)
+            {
+                IOHelper.Message("The directory '" + name + "' was created successfully.");
+            }
+            // Return the result after running.
+
             return result;
         }
     }

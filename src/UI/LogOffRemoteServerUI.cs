@@ -35,7 +35,8 @@ namespace UI
             // DFtpResult result = action.Run();
 
             Client.ftpClient = null;
-
+            IOHelper.Message("You have logged of from '" + Client.serverName + "'.");
+           
             return new DFtpResult(DFtpResultType.Ok, "User logged off");
         }
     }
