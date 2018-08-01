@@ -139,6 +139,24 @@ namespace IO
         }
 
         /// <summary>
+        /// Loops through the list to find the longest item (string representation).
+        /// </summary>
+        /// <typeparam name="T">Type of item in list</typeparam>
+        /// <param name="list">List of items</param>
+        /// <returns>Returns an integer length</returns>
+        private static int GetLengthOfLongestItem<T>(List<T> list)
+        {
+            int longest = 0;
+            foreach (T item in list)
+            {
+                int length = item.ToString().Length;
+                if (length > longest)
+                    longest = length;
+            }
+            return longest;
+        }
+
+        /// <summary>
         /// Loops through the array to find the longest item (string representation).
         /// </summary>
         /// <typeparam name="T">Type of item in list</typeparam>
@@ -290,6 +308,174 @@ namespace IO
 
             return list[selected];
         }
+
+        /// <summary>
+        /// Shows the user a scrolling selection screen to choose multiple items from among
+        /// those in the list. Arrow keys navigate, spacebar selects/deselects, and enter confirms
+        /// the current selection.
+        /// </summary>
+        /// <typeparam name="T">Type of item in the array.</typeparam>
+        /// <param name="question">Text to display.</param>
+        /// <param name="list">Array of items.</param>
+        /// <returns>Returns a list of the items selected.</returns>
+        public static List<T> SelectMultiple<T>(String question, List<T> list, bool sortList = false) where T : IComparable
+        {
+            List<T> results = new List<T>();
+            int numberOfItems = list.Count;
+
+            // Break up the question into lines if need be
+            List<String> questionLines = WordWrap(question, Console.WindowWidth);
+
+            // Sort if the user wants to
+            if (sortList)
+            {
+                list.Sort();
+            }
+
+            int roomForSelectionMarker = 2;
+            int screenBorder = 1;
+
+            // Set up display width for the longest line or full screen, whichever is shorter.
+            // Used for centering small selections.
+            int displayWidth = GetLengthOfLongestItem<String>(questionLines);
+            displayWidth = Math.Max(displayWidth, GetLengthOfLongestItem<T>(list) + roomForSelectionMarker);
+            displayWidth = Math.Min(displayWidth, Console.WindowWidth - 2 * screenBorder);
+
+            // Set up height info for centering display area
+            int headerAndSpacingHeight = questionLines.Count + 1;
+            int displayHeight = numberOfItems + headerAndSpacingHeight;
+            displayHeight = Math.Min(displayHeight, Console.WindowHeight - 2 * screenBorder);
+            
+            // Set up height info for scrolling view if 
+            int viewHeight = displayHeight - headerAndSpacingHeight;
+            if (viewHeight < 1)
+                viewHeight = 1;
+
+            int displayCornerX = Console.WindowWidth / 2 - displayWidth / 2;
+            int displayCornerY = Console.WindowHeight / 2 + displayHeight / 2;
+
+            // Initialize list for tracking what is selected
+            List<bool> selectedItems = new List<bool>();
+            for (int i = 0; i < numberOfItems; ++i)
+            {
+                selectedItems.Add(false);
+            }
+
+            // Initial highlighted item and view window position
+            int selected = 0;
+            int firstItemInView = 0;
+
+            void MoveUp()
+            {
+                if (selected > 0)
+                {
+                    --selected;
+                    if (selected == firstItemInView - 1)
+                        --firstItemInView;
+                }
+            }
+
+            void MoveDown()
+            {
+                if (selected < numberOfItems - 1)
+                {
+                    ++selected;
+                    if (selected == viewHeight + firstItemInView)
+                        ++firstItemInView;
+                }
+            }
+
+            //ConsoleUI.Initialize();
+            ConsoleKeyInfo input = new ConsoleKeyInfo();
+            do
+            {
+                ConsoleUI.ClearBuffers();
+                ConsoleUI.Write(displayCornerX, displayCornerY, questionLines, Color.White);
+                for (int i = 0; i < numberOfItems; ++i)
+                {
+                    if (i >= firstItemInView && i < firstItemInView + viewHeight)
+                    {
+                        int itemY = displayCornerY - headerAndSpacingHeight - i + firstItemInView;
+
+                        // Draw '*' for selected items
+                        if (selectedItems[i])
+                        {
+                            ConsoleUI.Write(displayCornerX, itemY, "*", selected == i ? Color.Green.Invert() : Color.Green);
+                        }
+
+                        // Draw item
+                        ConsoleUI.Write(displayCornerX + roomForSelectionMarker, itemY, list[i].ToString(), selected == i ? Color.Green.Invert() : Color.Green);
+                    }
+                }
+                /* For debugging selector
+                int w = Console.WindowWidth;
+                ConsoleUI.Write(w - 30, 0, "  displayCornerY: " + displayCornerY, Color.White);
+                ConsoleUI.Write(w - 30, 1, "      viewHeight: " + viewHeight, Color.White);
+                ConsoleUI.Write(w - 30, 2, "   displayHeight: " + displayHeight, Color.White);
+                ConsoleUI.Write(w - 30, 3, "headerAndSpacing: " + headerAndSpacingHeight, Color.White);
+                ConsoleUI.Write(w - 30, 4, " firstItemInView: " + firstItemInView, Color.White);
+                ConsoleUI.Write(w - 30, 5, "        selected: " + selected, Color.White);
+                */
+
+                // IF there's nothing to select from print a message and return null
+                if (numberOfItems == 0)
+                {
+                    ConsoleUI.Write(displayCornerX, displayCornerY - headerAndSpacingHeight, "Nothing to select.", Color.Red);
+                    ConsoleUI.Render();
+                    Console.ReadLine();
+                    return results;
+                }
+
+                ConsoleUI.Render();
+
+                //Handle input
+                while (Console.KeyAvailable == false)
+                { }
+                while (Console.KeyAvailable == true)
+                {
+                    input = Console.ReadKey(true);
+                }
+
+                if (input.Key == ConsoleKey.DownArrow)
+                {
+                    MoveDown();
+                }
+                else if (input.Key == ConsoleKey.PageDown)
+                {
+                    for (int i = 0; i < pageKeyStepSize; ++i)
+                    {
+                        MoveDown();
+                    }
+                }
+                else if (input.Key == ConsoleKey.UpArrow)
+                {
+                    MoveUp();
+                }
+                else if (input.Key == ConsoleKey.PageUp)
+                {
+                    for (int i = 0; i < pageKeyStepSize; ++i)
+                    {
+                        MoveUp();
+                    }
+                }
+                else if (input.Key == ConsoleKey.Spacebar)
+                {
+                    selectedItems[selected] = !selectedItems[selected];
+                }
+            } while (input.Key != ConsoleKey.Enter);
+
+            // Populate results with items selected
+            for (int i = 0; i < numberOfItems; ++i)
+            {
+                if (selectedItems[i])
+                {
+                    results.Add(list[i]);
+                }
+            }
+
+            return results;
+        }
+
 
         /// <summary>
         /// Wraps a string into a list of strings of the specified width.

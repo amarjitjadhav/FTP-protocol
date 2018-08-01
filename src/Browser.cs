@@ -27,6 +27,7 @@ namespace UI
             new LogOffRemoteServerUI(),
             new RenameFileRemoteActionUI(),
             new RenameFileLocalActionUI(),
+            new SelectMultipleTestUI(),
        };
 
         public Browser()
