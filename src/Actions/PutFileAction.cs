@@ -19,15 +19,11 @@ namespace Actions
         public override DFtpResult Run()
         {
             String source = localSelection.GetFullPath();
-            String target = "";
-            if(remoteDirectory != "/")
-            {
-                target = remoteDirectory + "/" + localSelection.GetName();
-            }
+            String target = remoteDirectory;
+            if (target == "/")
+                target += localSelection.GetName();
             else
-            {
-                target = remoteDirectory + localSelection.GetName();
-            }
+                target += "/" + localSelection.GetName();
             FtpExists existsMode = overwrite ? FtpExists.Overwrite : FtpExists.Skip;
             bool createDirectoryStructure = true;
             FtpVerify verifyMode = FtpVerify.Retry;

@@ -41,8 +41,7 @@ namespace DumbFTP
         public void Save()
         {
             String filepath = saveFolder + Username + ".txt";
-
-
+            
             if (!Directory.Exists(saveFolder))
             {
                 Directory.CreateDirectory(saveFolder);
@@ -83,13 +82,15 @@ namespace DumbFTP
             String line = reader.ReadLine();
             reader.Close();
 
-            String[] tokens = line.Split(',');
-            if (tokens != null && tokens.Length == 2)
-            {
-                this.Username = tokens[0];
-                this.ServerAddress = tokens[1];
+            if (line != null)
+            { 
+                String[] tokens = line.Split(',');
+                if (tokens != null && tokens.Length == 2)
+                {
+                    this.Username = tokens[0];
+                    this.ServerAddress = tokens[1];
+                }
             }
-
             return;
         }
 

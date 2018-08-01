@@ -10,7 +10,7 @@ namespace Actions
     /// <summary>
     /// An action that Downloads a file from the ftp server.
     /// </summary>
-    public class GetFileFromRemoteServer: DFtpAction {
+    public class GetFileFromRemoteServerAction: DFtpAction {
         /// <summary>
         /// Constructor to build an action that downloads a file from the ftp server.
         /// </summary>
@@ -18,7 +18,7 @@ namespace Actions
         /// <param name="localDirectory">The local directory path</param>
         /// <param name="remoteDirectory">The remote directory path where the file to delete resides.</param>
         /// <param name="remoteSelection">The file to remove</param>
-        public GetFileFromRemoteServer(FtpClient ftpClient, String localDirectory, String remoteDirectory, DFtpFile remoteSelection)
+        public GetFileFromRemoteServerAction(FtpClient ftpClient, String localDirectory, String remoteDirectory, DFtpFile remoteSelection)
             : base(ftpClient, localDirectory, null,  remoteDirectory, remoteSelection)
         {
         }

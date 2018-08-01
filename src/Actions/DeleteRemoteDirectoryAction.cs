@@ -10,14 +10,14 @@ namespace Actions
     /// <summary>
     /// An action that removes a directory from the ftp server.
     /// </summary>
-    public class DeletRemoteDirectory:DFtpAction
+    public class DeleteRemoteDirectoryAction : DFtpAction
     {
         /// <summary>
         /// Constructor to build an action that removes a directory from the ftp server.
         /// </summary>
         /// <param name="ftpClient"> The client connection to the server.</param>
         /// <param name="remoteDirectory">The remote directory path where the file to delete resides.</param>
-        public DeletRemoteDirectory(FtpClient ftpClient, String remoteDirectory)
+        public DeleteRemoteDirectoryAction(FtpClient ftpClient, String remoteDirectory)
             : base(ftpClient, null, null, remoteDirectory,null)
         {
         }

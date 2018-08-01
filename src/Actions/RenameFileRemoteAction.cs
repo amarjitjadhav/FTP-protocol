@@ -41,7 +41,8 @@ namespace Actions
 
             try
             {
-                result = ftpClient.MoveFile(oldPath, newPath, FtpExists.Skip);
+                ftpClient.Rename(oldPath, newPath);
+                
                 return result == false ?
                     new DFtpResult(DFtpResultType.Ok, "File with path \"" + oldPath + "\" moved to \"" + newPath + "\" on remote server.") :
                     new DFtpResult(DFtpResultType.Error, "File with path \"" + oldPath + "\" could not be moved to \"" + newPath + "\" on remote server.");
