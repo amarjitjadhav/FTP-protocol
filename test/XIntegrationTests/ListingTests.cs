@@ -74,7 +74,10 @@ namespace XIntegrationTests
         public void GetListingRemoteTest()
         {
             EstablishConnection();
-
+            if (client.DirectoryExists(testDirectory))
+            {
+                client.DeleteDirectory(testDirectory);
+            }
             List<DFtpFile> files = new List<DFtpFile>();
             // Create and put 3 files on server.
             for (int i = 0; i < 3; ++i)
@@ -108,9 +111,10 @@ namespace XIntegrationTests
                 // Make sure it's gone
                 Assert.False(SearchForFileOnServer(client, file.GetName()));
             }
-
-            client.DeleteDirectory(testDirectory, FtpListOption.AllFiles);
-
+            if (client.DirectoryExists(testDirectory))
+            {
+                client.DeleteDirectory(testDirectory);
+            }
             return;
         }
         [Fact]

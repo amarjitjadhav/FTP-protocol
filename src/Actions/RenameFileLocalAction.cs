@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-
 using FluentFTP;
 
 namespace Actions
@@ -23,7 +22,7 @@ namespace Actions
         /// <param name="localDirectory">The file to rename</param>
 
         public RenameFileLocalAction(FtpClient ftpClient, String localDirectory, DFtpFile localSelection, String newName)
-            : base(ftpClient, localDirectory, localSelection, null, null)
+            : base(null, localDirectory, localSelection, null, null)
         {
             this.newName = newName;
         }
@@ -37,17 +36,19 @@ namespace Actions
 
         public override DFtpResult Run()
         {
-            String oldPath = localDirectory + localSelection.GetName();
-            String newPath = localDirectory + newName;
-            bool result = false;
-
+            String oldPath = localDirectory + Path.DirectorySeparatorChar + localSelection.GetName();
+            String newPath = localDirectory + Path.DirectorySeparatorChar + newName;
             try
             {
-                //File.Move
-                //result = ftpClient.MoveFile(oldPath, newPath, FtpExists.Skip);
-                return result == false ?
-                    new DFtpResult(DFtpResultType.Ok, "File with path \"" + oldPath + "\" moved to \"" + newPath + "\" on local server.") :
-                    new DFtpResult(DFtpResultType.Error, "File with path \"" + oldPath + "\" could not be moved to \"" + newPath + "\" on local server.");
+                try
+                {
+                    File.Move(oldPath, newPath);
+                    return new DFtpResult(DFtpResultType.Ok, "File with path \"" + oldPath + "\" moved to \"" + newPath + "\" on local server.");
+                }
+                catch(Exception x)
+                {
+                    return new DFtpResult(DFtpResultType.Error, "File with path \"" + oldPath + "\" could not be moved to \"" + newPath + "\" on local server.");
+                }
             }
             catch(Exception ex)
             {
