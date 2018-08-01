@@ -18,7 +18,7 @@ namespace Actions
             try
             {
                 List<DFtpFile> dFtpListing = new List<DFtpFile>();
-                FtpListItem[] fluentListing = ftpClient.GetListing(remoteDirectory);
+                FtpListItem[] fluentListing = ftpClient.GetListing(remoteDirectory, FtpListOption.AllFiles);
                 PopulateList(fluentListing, ref dFtpListing);
                 return new DFtpListResult(DFtpResultType.Ok, "Got listing for " + remoteDirectory, dFtpListing);
             }
