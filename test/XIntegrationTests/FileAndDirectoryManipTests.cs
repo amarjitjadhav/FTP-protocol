@@ -36,7 +36,7 @@ namespace XIntegrationTests
             String directoryName = "temporary_test_directory";
 
             // Create directory
-            DFtpAction action = new CreateDirectoryRemoteAction(client, "/" + directoryName);
+            DFtpAction action = new CreateDirectoryRemoteAction(client, directoryName);
             DFtpResult result = action.Run();
 
             // Check for error

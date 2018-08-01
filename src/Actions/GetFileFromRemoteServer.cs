@@ -35,7 +35,7 @@ namespace Actions
             }
 
             String fileName = remoteSelection.GetName();
-            String remoteSource = remoteDirectory + fileName;
+            String remoteSource = remoteDirectory + "/" + fileName;
             String localTarget = localDirectory + (this.isWindows() ? "\\" : "/") + fileName;
             
             try
