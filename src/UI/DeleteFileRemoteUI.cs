@@ -39,7 +39,7 @@ namespace UI
             if (result.Type == DFtpResultType.Ok)
                 Client.remoteSelection = null;
 
-            History.Log(result.ToString());
+            //History.Log(result.ToString());
                 
             return result;
         }
