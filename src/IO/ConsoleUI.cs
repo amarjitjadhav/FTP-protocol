@@ -97,6 +97,7 @@ namespace IO
         /// </summary>
         public static void ClearBuffers()
         {
+            Console.SetCursorPosition(0, 0);
             ClearBuffers(Color.White);
             //Console.Clear(); //
             return;

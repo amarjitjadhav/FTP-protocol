@@ -320,6 +320,8 @@ namespace IO
         /// <returns>Returns a list of the items selected.</returns>
         public static List<T> SelectMultiple<T>(String question, List<T> list, bool sortList = false) where T : IComparable
         {
+            bool firstLoop = true;
+            ConsoleUI.Initialize();
             List<T> results = new List<T>();
             int numberOfItems = list.Count;
 
@@ -333,7 +335,7 @@ namespace IO
             }
 
             int roomForSelectionMarker = 2;
-            int screenBorder = 1;
+            int screenBorder = 0;
 
             // Set up display width for the longest line or full screen, whichever is shorter.
             // Used for centering small selections.
@@ -352,7 +354,7 @@ namespace IO
                 viewHeight = 1;
 
             int displayCornerX = Console.WindowWidth / 2 - displayWidth / 2;
-            int displayCornerY = Console.WindowHeight / 2 + displayHeight / 2;
+            int displayCornerY = Console.WindowHeight / 2 + displayHeight / 2 - 1;
 
             // Initialize list for tracking what is selected
             List<bool> selectedItems = new List<bool>();
@@ -407,15 +409,6 @@ namespace IO
                         ConsoleUI.Write(displayCornerX + roomForSelectionMarker, itemY, list[i].ToString(), selected == i ? Color.Green.Invert() : Color.Green);
                     }
                 }
-                /* For debugging selector
-                int w = Console.WindowWidth;
-                ConsoleUI.Write(w - 30, 0, "  displayCornerY: " + displayCornerY, Color.White);
-                ConsoleUI.Write(w - 30, 1, "      viewHeight: " + viewHeight, Color.White);
-                ConsoleUI.Write(w - 30, 2, "   displayHeight: " + displayHeight, Color.White);
-                ConsoleUI.Write(w - 30, 3, "headerAndSpacing: " + headerAndSpacingHeight, Color.White);
-                ConsoleUI.Write(w - 30, 4, " firstItemInView: " + firstItemInView, Color.White);
-                ConsoleUI.Write(w - 30, 5, "        selected: " + selected, Color.White);
-                */
 
                 // IF there's nothing to select from print a message and return null
                 if (numberOfItems == 0)
@@ -462,7 +455,7 @@ namespace IO
                 {
                     selectedItems[selected] = !selectedItems[selected];
                 }
-            } while (input.Key != ConsoleKey.Enter);
+            } while (input.Key != ConsoleKey.Enter && input.Key != ConsoleKey.Escape);
 
             // Populate results with items selected
             for (int i = 0; i < numberOfItems; ++i)
