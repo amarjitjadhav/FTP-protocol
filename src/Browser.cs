@@ -28,6 +28,7 @@ namespace UI
             new RenameFileRemoteActionUI(),
             new RenameFileLocalActionUI(),
             new SelectMultipleTestUI(),
+            new CopyDirectoryUI(),
        };
 
         public Browser()
