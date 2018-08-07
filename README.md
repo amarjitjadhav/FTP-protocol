@@ -2,7 +2,7 @@
 
 A text-mode FTP client for the Portland State University CS410 Agile class taught by Chris Gilmore over the summer of 2018.
 
-![dumb ftp screenshot](http://wiki.hypersweet.com/_media/public/dumbftp.jpg)
+<img src="http://wiki.hypersweet.com/_media/public/dumbftp.jpg" width="556" height="507" title="Dumb Ftp Screenshot">
 
 ## License ##
 
