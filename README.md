@@ -1,12 +1,12 @@
-# FTP Client #
+# Dumb FTP Client #
+
+A text-mode FTP client for the Portland State University CS410 Agile class taught by Chris Gilmore over the summer of 2018.
+
+[dumb ftp screenshot](http://wiki.hypersweet.com/_media/public/dumbftp.jpg)
 
 ## License ##
 
 This project uses the MIT license. Please see the file `LICENSE` for details.
-
-## What is this repository for? ##
-* This repository contains the term project for CS410 Agile taught by Chris Gilmore at PSU over the summer of 2018.
-This is software for an FTP Client on a command line or GUI interface.
 
 ## Setting up for Development ##
 
