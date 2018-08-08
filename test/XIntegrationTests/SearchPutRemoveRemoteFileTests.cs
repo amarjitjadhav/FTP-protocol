@@ -223,7 +223,7 @@ namespace XIntegrationTests
             DFtpFile test = new DFtpFile("/Test", FtpFileSystemObjectType.Directory);
 
             //run the copy directory action
-            DFtpAction action = new CopyDirectoryRemoteAction(client, localdir, Remotedir, test, "JamesTest");
+            DFtpAction action = new CopyDirectoryRemoteAction(client, localdir, Remotedir, test, "JTest");
             DFtpResult result = action.Run();
 
             //get the listings for all the directories we copied
