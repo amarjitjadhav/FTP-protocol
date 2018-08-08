@@ -40,6 +40,43 @@ namespace XIntegrationTests
             return localSelection;
         }
 
+        internal void CreatedeepDir(FtpClient client)
+        {
+            //Make sure the test directory does not already exist
+            if (client.DirectoryExists("/Test"))
+            {
+                client.DeleteDirectory("/Test", FtpListOption.AllFiles);
+            }
+            //create the new directories
+            client.CreateDirectory("/Test");
+            client.CreateDirectory("/Test/test3");
+            client.CreateDirectory("/Test/test2");
+            client.CreateDirectory("/Test/test3/tesst");
+            client.CreateDirectory("/Test/test3/tesst/finaltest");
+
+            //insert files into each newly created directory
+            for(int x = 0; x < 3; x++)
+            {
+                CreateAndPutFileOnServer(client, "/Test");
+            }
+            for (int x = 0; x < 4; x++)
+            {
+                CreateAndPutFileOnServer(client, "/Test/test2");
+            }
+            for (int x = 0; x < 4; x++)
+            {
+                CreateAndPutFileOnServer(client, "/Test/test3");
+            }
+            for (int x = 0; x < 5; x++)
+            {
+                CreateAndPutFileOnServer(client, "/Test/test3/tesst");
+            }
+            for (int x = 0; x < 6; x++)
+            {
+                CreateAndPutFileOnServer(client, "/Test/test3/tesst/finaltest");
+            }
+
+        }
         internal void RemoveFileOnServer(FtpClient ftpClient, DFtpFile file, String remoteDirectory = "/")
         {
             DFtpFile remoteSelection = file;
@@ -95,7 +132,7 @@ namespace XIntegrationTests
 
             // A random file really shouldnt exist on the server.
             DFtpAction action = new SearchFileRemoteAction(client, filepath, "/");
-            
+
             DFtpResult result = action.Run();
 
             Assert.True(result.Type == DFtpResultType.Error);
@@ -168,6 +205,47 @@ namespace XIntegrationTests
 
             Assert.True(result.Type == DFtpResultType.Error);
             return;
+        }
+        [Fact]
+        public void CopyDirTest()
+        {
+            EstablishConnection();
+            //check if dir already exists
+            if (client.DirectoryExists("/JamesTest"))
+            {
+                client.DeleteDirectory("/JamesTest", FtpListOption.AllFiles);
+            }
+            //set local and remote paths
+            String localdir = Path.GetTempPath();
+            String Remotedir = "/";
+            //create new directories with files
+            CreatedeepDir(client);
+            DFtpFile test = new DFtpFile("/Test", FtpFileSystemObjectType.Directory);
+
+            //run the copy directory action
+            DFtpAction action = new CopyDirectoryRemoteAction(client, localdir, Remotedir, test, "JamesTest");
+            DFtpResult result = action.Run();
+
+            //get the listings for all the directories we copied
+            FtpListItem[] fluentListing = client.GetListing("/JamesTest", FtpListOption.AllFiles);
+            FtpListItem[] fluentListing2 = client.GetListing("/JamesTest" + "/test2", FtpListOption.AllFiles);
+            FtpListItem[] fluentListing3 = client.GetListing("/JamesTest" + "/test3", FtpListOption.AllFiles);
+            FtpListItem[] fluentListing4 = client.GetListing("/JamesTest" + "/test3" + "/tesst", FtpListOption.AllFiles);
+            FtpListItem[] fluentListing5 = client.GetListing("/JamesTest" + "/test3" + "/tesst" + "/finaltest", FtpListOption.AllFiles);
+            
+            //compare the file numbers in each directory
+            Assert.True(fluentListing.Length == 5);
+            Assert.True(fluentListing2.Length == 4);
+            Assert.True(fluentListing3.Length == 5);
+            Assert.True(fluentListing4.Length == 6);
+            Assert.True(fluentListing5.Length == 6);
+            //clean up
+            client.DeleteDirectory("/JamesTest", FtpListOption.AllFiles);
+            client.DeleteDirectory("/Test", FtpListOption.AllFiles);
+
+            //make sure everything is cleaned up
+            Assert.False(client.DirectoryExists("/JamesTest"));
+            Assert.False(client.DirectoryExists("/Test"));
         }
     }
 }

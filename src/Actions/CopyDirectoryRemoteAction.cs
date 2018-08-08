@@ -39,31 +39,46 @@ namespace Actions
 
         public override DFtpResult Run()
         {
+            //set paths for the directory we are copying and its new name
             String oldPath = remoteDirectory + "/" + remoteSelection.GetName();
-            String newPath = remoteDirectory + "/" + newName;
-
+            String newPath = "";
+            //If the entered name is an empty string append Copy- to the start of the directory name
+            if (newName == "" || newName == remoteSelection.GetName())
+            {
+                newPath = remoteDirectory + "/" + "Copy-" + remoteSelection.GetName();
+            }
+            else
+            {
+                //otherwise the name is valid and just set it as the new path
+                newPath = remoteDirectory + "/" + newName;
+            }
             try
             {
+                //create the directory to copy into
                 ftpClient.CreateDirectory(newPath);
+                //get the listing for the original directory
                 FtpListItem[] fluentListing = ftpClient.GetListing(oldPath, FtpListOption.AllFiles);
+                //Create temporary directory to store the downloaded file
                 Directory.CreateDirectory(localDirectory + "TEMPDOWNSLOADSDIR");
                 String Localtemp_path = localDirectory + "TEMPDOWNSLOADSDIR";
+                //Copy the original directory into the newly created directory
                 Copy_recursive(fluentListing, newPath, Localtemp_path);
+                //Delete the temp directory
                 Directory.Delete(localDirectory + "TEMPDOWNSLOADSDIR");
+                //if everything worked return Ok
                 return new DFtpResult(DFtpResultType.Ok, "Created directory " + newPath);
             }
             catch (Exception ex)
             {
-                return new DFtpResult(DFtpResultType.Error, "File with path \"" + oldPath + "\" " +
-                    "could not be moved to \"" + newPath + "\" on remote." + Environment.NewLine + ex.Message + Environment.NewLine);
+                return new DFtpResult(DFtpResultType.Error, "Copy directory failed");
             }
         }
         private void Copy_recursive(FtpListItem[] source, String path, String localPath)
-        {
-           // Directory.CreateDirectory(localDirectory + @"\TEMPDOWNSLOADSDIR");
-           
+        {  
+            //Loop through the list of files in the original directory
             foreach (FtpListItem _file in source)
             {
+                //If the file is a directory call this function recursively on said directory
                 if(_file.Type == FtpFileSystemObjectType.Directory)
                 {
                     String newPath = path + "/" + _file.Name;
@@ -71,12 +86,17 @@ namespace Actions
                     FtpListItem[] fluentListing = ftpClient.GetListing(_file.FullName, FtpListOption.AllFiles);
                     Copy_recursive(fluentListing, newPath,localPath);
                 }
+                //if the file type is file then download the file then reupload it in the new directory
                 if(_file.Type == FtpFileSystemObjectType.File)
                 {
+                    //Check if the OS is windows
                     if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
+                        //Download the file from the original location
                         ftpClient.DownloadFile(localPath + @"\" + _file.Name, _file.FullName);
+                        //Upload the file in the newly copied directory
                         ftpClient.UploadFile(localPath + @"\" + _file.Name, path + @"\" + _file.Name);
+                        //Clean up the locally downloaded file
                         File.Delete(localPath + @"\" + _file.Name);
                     }
                     else
@@ -87,7 +107,6 @@ namespace Actions
                     }
                 }
             }
-            //Directory.Delete(localDirectory + @"\TEMPDOWNSLOADSDIR");
         }
     }
 }
