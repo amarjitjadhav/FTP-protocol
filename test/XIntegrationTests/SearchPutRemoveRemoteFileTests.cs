@@ -211,9 +211,9 @@ namespace XIntegrationTests
         {
             EstablishConnection();
             //check if dir already exists
-            if (client.DirectoryExists("/JamesTest"))
+            if (client.DirectoryExists("/JTest"))
             {
-                client.DeleteDirectory("/JamesTest", FtpListOption.AllFiles);
+                client.DeleteDirectory("/JTest", FtpListOption.AllFiles);
             }
             //set local and remote paths
             String localdir = Path.GetTempPath();
@@ -223,15 +223,15 @@ namespace XIntegrationTests
             DFtpFile test = new DFtpFile("/Test", FtpFileSystemObjectType.Directory);
 
             //run the copy directory action
-            DFtpAction action = new CopyDirectoryRemoteAction(client, localdir, Remotedir, test, "JamesTest");
+            DFtpAction action = new CopyDirectoryRemoteAction(client, localdir, Remotedir, test, "JTest");
             DFtpResult result = action.Run();
 
             //get the listings for all the directories we copied
-            FtpListItem[] fluentListing = client.GetListing("/JamesTest", FtpListOption.AllFiles);
-            FtpListItem[] fluentListing2 = client.GetListing("/JamesTest" + "/test2", FtpListOption.AllFiles);
-            FtpListItem[] fluentListing3 = client.GetListing("/JamesTest" + "/test3", FtpListOption.AllFiles);
-            FtpListItem[] fluentListing4 = client.GetListing("/JamesTest" + "/test3" + "/tesst", FtpListOption.AllFiles);
-            FtpListItem[] fluentListing5 = client.GetListing("/JamesTest" + "/test3" + "/tesst" + "/finaltest", FtpListOption.AllFiles);
+            FtpListItem[] fluentListing = client.GetListing("/JTest", FtpListOption.AllFiles);
+            FtpListItem[] fluentListing2 = client.GetListing("/JTest" + "/test2", FtpListOption.AllFiles);
+            FtpListItem[] fluentListing3 = client.GetListing("/JTest" + "/test3", FtpListOption.AllFiles);
+            FtpListItem[] fluentListing4 = client.GetListing("/JTest" + "/test3" + "/tesst", FtpListOption.AllFiles);
+            FtpListItem[] fluentListing5 = client.GetListing("/JTest" + "/test3" + "/tesst" + "/finaltest", FtpListOption.AllFiles);
             
             //compare the file numbers in each directory
             Assert.True(fluentListing.Length == 5);
@@ -240,11 +240,11 @@ namespace XIntegrationTests
             Assert.True(fluentListing4.Length == 6);
             Assert.True(fluentListing5.Length == 6);
             //clean up
-            client.DeleteDirectory("/JamesTest", FtpListOption.AllFiles);
+            client.DeleteDirectory("/JTest", FtpListOption.AllFiles);
             client.DeleteDirectory("/Test", FtpListOption.AllFiles);
 
             //make sure everything is cleaned up
-            Assert.False(client.DirectoryExists("/JamesTest"));
+            Assert.False(client.DirectoryExists("/JTest"));
             Assert.False(client.DirectoryExists("/Test"));
         }
     }

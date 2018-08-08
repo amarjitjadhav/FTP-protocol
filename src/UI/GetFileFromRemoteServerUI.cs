@@ -13,9 +13,9 @@ namespace UI
 
         public bool RequiresLogin => true;
 
-        public bool RequiresFile => true;
+        public bool RequiresSelection => true;
 
-        public bool HideForDirectory => false;
+        public bool HideForDirectory => true;
 
         public bool HideForFile => false;
 

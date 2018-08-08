@@ -23,12 +23,12 @@ namespace UI
             new DeleteFileRemoteUI(),
             new SelectRemoteUI(),
             new GetFileFromRemoteServerUI(),
-            new SelectLocalUI(),
             new LogOffRemoteServerUI(),
             new RenameFileRemoteActionUI(),
             new RenameFileLocalActionUI(),
             new SelectMultipleTestUI(),
             new CopyDirectoryUI(),
+            new SelectLocalUI(),
        };
 
         public Browser()
@@ -78,11 +78,11 @@ namespace UI
                     // DO LOGIN.???
                     continue;
                 }
-                if (Client.state == ClientState.VIEWING_LOCAL && action.RequiresFile && ( Client.localSelection == null || Client.localSelection.Type() != FtpFileSystemObjectType.File) )
+                if (Client.state == ClientState.VIEWING_LOCAL && action.RequiresSelection && ( Client.localSelection == null || Client.localSelection.Type() == FtpFileSystemObjectType.Link) )
                 {
                     continue;
                 }
-                if (Client.state == ClientState.VIEWING_REMOTE && action.RequiresFile && (Client.remoteSelection == null || Client.remoteSelection.Type() != FtpFileSystemObjectType.File))
+                if (Client.state == ClientState.VIEWING_REMOTE && action.RequiresSelection && (Client.remoteSelection == null || Client.remoteSelection.Type() == FtpFileSystemObjectType.Link))
                 {
                     continue;
                 }
@@ -94,11 +94,23 @@ namespace UI
                 {
                     continue;
                 }
+                if (action.HideForDirectory && Client.remoteSelection != null && Client.remoteSelection.Type() == FtpFileSystemObjectType.Directory)
+                {
+                    continue;
+                }
+                if (action.HideForFile && Client.remoteSelection != null && Client.remoteSelection.Type() == FtpFileSystemObjectType.File)
+                {
+                    continue;
+                }
                 if (action.HideForLocal && Client.state == ClientState.VIEWING_LOCAL)
                 {
                     continue;
                 }
                 if (action.HideForRemote && Client.state == ClientState.VIEWING_REMOTE)
+                {
+                    continue;
+                }
+                if(action.RequiresSelection && Client.remoteSelection == null && Client.state == ClientState.VIEWING_REMOTE)
                 {
                     continue;
                 }

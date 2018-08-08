@@ -13,7 +13,7 @@ namespace UI
 
         public bool RequiresLogin => true;
 
-        public bool RequiresFile => false;
+        public bool RequiresSelection => false;
 
         public bool HideForFile => false;
 

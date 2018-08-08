@@ -118,11 +118,11 @@ class Program
                     continue;
                 }
 
-                if (action.RequiresFile && Client.state == ClientState.VIEWING_LOCAL && (Client.localSelection == null || Client.localSelection.Type() != FtpFileSystemObjectType.File))
+                if (action.RequiresSelection && Client.state == ClientState.VIEWING_LOCAL && (Client.localSelection == null || Client.localSelection.Type() != FtpFileSystemObjectType.File))
                 {
                     continue;
                 }
-                if (action.RequiresFile && Client.state == ClientState.VIEWING_REMOTE &&  (Client.remoteSelection == null || Client.remoteSelection.Type() != FtpFileSystemObjectType.File))
+                if (action.RequiresSelection && Client.state == ClientState.VIEWING_REMOTE &&  (Client.remoteSelection == null || Client.remoteSelection.Type() != FtpFileSystemObjectType.File))
                 {
                     continue;
                 }
