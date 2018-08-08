@@ -40,12 +40,20 @@ namespace Actions
         public override DFtpResult Run()
         {
             //set paths for the directory we are copying and its new name
+            if(remoteSelection == null)
+            {
+                return new DFtpResult(DFtpResultType.Error, "Please select a directory");
+            }
             String oldPath = remoteDirectory + "/" + remoteSelection.GetName();
             String newPath = "";
             //If the entered name is an empty string append Copy- to the start of the directory name
             if (newName == "" || newName == remoteSelection.GetName())
             {
-                newPath = remoteDirectory + "/" + "Copy-" + remoteSelection.GetName();
+                newPath = remoteDirectory + "/" + remoteSelection.GetName() + "-copy";
+                while (ftpClient.DirectoryExists(newPath))
+                {
+                    newPath = newPath + "-copy";
+                }
             }
             else
             {
