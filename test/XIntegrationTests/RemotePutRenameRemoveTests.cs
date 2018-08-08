@@ -95,10 +95,13 @@ namespace XIntegrationTests
             // 4. Search for the file by its new name
             Assert.True(SearchForFileOnServer(client, "ChangedName"));
 
-            // 5. Delete it
+            // 5. Old file should not still exist
+            Assert.False(SearchForFileOnServer(client, "NewFile"));
+
+            // 6. Delete it
             client.DeleteFile(test_Dir + "/ChangedName");
 
-            // 6. We should NOT see the file on the server anymore
+            // 7. We should NOT see the file on the server anymore
             Assert.False(SearchForFileOnServer(client, "ChangedName"));
             if (client.DirectoryExists(test_Dir))
             {
