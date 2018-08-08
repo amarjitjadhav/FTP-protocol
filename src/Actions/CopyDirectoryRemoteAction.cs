@@ -70,7 +70,7 @@ namespace Actions
             }
             catch (Exception ex)
             {
-                return new DFtpResult(DFtpResultType.Error, "Copy directory failed");
+                return new DFtpResult(DFtpResultType.Error, ex.Message);
             }
         }
         private void Copy_recursive(FtpListItem[] source, String path, String localPath)
