@@ -9,7 +9,7 @@ namespace UI
         //protected bool isMocking;
         ConsoleKey Key { get; }
         bool RequiresLogin { get; }
-        bool RequiresFile { get; }
+        bool RequiresSelection { get; }
         bool HideForDirectory { get; }
         bool HideForFile { get; }
         bool HideForLocal { get; }
