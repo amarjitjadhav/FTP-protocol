@@ -75,13 +75,16 @@ namespace XIntegrationTests
             // 3. Rename the file
             RenameLocalFile(client, newFile, "ChangedName");
 
-            // 4. Search for the file by its new name
+            // 4. Ensure old name no longer exists
+            Assert.False(SearchForLocalFile(test_Dir, "NewFile"));
+
+            // 5. Search for the file by its new name
             Assert.True(SearchForLocalFile(test_Dir, "ChangedName"));
 
-            // 5. Delete it
+            // 6. Delete it
             File.Delete(test_Dir + "/ChangedName");
 
-            // 6. We should NOT see the file on the server anymore
+            // 7. We should NOT see the file on the server anymore
             Assert.False(SearchForLocalFile(test_Dir, "ChangedName"));
             if (client.DirectoryExists(test_Dir))
             {
